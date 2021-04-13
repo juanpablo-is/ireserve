@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "ireserve-e279b": {
+      "hosting": {
+        "ireserve": [
+          "ireserve-e279b"
+        ]
+      }
+    }
+  }
+}
