@@ -3,22 +3,24 @@
         <img src="./assets/icons/logo.svg" alt="">
     </div>
     <div class="cont-inputs">
-        <form action="" method="get">
+        <form [formGroup]="form" (ngSubmit)="loginUser($event)">
             <div class="cont-input centro">
-                <input type="email" name="" class="form-control input-style" placeholder="Correo">
+                <input type="email" formControlName="email" class="form-control input-style" placeholder="Correo">
             </div>
             <div class="cont-input centro">
-                <input type="password" name="" class="form-control input-style" placeholder="Contraseña">
+                <input type="password" formControlName="password" class="form-control input-style"
+                    placeholder="Contraseña">
             </div>
             <div class="cont-input centro">
-                <input type="submit" name="" id="ISbtn" class="btn btn-block" value="INICIAR SESION">
+                <input type="submit" id="ISbtn" class="btn btn-block" value="INICIAR SESION"
+                    [disabled]="this.form.invalid">
             </div>
             <div class="cont-input centro">
                 <small><b>¿Olvidó la Contraseña? </b> <a href="#"><b class="TRC">Recuperar contraseña</b></a></small>
             </div>
 
-            <div class="cont-input centro" routerLink="/register">
-                <input type="submit" name="" id="Rbtn" class="btn btn-block" value="REGISTRARSE">
+            <div class="cont-input centro">
+                <a routerLink="/register" id="Rbtn" class="btn btn-block">REGISTRARSE</a>
             </div>
         </form>
     </div>
