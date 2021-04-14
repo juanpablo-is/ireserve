@@ -1,3 +1,11 @@
+<div *ngIf="alertSuccess" class="alert alert-primary text-center" role="alert">
+    {{alertSuccess}}
+</div>
+
+<div *ngIf="alertError" class="alert alert-danger text-center" role="alert">
+    {{alertError}}
+</div>
+
 <div class="registro-cont">
     <div class="cont-img-logo centro">
         <img src="./assets/icons/logo.svg" alt="">
@@ -6,32 +14,30 @@
         <form class="cont-inputs" [formGroup]="form" (ngSubmit)="registerRole($event)">
             <div class="row">
                 <div class="col my-1">
-                    <input type="text" formControlName="firstname" id="" placeholder="Nombre"
+                    <input type="text" formControlName="firstname" placeholder="Nombre"
                         class="form-control input-style">
                 </div>
                 <div class="col my-1">
-                    <input type="text" formControlName="lastname" id="" placeholder="Apellido"
-                        class="form-control input-style">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col my-1">
-                    <input type="text" formControlName="email" id="" placeholder="Correo"
-                        class="form-control input-style">
-                </div>
-                <div class="col my-1">
-                    <input type="text" formControlName="password" id="" placeholder="Contraseña"
+                    <input type="text" formControlName="lastname" placeholder="Apellido"
                         class="form-control input-style">
                 </div>
             </div>
             <div class="row">
                 <div class="col my-1">
-                    <input type="text" formControlName="phone" id="" placeholder="Telefono"
+                    <input type="email" formControlName="email" placeholder="Correo" class="form-control input-style">
+                </div>
+                <div class="col my-1">
+                    <input type="password" formControlName="password" placeholder="Contraseña"
+                        class="form-control input-style">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col my-1">
+                    <input type="number" formControlName="phone" placeholder="Telefono"
                         class="form-control input-style">
                 </div>
                 <div class="col my-1">
                     <select class="input-style form-select" formControlName="role">
-                        <option selected>Rol</option>
                         <option value="Usuario">Usuario</option>
                         <option value="Cliente">Cliente</option>
                     </select>

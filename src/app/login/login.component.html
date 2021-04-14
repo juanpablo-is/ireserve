@@ -1,3 +1,11 @@
+<div *ngIf="alertSuccess" class="alert alert-primary text-center" role="alert">
+    {{alertSuccess}}
+</div>
+
+<div *ngIf="alertError" class="alert alert-danger text-center" role="alert">
+    {{alertError}}
+</div>
+
 <div class="login-cont">
     <div class="cont-img-logo centro">
         <img src="./assets/icons/logo.svg" alt="">

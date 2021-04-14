@@ -12,6 +12,9 @@ export class RegistroComponent implements OnInit {
 
   form: FormGroup;
 
+  alertError: String;
+  alertSuccess: String;
+
   constructor(private formBuilder: FormBuilder,
     private auth: AngularFireAuth,
     private router: Router,
@@ -34,7 +37,7 @@ export class RegistroComponent implements OnInit {
     });
   }
 
-  registerRole(event: Event) {
+  registerRole(event: Event): void {
     event.preventDefault();
 
     if (this.form.valid) {
@@ -42,15 +45,25 @@ export class RegistroComponent implements OnInit {
     }
   }
 
-  createUser() {
+  createUser(): void {
     this.auth.createUserWithEmailAndPassword(this.form.value.email, this.form.value.password)
       .then(() => {
         this.firestore.collection("users").add(this.form.value)
           .then(() => {
+            this.alertSuccess = "Registro exitoso, ingrese sesión";
             this.router.navigate(["/login"]);
           });
       }).catch(response => {
-        console.log(response.message);
+        this.alertError = this.catchError(response.code);
       });
+  }
+
+  catchError(message: String): String {
+    switch (message) {
+      case "auth/invalid-email":
+        return "Formato de correo invalido.";
+      default:
+        return "";
+    }
   }
 }
