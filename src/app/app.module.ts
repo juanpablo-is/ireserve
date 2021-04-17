@@ -9,12 +9,14 @@ import { LoginComponent } from './login/login.component';
 import { RegistroComponent } from './registro/registro.component';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { RegisterRestaurantComponent } from './register-restaurant/register-restaurant.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegistroComponent
+    RegistroComponent,
+    RegisterRestaurantComponent
   ],
   imports: [
     BrowserModule,
