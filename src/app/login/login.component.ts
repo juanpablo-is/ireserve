@@ -16,6 +16,8 @@ export class LoginComponent implements OnInit {
   alertError: String;
   alertSuccess: String;
 
+  btnLoginText: String = "INICIAR SESIÓN";
+
   constructor(private formBuilder: FormBuilder,
     private auth: AngularFireAuth,
     private router: Router,
@@ -35,11 +37,14 @@ export class LoginComponent implements OnInit {
 
   loginUser(event: Event): void {
     event.preventDefault();
+    this.btnLoginText = "CARGANDO...";
+
     this.auth.signInWithEmailAndPassword(this.form.value.email, this.form.value.password)
       .then(() => {
         this.firestore.collection('users', ref => ref.where('email', '==', this.form.value.email).where('password', '==', this.form.value.password))
           .get()
           .subscribe(snap => {
+            this.btnLoginText = "INICIAR SESIÓN";
             if (snap.docs.length !== 0) {
               const user: any = snap.docs[0].data();
 
@@ -50,6 +55,7 @@ export class LoginComponent implements OnInit {
             return this.alertError = "Se ha presentado un error, intente nuevamente";
           });
       }).catch(response => {
+        this.btnLoginText = "INICIAR SESIÓN";
         this.alertError = this.catchError(response.code);
       });
   }

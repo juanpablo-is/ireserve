@@ -1,19 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
+
 @Component({
   selector: 'app-registro',
   templateUrl: './registro.component.html',
   styleUrls: ['./registro.component.sass']
 })
-export class RegistroComponent implements OnInit {
+export class RegistroComponent {
 
   form: FormGroup;
 
   alertError: String;
   alertSuccess: String;
+
+  btnRegisterText: String = "REGISTRARSE";
 
   constructor(private formBuilder: FormBuilder,
     private auth: AngularFireAuth,
@@ -21,9 +24,6 @@ export class RegistroComponent implements OnInit {
     private firestore: AngularFirestore
   ) {
     this.buildForm();
-  }
-
-  ngOnInit(): void {
   }
 
   private buildForm() {
@@ -41,6 +41,7 @@ export class RegistroComponent implements OnInit {
     event.preventDefault();
 
     if (this.form.valid) {
+      this.btnRegisterText = "CARGANDO...";
       this.createUser();
     }
   }
@@ -50,10 +51,12 @@ export class RegistroComponent implements OnInit {
       .then(() => {
         this.firestore.collection("users").add(this.form.value)
           .then(() => {
+            this.btnRegisterText = "REGISTRARSE";
             this.alertSuccess = "Registro exitoso, ingrese sesión";
             this.router.navigate(["/login"]);
           });
       }).catch(response => {
+        this.btnRegisterText = "REGISTRARSE";
         this.alertError = this.catchError(response.code);
       });
   }
