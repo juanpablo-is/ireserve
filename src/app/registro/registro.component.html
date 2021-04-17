@@ -1,42 +1,54 @@
+<div *ngIf="alertSuccess" class="alert alert-primary text-center" role="alert">
+    {{alertSuccess}}
+</div>
+
+<div *ngIf="alertError" class="alert alert-danger text-center" role="alert">
+    {{alertError}}
+</div>
+
 <div class="registro-cont">
     <div class="cont-img-logo centro">
         <img src="./assets/icons/logo.svg" alt="">
     </div>
     <div class="centro">
-        <form action="" method="get" class="cont-inputs">
+        <form class="cont-inputs" [formGroup]="form" (ngSubmit)="registerRole($event)">
             <div class="row">
                 <div class="col my-1">
-                    <input type="text" name="" id="" placeholder="Nombre" class="form-control input-style">
+                    <input type="text" formControlName="firstname" placeholder="Nombre"
+                        class="form-control input-style">
                 </div>
                 <div class="col my-1">
-                    <input type="text" name="" id="" placeholder="Apellido" class="form-control input-style">
+                    <input type="text" formControlName="lastname" placeholder="Apellido"
+                        class="form-control input-style">
                 </div>
             </div>
             <div class="row">
                 <div class="col my-1">
-                    <input type="text" name="" id="" placeholder="Correo" class="form-control input-style">
+                    <input type="email" formControlName="email" placeholder="Correo" class="form-control input-style">
                 </div>
                 <div class="col my-1">
-                    <input type="text" name="" id="" placeholder="Contraseña" class="form-control input-style">
+                    <input type="password" formControlName="password" placeholder="Contraseña"
+                        class="form-control input-style">
                 </div>
             </div>
             <div class="row">
                 <div class="col my-1">
-                    <input type="text" name="" id="" placeholder="Telefono" class="form-control input-style">
+                    <input type="number" formControlName="phone" placeholder="Telefono"
+                        class="form-control input-style">
                 </div>
                 <div class="col my-1">
-                    <select class="input-style form-select">
-                        <option selected>Rol</option>
+                    <select class="input-style form-select" formControlName="role">
                         <option value="Usuario">Usuario</option>
                         <option value="Cliente">Cliente</option>
                     </select>
                 </div>
             </div>
             <div class="cont-input centro">
-                <input type="submit" name="" id="REbtn" class="btn btn-block" value="INICIAR SESION">
+                <input type="submit" id="REbtn" class="btn btn-block" [value]="btnRegisterText" [disabled]="form.invalid">
             </div>
             <div class="cont-input centro">
-                <small><b>¿Ya tiene una cuenta? </b> <a href="#"><b class="TRC">Iniciar sesion</b></a></small>
+                <small><b>¿Ya tiene una cuenta? </b> <a routerLink="/login"><b class="TRC">Iniciar
+                            sesion</b></a></small>
             </div>
         </form>
     </div>
