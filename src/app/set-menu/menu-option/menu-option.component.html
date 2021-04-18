@@ -1,0 +1,26 @@
+<div class="cont-option">
+    <div class="row name-option center-h">
+        <div class="col-10"><b>{{nameOption}}</b></div>
+        <div class="col-2 centro">
+            <button class="btn" (click)="showListOfItems()">
+                <i class="fas fa-angle-down"></i>
+            </button>
+        </div>
+    </div>
+    <div class="cont-items hidden" #show>
+        <div *ngFor="let pf of items" cItems>
+            <app-menu-item [name]=pf.name [price]=pf.price></app-menu-item>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <input type="text" placeholder="Nombre" class="form-control input-style" #addName>
+            </div>
+            <div class="col-6">
+                <input type="text" placeholder="Precio" class="form-control input-style" #addPrice>
+            </div>
+        </div>
+        <div class="row centro">
+            <button class="btn" (click)="add()">Agregar <i class="fas fa-plus-circle"></i></button>
+        </div>
+    </div>
+</div>
