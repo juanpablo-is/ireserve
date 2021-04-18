@@ -6,18 +6,17 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
   styleUrls: ['./menu-item.component.sass']
 })
 export class MenuItemComponent implements OnInit {
-  @ViewChild("mItem") mItem: ElementRef
-  @Input()
-  name:String
-  @Input()
-  price:Number
-  
+
+  @ViewChild('mItem') mItem: ElementRef;
+  @Input() name: string;
+  @Input() price: number;
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  del(){
-    this.mItem.nativeElement.classList.add("hidden")
+  delete(): void {
+    this.mItem.nativeElement.remove();
   }
 }

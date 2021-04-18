@@ -6,35 +6,36 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
   styleUrls: ['./menu-option.component.sass']
 })
 export class MenuOptionComponent implements OnInit {
-  @Input()
-  nameOption:String
-  @Input()
-  items:any[]
 
-  @ViewChild("show") eShow: ElementRef
-  @ViewChild("addName") addName: ElementRef
-  @ViewChild("addPrice") addPrice: ElementRef
+  @Input() nameOption: string;
+  @Input() items: any[];
 
-  isShowed:boolean = false;
+  @ViewChild('show') eShow: ElementRef;
+  @ViewChild('addName') addName: ElementRef;
+  @ViewChild('addPrice') addPrice: ElementRef;
+
+  isShowed = false;
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  showListOfItems(){
-    if(this.isShowed===true){
-      this.eShow.nativeElement.classList.add("hidden");
-      this.isShowed = false;
+  showListOfItems(): void {
+    if (this.isShowed === true) {
+      this.eShow.nativeElement.classList.add('hidden');
+    } else {
+      this.eShow.nativeElement.classList.remove('hidden');
     }
-    else{
-      this.eShow.nativeElement.classList.remove("hidden");
-      this.isShowed = true;
-    }
+    this.isShowed = !this.isShowed;
   }
 
-  add(){
-    let newName = this.addName.nativeElement.value
-    let newPrice = this.addPrice.nativeElement.value
-    this.items.push({name:newName,price:newPrice})
+  add(): void {
+    const newName = this.addName.nativeElement.value;
+    const newPrice = this.addPrice.nativeElement.value;
+
+    if (newName && newPrice) {
+      this.items.push({ name: newName, price: newPrice });
+    }
   }
 }

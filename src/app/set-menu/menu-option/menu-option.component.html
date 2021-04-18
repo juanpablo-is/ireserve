@@ -1,5 +1,5 @@
 <div class="cont-option">
-    <div class="row name-option center-h">
+    <div class="row name-option center-h pt-3">
         <div class="col-10"><b>{{nameOption}}</b></div>
         <div class="col-2 centro">
             <button class="btn" (click)="showListOfItems()">
@@ -8,10 +8,8 @@
         </div>
     </div>
     <div class="cont-items hidden" #show>
-        <div *ngFor="let pf of items" cItems>
-            <app-menu-item [name]=pf.name [price]=pf.price></app-menu-item>
-        </div>
-        <div class="row">
+        <app-menu-item *ngFor="let pf of items" cItems [name]=pf.name [price]=pf.price></app-menu-item>
+        <div class="row pt-3">
             <div class="col-6">
                 <input type="text" placeholder="Nombre" class="form-control input-style" #addName>
             </div>
