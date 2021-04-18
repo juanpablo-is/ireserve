@@ -1,0 +1,39 @@
+<div class="register-restaurant">
+    <div class="register-restaurant--logo centro">
+        <img src="./assets/icons/logo-register-restaurante.svg" alt="">
+    </div>
+    <div class="register-restaurant--message">
+        <h4>¡Hola <span class="TRC">Cliente</span>!</h4>
+        <p>Necesitamos que registre un restaurante en el sistema</p>
+    </div>
+    <div class="centro">
+        <form class="register-restaurant--inputs" [formGroup]="form">
+            <div class="row">
+                <input type="text" placeholder="Nombre" class="form-control input-style col m-1">
+                <input type="text" placeholder="Dirección" class="form-control input-style col m-1">
+            </div>
+
+            <div class="row">
+                <div class="col p-0 m-1">
+                    <label for="basic-url" class="form-label">Horario de inicio</label>
+                    <div class="input-group">
+                        <input type="time" class="form-control input-style">
+                    </div>
+                </div>
+                <div class="col p-0 m-1">
+                    <label for="basic-url" class="form-label">Horario de cierre</label>
+                    <div class="input-group">
+                        <input type="time" class="form-control input-style">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <input type="text" placeholder="Cantidad mesas" class="form-control input-style col m-1">
+                <input type="text" placeholder="Telefono fijo" class="form-control input-style col m-1">
+            </div>
+            <div class="cont-input centro">
+                <input type="submit" id="REbtn" class="btn btn-block" value="REGISTRAR RESTAURANTE">
+            </div>
+        </form>
+    </div>
+</div>
