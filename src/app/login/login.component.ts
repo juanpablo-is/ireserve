@@ -13,15 +13,15 @@ export class LoginComponent implements OnInit {
 
   form: FormGroup;
 
-  alertError: String;
-  alertSuccess: String;
+  alertError: string;
+  alertSuccess: string;
 
-  btnLoginText: String = "INICIAR SESIÓN";
+  btnLoginText = 'INICIAR SESIÓN';
 
   constructor(private formBuilder: FormBuilder,
-    private auth: AngularFireAuth,
-    private router: Router,
-    private firestore: AngularFirestore
+              private auth: AngularFireAuth,
+              private router: Router,
+              private firestore: AngularFirestore
   ) { }
 
   ngOnInit(): void {
@@ -37,14 +37,14 @@ export class LoginComponent implements OnInit {
 
   loginUser(event: Event): void {
     event.preventDefault();
-    this.btnLoginText = "CARGANDO...";
+    this.btnLoginText = 'CARGANDO...';
 
     this.auth.signInWithEmailAndPassword(this.form.value.email, this.form.value.password)
       .then(() => {
         this.firestore.collection('users', ref => ref.where('email', '==', this.form.value.email).where('password', '==', this.form.value.password))
           .get()
           .subscribe(snap => {
-            this.btnLoginText = "INICIAR SESIÓN";
+            this.btnLoginText = 'INICIAR SESIÓN';
             if (snap.docs.length !== 0) {
               const user: any = snap.docs[0].data();
 
@@ -52,21 +52,21 @@ export class LoginComponent implements OnInit {
               return this.router.navigate(['/']);
             }
 
-            return this.alertError = "Se ha presentado un error, intente nuevamente";
+            return this.alertError = 'Se ha presentado un error, intente nuevamente';
           });
       }).catch(response => {
-        this.btnLoginText = "INICIAR SESIÓN";
+        this.btnLoginText = 'INICIAR SESIÓN';
         this.alertError = this.catchError(response.code);
       });
   }
 
-  catchError(message: String): String {
+  catchError(message: string): string {
     switch (message) {
-      case "auth/user-not-found":
-      case "auth/wrong-password":
-        return "Inicio sesión incorrecto, intente nuevamente.";
+      case 'auth/user-not-found':
+      case 'auth/wrong-password':
+        return 'Inicio sesión incorrecto, intente nuevamente.';
       default:
-        return "";
+        return '';
     }
   }
 }

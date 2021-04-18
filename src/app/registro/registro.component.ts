@@ -16,12 +16,12 @@ export class RegistroComponent {
   alertError: String;
   alertSuccess: String;
 
-  btnRegisterText: String = "REGISTRARSE";
+  btnRegisterText: String = 'REGISTRARSE';
 
   constructor(private formBuilder: FormBuilder,
-    private auth: AngularFireAuth,
-    private router: Router,
-    private firestore: AngularFirestore
+              private auth: AngularFireAuth,
+              private router: Router,
+              private firestore: AngularFirestore
   ) {
     this.buildForm();
   }
@@ -41,7 +41,7 @@ export class RegistroComponent {
     event.preventDefault();
 
     if (this.form.valid) {
-      this.btnRegisterText = "CARGANDO...";
+      this.btnRegisterText = 'CARGANDO...';
       this.createUser();
     }
   }
@@ -49,24 +49,24 @@ export class RegistroComponent {
   createUser(): void {
     this.auth.createUserWithEmailAndPassword(this.form.value.email, this.form.value.password)
       .then(() => {
-        this.firestore.collection("users").add(this.form.value)
+        this.firestore.collection('users').add(this.form.value)
           .then(() => {
-            this.btnRegisterText = "REGISTRARSE";
-            this.alertSuccess = "Registro exitoso, ingrese sesión";
-            this.router.navigate(["/login"]);
+            this.btnRegisterText = 'REGISTRARSE';
+            this.alertSuccess = 'Registro exitoso, ingrese sesión';
+            this.router.navigate(['/login']);
           });
       }).catch(response => {
-        this.btnRegisterText = "REGISTRARSE";
+        this.btnRegisterText = 'REGISTRARSE';
         this.alertError = this.catchError(response.code);
       });
   }
 
   catchError(message: String): String {
     switch (message) {
-      case "auth/invalid-email":
-        return "Formato de correo invalido.";
+      case 'auth/invalid-email':
+        return 'Formato de correo invalido.';
       default:
-        return "";
+        return '';
     }
   }
 }
