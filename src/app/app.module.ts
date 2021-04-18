@@ -12,11 +12,17 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 
 import { ReactiveFormsModule } from '@angular/forms';
+import { SetMenuComponent } from './set-menu/set-menu.component';
+import { MenuOptionComponent } from './set-menu/menu-option/menu-option.component';
+import { MenuItemComponent } from './set-menu/menu-option/menu-item/menu-item.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegistroComponent
+    RegistroComponent,
+    SetMenuComponent,
+    MenuOptionComponent,
+    MenuItemComponent
   ],
   imports: [
     BrowserModule,
