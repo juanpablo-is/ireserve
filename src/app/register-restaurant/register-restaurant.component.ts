@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register-restaurant',
@@ -9,10 +10,37 @@ import { FormGroup } from '@angular/forms';
 export class RegisterRestaurantComponent implements OnInit {
 
   form: FormGroup;
-  
-  constructor() { }
+  name: string;
+
+  btnRegisterRestaurantText = 'REGISTRAR RESTAURANTE';
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private auth: AngularFireAuth
+  ) {
+    this.auth.user.subscribe(user => this.name = user.displayName);
+    this.buildForm();
+  }
 
   ngOnInit(): void {
   }
 
+  registerRestaurant(event: Event): void {
+    event.preventDefault();
+
+    if (this.form.valid) {
+      this.btnRegisterRestaurantText = 'CARGANDO...';
+    }
+  }
+
+  private buildForm(): void {
+    this.form = this.formBuilder.group({
+      name: ['', [Validators.required]],
+      address: ['', [Validators.required]],
+      dateStart: ['', [Validators.required]],
+      dateEnd: ['', [Validators.required]],
+      phone: ['', [Validators.required]],
+      countTables: ['', [Validators.required]]
+    });
+  }
 }

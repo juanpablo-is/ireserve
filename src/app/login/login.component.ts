@@ -18,10 +18,11 @@ export class LoginComponent implements OnInit {
 
   btnLoginText = 'INICIAR SESIÓN';
 
-  constructor(private formBuilder: FormBuilder,
-              private auth: AngularFireAuth,
-              private router: Router,
-              private firestore: AngularFirestore
+  constructor(
+    private formBuilder: FormBuilder,
+    private auth: AngularFireAuth,
+    private router: Router,
+    private firestore: AngularFirestore
   ) { }
 
   ngOnInit(): void {
@@ -41,10 +42,12 @@ export class LoginComponent implements OnInit {
 
     this.auth.signInWithEmailAndPassword(this.form.value.email, this.form.value.password)
       .then(() => {
-        this.firestore.collection('users', ref => ref.where('email', '==', this.form.value.email).where('password', '==', this.form.value.password))
+        this.firestore.collection('users', ref => ref.where('email', '==', this.form.value.email)
+          .where('password', '==', this.form.value.password))
           .get()
           .subscribe(snap => {
             this.btnLoginText = 'INICIAR SESIÓN';
+
             if (snap.docs.length !== 0) {
               const user: any = snap.docs[0].data();
 

@@ -13,20 +13,21 @@ export class RegistroComponent {
 
   form: FormGroup;
 
-  alertError: String;
-  alertSuccess: String;
+  alertError: string;
+  alertSuccess: string;
 
-  btnRegisterText: String = 'REGISTRARSE';
+  btnRegisterText = 'REGISTRARSE';
 
-  constructor(private formBuilder: FormBuilder,
-              private auth: AngularFireAuth,
-              private router: Router,
-              private firestore: AngularFirestore
+  constructor(
+    private formBuilder: FormBuilder,
+    private auth: AngularFireAuth,
+    private router: Router,
+    private firestore: AngularFirestore
   ) {
     this.buildForm();
   }
 
-  private buildForm() {
+  private buildForm(): void {
     this.form = this.formBuilder.group({
       firstname: ['', [Validators.required]],
       lastname: ['', [Validators.required]],
@@ -48,20 +49,24 @@ export class RegistroComponent {
 
   createUser(): void {
     this.auth.createUserWithEmailAndPassword(this.form.value.email, this.form.value.password)
-      .then(() => {
-        this.firestore.collection('users').add(this.form.value)
-          .then(() => {
-            this.btnRegisterText = 'REGISTRARSE';
-            this.alertSuccess = 'Registro exitoso, ingrese sesión';
-            this.router.navigate(['/login']);
-          });
+      .then((user) => {
+        user.user.updateProfile({
+          displayName: this.form.value.firstname,
+        }).then(() => {
+          this.firestore.collection('users').add(this.form.value)
+            .then(() => {
+              this.btnRegisterText = 'REGISTRARSE';
+              this.alertSuccess = 'Registro exitoso, ingrese sesión';
+              this.router.navigate(['/login']);
+            });
+        });
       }).catch(response => {
         this.btnRegisterText = 'REGISTRARSE';
         this.alertError = this.catchError(response.code);
       });
   }
 
-  catchError(message: String): String {
+  catchError(message: string): string {
     switch (message) {
       case 'auth/invalid-email':
         return 'Formato de correo invalido.';

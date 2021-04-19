@@ -3,36 +3,40 @@
         <img src="./assets/icons/logo-register-restaurante.svg" alt="">
     </div>
     <div class="register-restaurant--message">
-        <h4>¡Hola <span class="TRC">Cliente</span>!</h4>
+        <h4>¡Hola <span class="TRC">{{name}}</span>!</h4>
         <p>Necesitamos que registre un restaurante en el sistema</p>
     </div>
     <div class="centro">
-        <form class="register-restaurant--inputs" [formGroup]="form">
+        <form class="register-restaurant--inputs" [formGroup]="form" (ngSubmit)="registerRestaurant($event)">
             <div class="row">
-                <input type="text" placeholder="Nombre" class="form-control input-style col m-1">
-                <input type="text" placeholder="Dirección" class="form-control input-style col m-1">
+                <input type="text" formControlName="name" placeholder="Nombre" class="form-control input-style col m-1">
+                <input type="text" formControlName="address" placeholder="Dirección"
+                    class="form-control input-style col m-1">
             </div>
 
             <div class="row">
                 <div class="col p-0 m-1">
                     <label for="basic-url" class="form-label">Horario de inicio</label>
                     <div class="input-group">
-                        <input type="time" class="form-control input-style">
+                        <input type="time" formControlName="dateStart" class="form-control input-style">
                     </div>
                 </div>
                 <div class="col p-0 m-1">
                     <label for="basic-url" class="form-label">Horario de cierre</label>
                     <div class="input-group">
-                        <input type="time" class="form-control input-style">
+                        <input type="time" formControlName="dateEnd" class="form-control input-style">
                     </div>
                 </div>
             </div>
             <div class="row">
-                <input type="text" placeholder="Cantidad mesas" class="form-control input-style col m-1">
-                <input type="text" placeholder="Telefono fijo" class="form-control input-style col m-1">
+                <input type="number" formControlName="countTables" placeholder="Cantidad mesas"
+                    class="form-control input-style col m-1">
+                <input type="number" formControlName="phone" placeholder="Telefono fijo"
+                    class="form-control input-style col m-1">
             </div>
             <div class="cont-input centro">
-                <input type="submit" id="REbtn" class="btn btn-block" value="REGISTRAR RESTAURANTE">
+                <input type="submit" id="REbtn" class="btn btn-block" [value]="btnRegisterRestaurantText"
+                    [disabled]="form.invalid">
             </div>
         </form>
     </div>
