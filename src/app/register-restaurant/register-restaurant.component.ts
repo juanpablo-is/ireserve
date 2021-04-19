@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { RestaurantService } from '../restaurant.service';
 
 @Component({
   selector: 'app-register-restaurant',
@@ -16,10 +17,12 @@ export class RegisterRestaurantComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private auth: AngularFireAuth
+    private auth: AngularFireAuth,
+    private service: RestaurantService
   ) {
     this.auth.user.subscribe(user => this.name = user.displayName);
     this.buildForm();
+    service.get();
   }
 
   ngOnInit(): void {
