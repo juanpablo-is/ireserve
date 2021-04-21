@@ -8,5 +8,6 @@ export const environment = {
     messagingSenderId: '144838815253',
     appId: '1:144838815253:web:eddaabd3452f8d9348281c',
     measurementId: 'G-BNRJHGVXZ6'
-  }
+  },
+  urlBackend: 'https://ireserve-backend.herokuapp.com'
 };
