@@ -15,6 +15,7 @@ export class RegisterRestaurantComponent implements OnInit {
   form: FormGroup;
   name: string;
   idUser: string;
+  alertError: string;
 
   btnRegisterRestaurantText = 'REGISTRAR RESTAURANTE';
 
@@ -26,15 +27,19 @@ export class RegisterRestaurantComponent implements OnInit {
   ) {
     // tslint:disable-next-line: deprecation
     this.auth.user.subscribe(user => {
-      this.name = user.displayName;
-      this.idUser = user.email;
+      if (user) {
+        this.name = user.displayName;
+        this.idUser = user.email;
+      } else {
+        this.router.navigate(['/login']);
+      }
     });
     this.buildForm();
   }
 
-  ngOnInit(): void {
-  }
-
+  /**
+   * Función para registrar un restaurante en el backend.
+   */
   registerRestaurant(event: Event): void {
     event.preventDefault();
 
@@ -63,7 +68,10 @@ export class RegisterRestaurantComponent implements OnInit {
             this.form.enable();
             return false;
           },
-          () => {
+          (e: any) => {
+            this.alertError = 'Se ha presentado un error, intente nuevamente';
+            console.error(e.error.message);
+
             this.btnRegisterRestaurantText = 'REGISTRAR RESTAURANTE';
             this.form.enable();
             return false;
@@ -71,6 +79,8 @@ export class RegisterRestaurantComponent implements OnInit {
         );
     }
   }
+
+  ngOnInit(): void { }
 
   private buildForm(): void {
     this.form = this.formBuilder.group({
