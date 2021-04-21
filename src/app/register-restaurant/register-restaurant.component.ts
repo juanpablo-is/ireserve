@@ -14,6 +14,7 @@ export class RegisterRestaurantComponent implements OnInit {
 
   form: FormGroup;
   name: string;
+  idUser: string;
 
   btnRegisterRestaurantText = 'REGISTRAR RESTAURANTE';
 
@@ -24,7 +25,10 @@ export class RegisterRestaurantComponent implements OnInit {
     private service: RestaurantService
   ) {
     // tslint:disable-next-line: deprecation
-    this.auth.user.subscribe(user => this.name = user.displayName);
+    this.auth.user.subscribe(user => {
+      this.name = user.displayName;
+      this.idUser = user.email;
+    });
     this.buildForm();
   }
 
@@ -39,6 +43,7 @@ export class RegisterRestaurantComponent implements OnInit {
       this.btnRegisterRestaurantText = 'CARGANDO...';
 
       const restaurant: Restaurant = {
+        idUser: this.idUser,
         name: this.form.value.name,
         address: this.form.value.address,
         dateStart: this.form.value.dateStart,
