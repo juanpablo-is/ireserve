@@ -16,12 +16,8 @@ export class MenuService {
     return this.http.get<RootObject>(URL);
   }
 
-  addMenuItem(body: any): any {
-    const promesa = new Promise((resolve, reject) => {
-      const URL = `${environment.urlBackend}/api/menu`;
-      this.http.post<any>(URL, body).toPromise().then(res => {
-        alert(res.res);
-      });
-    });
+  addMenuItem(body: any): Promise<any> {
+    const URL = `${environment.urlBackend}/api/menu`;
+    return this.http.post<any>(URL, body).toPromise();
   }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { MenuService } from '../menu.service';
 
 @Component({
@@ -16,8 +17,9 @@ export class SetMenuComponent implements OnInit {
   bebidas: string;
   entradas: string;
   adicionales: string;
-  form: FormGroup;
   state: any;
+  form: FormGroup;
+  alertError: string;
 
   platosFuertes: any[];
   platosCorrientes: any[];
@@ -26,7 +28,8 @@ export class SetMenuComponent implements OnInit {
   additionals: any[];
 
   constructor(
-    private menuService: MenuService
+    private menuService: MenuService,
+    private router: Router
   ) {
     this.platoFuerte = 'Plato fuerte';
     this.platoCorriente = 'Plato Corriente';
@@ -72,10 +75,16 @@ export class SetMenuComponent implements OnInit {
         entrances: this.entrances,
         additionals: this.additionals
       },
-      idUser: this.userId
+      idRestaurant: this.userId
     };
 
-    this.menuService.addMenuItem(body);
+    this.menuService.addMenuItem(body)
+      .then(() => {
+        this.router.navigate(['/']);
+      })
+      .catch(e => {
+        this.alertError = e.error.response || 'Se ha presentado un error, intente nuevamente.';
+      });
   }
 
   ngOnInit(): void {
