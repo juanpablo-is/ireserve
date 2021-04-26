@@ -33,9 +33,10 @@ export class MenuOptionComponent implements OnInit {
   add(): void {
     const newName = this.addName.nativeElement.value;
     const newPrice = this.addPrice.nativeElement.value;
-
     if (newName && newPrice) {
       this.items.push({ name: newName, price: newPrice });
+      this.addName.nativeElement.value = '';
+      this.addPrice.nativeElement.value = '';
     }
   }
 }

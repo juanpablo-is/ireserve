@@ -8,6 +8,8 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 export class MenuItemComponent implements OnInit {
 
   @ViewChild('mItem') mItem: ElementRef;
+  @Input() items: any[];
+  @Input() userId: string;
   @Input() name: string;
   @Input() price: number;
 
@@ -17,6 +19,10 @@ export class MenuItemComponent implements OnInit {
   }
 
   delete(): void {
-    this.mItem.nativeElement.remove();
+    for (let i = 0; i < this.items.length; i++) {
+      if (this.items[i].name === this.name) {
+        this.items.splice(i, 1);
+      }
+    }
   }
 }

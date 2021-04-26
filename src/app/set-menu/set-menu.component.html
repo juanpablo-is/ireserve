@@ -1,10 +1,14 @@
+<div *ngIf="alertError" class="alert alert-danger text-center" role="alert">
+    {{alertError}}
+</div>
+
 <div class="menu-cont">
     <div class="container">
         <div class="cont-img centro">
             <img src="../../assets/icons/icon-128x128.png" alt="">
         </div>
         <div class="cont-text centro">
-            <h5>¡Hola <b class="acento">Cliente</b>!</h5>
+            <h5>¡Hola <b class="acento">{{userId}}</b>!</h5>
         </div>
         <div class="cont-text centro">
             <h6>Necesitamos que ingrese el menu de su restaurante</h6>
@@ -15,7 +19,7 @@
         <app-menu-option [nameOption]=entradas [items]=entrances></app-menu-option>
         <app-menu-option [nameOption]=adicionales [items]=additionals></app-menu-option>
         <div class="cont-btn centro">
-            <input type="submit" class="btn add-btn-menu" value="INGRESAR MENU">
+            <input type="submit" class="btn add-btn-menu" value="INGRESAR MENU" (click)="save()">
         </div>
     </div>
 </div>
