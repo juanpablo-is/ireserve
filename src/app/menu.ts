@@ -35,4 +35,3 @@ export interface RootObject {
     dishes: Dishes;
     idUser: string;
 }
-

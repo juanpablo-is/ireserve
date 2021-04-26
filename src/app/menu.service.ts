@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { RootObject } from './menu';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,7 +16,7 @@ export class MenuService {
     return this.http.get<RootObject>(URL);
   }
 
-  addMenuItem(body): any {
+  addMenuItem(body: any): any {
     const promesa = new Promise((resolve, reject) => {
       const URL = `${environment.urlBackend}/api/menu`;
       this.http.post<any>(URL, body).toPromise().then(res => {

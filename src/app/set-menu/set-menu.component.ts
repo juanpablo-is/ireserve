@@ -33,24 +33,34 @@ export class SetMenuComponent implements OnInit {
     this.bebidas = 'Bebidas';
     this.entradas = 'Entradas';
     this.adicionales = 'Adicionales';
-    this.menuService.getMenu().subscribe(menu => {
-      const count = Object.keys(menu).length;
-      if (count > 1) {
-        this.userId = menu.idUser;
-        this.platosFuertes = menu.dishes.platosFuertes;
-        this.platosCorrientes = menu.dishes.platosCorrientes;
-        this.drinks = menu.dishes.drinks;
-        this.entrances = menu.dishes.entrances;
-        this.additionals = menu.dishes.additionals;
-      } else {
+
+    this.menuService.getMenu()
+      .subscribe(menu => {
+        const count = Object.keys(menu).length;
+
+        if (count > 1) {
+          this.userId = menu.idUser;
+          this.platosFuertes = menu.dishes.platosFuertes;
+          this.platosCorrientes = menu.dishes.platosCorrientes;
+          this.drinks = menu.dishes.drinks;
+          this.entrances = menu.dishes.entrances;
+          this.additionals = menu.dishes.additionals;
+        } else {
+          this.userId = 'juan@ireserve.com';
+          this.platosCorrientes = [];
+          this.platosFuertes = [];
+          this.drinks = [];
+          this.entrances = [];
+          this.additionals = [];
+        }
+      }, () => {
         this.userId = 'juan@ireserve.com';
         this.platosCorrientes = [];
         this.platosFuertes = [];
         this.drinks = [];
         this.entrances = [];
         this.additionals = [];
-      }
-    });
+      });
   }
 
   save(): void {
@@ -64,11 +74,10 @@ export class SetMenuComponent implements OnInit {
       },
       idUser: this.userId
     };
+
     this.menuService.addMenuItem(body);
   }
 
-
   ngOnInit(): void {
   }
-
 }
