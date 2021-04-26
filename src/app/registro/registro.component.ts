@@ -24,6 +24,9 @@ export class RegistroComponent {
     private router: Router,
     private firestore: AngularFirestore
   ) {
+    const user = sessionStorage.getItem('user');
+    if (user) { this.router.navigate(['/']); return; }
+
     this.buildForm();
   }
 
@@ -55,9 +58,15 @@ export class RegistroComponent {
         }).then(() => {
           this.firestore.collection('users').add(this.form.value)
             .then(() => {
+              const data = this.form.value;
+              delete data.password;
+
               this.btnRegisterText = 'REGISTRARSE';
               this.alertSuccess = 'Registro exitoso, ingrese sesión';
-              this.router.navigate(['/login']);
+
+              sessionStorage.setItem('user', JSON.stringify(data));
+
+              this.router.navigate(data.role === 'Cliente' ? ['/register-restaurant'] : ['/']);
             });
         });
       }).catch(response => {

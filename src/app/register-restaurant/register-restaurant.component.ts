@@ -25,15 +25,12 @@ export class RegisterRestaurantComponent implements OnInit {
     private router: Router,
     private service: RestaurantService
   ) {
-    // tslint:disable-next-line: deprecation
-    this.auth.user.subscribe(user => {
-      if (user) {
-        this.name = user.displayName;
-        this.idUser = user.email;
-      } else {
-        this.router.navigate(['/login']);
-      }
-    });
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    if (!user) { this.router.navigate(['/']); return; }
+
+    this.name = user.firstname;
+    this.idUser = user.email;
+
     this.buildForm();
   }
 
@@ -62,7 +59,7 @@ export class RegisterRestaurantComponent implements OnInit {
           (result: { ok: any; status: number; }) => {
             this.btnRegisterRestaurantText = 'REGISTRAR RESTAURANTE';
             if (result.ok && result.status === 201) {
-              this.router.navigate(['/']);
+              this.router.navigate(['/set-menu']);
               return true;
             }
             this.form.enable();

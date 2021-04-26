@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -9,7 +9,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.sass']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
   form: FormGroup;
 
@@ -23,9 +23,10 @@ export class LoginComponent implements OnInit {
     private auth: AngularFireAuth,
     private router: Router,
     private firestore: AngularFirestore
-  ) { }
+  ) {
+    const user = sessionStorage.getItem('user');
+    if (user) { this.router.navigate(['/']); return; }
 
-  ngOnInit(): void {
     this.buildForm();
   }
 
@@ -52,6 +53,10 @@ export class LoginComponent implements OnInit {
               const user: any = snap.docs[0].data();
 
               this.alertSuccess = `¡Bienvenido ${user.firstname}!`;
+
+              delete user.password;
+              sessionStorage.setItem('user', JSON.stringify(user));
+
               return this.router.navigate(['/']);
             }
 
