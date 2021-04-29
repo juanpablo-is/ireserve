@@ -10,9 +10,8 @@ import { RootObject } from './menu';
 export class MenuService {
   constructor(private http: HttpClient) { }
 
-  getMenu(): Observable<RootObject> {
-    const constId = 'juan@ireserve.com';
-    const URL = `${environment.urlBackend}/api/menu?idUser=${constId}`;
+  getMenu(idRestaurant: string): Observable<RootObject> {
+    const URL = `${environment.urlBackend}/api/menu?idRestaurant=${idRestaurant}`;
     return this.http.get<RootObject>(URL);
   }
 

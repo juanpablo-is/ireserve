@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Restaurant } from '../restaurant';
@@ -21,19 +20,15 @@ export class RegisterRestaurantComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private auth: AngularFireAuth,
     private router: Router,
     private service: RestaurantService
   ) {
-    // tslint:disable-next-line: deprecation
-    this.auth.user.subscribe(user => {
-      if (user) {
-        this.name = user.displayName;
-        this.idUser = user.email;
-      } else {
-        this.router.navigate(['/login']);
-      }
-    });
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    if (!user) { this.router.navigate(['/']); return; }
+
+    this.name = user.firstname;
+    this.idUser = user.email;
+
     this.buildForm();
   }
 
@@ -59,19 +54,17 @@ export class RegisterRestaurantComponent implements OnInit {
 
       this.service.createRestaurant(restaurant)
         .subscribe(
-          (result: { ok: any; status: number; }) => {
+          (result: { ok: any; status: number; body: any }) => {
             this.btnRegisterRestaurantText = 'REGISTRAR RESTAURANTE';
             if (result.ok && result.status === 201) {
-              this.router.navigate(['/']);
+              this.router.navigate(['/set-menu'], { queryParams: { idRestaurant: result.body.idRestaurant } });
               return true;
             }
             this.form.enable();
             return false;
           },
-          (e: any) => {
+          () => {
             this.alertError = 'Se ha presentado un error, intente nuevamente';
-            console.error(e.error.message);
-
             this.btnRegisterRestaurantText = 'REGISTRAR RESTAURANTE';
             this.form.enable();
             return false;
