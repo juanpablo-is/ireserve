@@ -38,6 +38,9 @@
                 <input type="number" formControlName="phone" placeholder="Telefono fijo"
                     class="form-control input-style col m-1">
             </div>
+            <div class="row">
+                <input type="file" formControlName="filePhoto" class="btn btn-block" (change)="cambioArchivo($event)" />
+            </div>
             <div class="cont-input centro">
                 <input type="submit" id="REbtn" class="btn btn-block" [value]="btnRegisterRestaurantText"
                     [disabled]="form.invalid">

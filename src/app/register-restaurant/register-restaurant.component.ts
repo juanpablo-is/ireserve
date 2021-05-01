@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Restaurant } from '../restaurant';
@@ -9,12 +9,13 @@ import { RestaurantService } from '../restaurant.service';
   templateUrl: './register-restaurant.component.html',
   styleUrls: ['./register-restaurant.component.sass']
 })
-export class RegisterRestaurantComponent implements OnInit {
+export class RegisterRestaurantComponent {
 
   form: FormGroup;
   name: string;
   idUser: string;
   alertError: string;
+  file: any;
 
   btnRegisterRestaurantText = 'REGISTRAR RESTAURANTE';
 
@@ -73,8 +74,6 @@ export class RegisterRestaurantComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void { }
-
   private buildForm(): void {
     this.form = this.formBuilder.group({
       name: ['', [Validators.required]],
@@ -82,7 +81,15 @@ export class RegisterRestaurantComponent implements OnInit {
       dateStart: ['', [Validators.required]],
       dateEnd: ['', [Validators.required]],
       phone: ['', [Validators.required]],
-      countTables: ['', [Validators.required]]
+      countTables: ['', [Validators.required]],
+      filePhoto: ['', [Validators.required]]
     });
+  }
+
+  // Almacena el elemento image.
+  changeFile(event: any): void {
+    if (event.target.files.length > 0) {
+      this.file = event.target.files[0];
+    }
   }
 }
