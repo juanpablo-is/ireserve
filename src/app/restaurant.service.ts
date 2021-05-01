@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Restaurant } from './restaurant';
+import { Restaurant } from './interfaces/restaurant';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
