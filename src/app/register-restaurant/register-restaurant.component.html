@@ -13,7 +13,8 @@
     <div class="centro">
         <form class="register-restaurant--inputs" [formGroup]="form" (ngSubmit)="registerRestaurant($event)">
             <div class="row">
-                <input type="text" formControlName="name" placeholder="Nombre" class="form-control input-style col m-1">
+                <input type="text" formControlName="name" placeholder="Nombre"
+                    class="form-control input-style col m-1 capitalize">
                 <input type="text" formControlName="address" placeholder="Dirección"
                     class="form-control input-style col m-1">
             </div>
@@ -37,6 +38,19 @@
                     class="form-control input-style col m-1">
                 <input type="number" formControlName="phone" placeholder="Telefono fijo"
                     class="form-control input-style col m-1">
+            </div>
+            <div class="row">
+                <select class="form-control input-style col m-1 form-select" formControlName="type">
+                    <option disabled selected value>-- Tipo de establecimiento --</option>
+                    <option value="restaurante">Restaurante</option>
+                    <option value="cafeteria">Cafetería</option>
+                    <option value="heladeria">Heladería</option>
+                    <option value="bar">Bar</option>
+                </select>
+            </div>
+            <div class="row">
+                <input type="file" formControlName="filePhoto" (change)="changeFile($event)" class="form-control m-1"
+                    accept="image/png, image/jpeg" id="formFileLg">
             </div>
             <div class="cont-input centro">
                 <input type="submit" id="REbtn" class="btn btn-block" [value]="btnRegisterRestaurantText"

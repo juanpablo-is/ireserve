@@ -6,4 +6,5 @@ export interface Restaurant {
     dateEnd: Date;
     countTables: number;
     phone: number;
+    urlPhoto: string;
 }

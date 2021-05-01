@@ -36,6 +36,7 @@ import { MenuItemComponent } from './set-menu/menu-option/menu-item/menu-item.co
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
+    AngularFirestoreModule,
     ReactiveFormsModule
   ],
   providers: [],

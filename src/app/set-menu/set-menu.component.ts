@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MenuService } from '../menu.service';
+import { MenuService } from '../services/backend/menu/menu.service';
 
 @Component({
   selector: 'app-set-menu',
