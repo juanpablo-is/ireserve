@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { FirebaseStorageService } from '../firebase-storage-service';
+import { FirebaseStorageService } from '../services/firebase-storage/firebase-storage-service';
 import { Restaurant } from '../interfaces/restaurant';
-import { RestaurantService } from '../restaurant.service';
+import { RestaurantService } from '../services/backend/restaurant/restaurant.service';
 import { finalize } from 'rxjs/operators';
 
 @Component({
