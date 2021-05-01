@@ -13,7 +13,8 @@
     <div class="centro">
         <form class="register-restaurant--inputs" [formGroup]="form" (ngSubmit)="registerRestaurant($event)">
             <div class="row">
-                <input type="text" formControlName="name" placeholder="Nombre" class="form-control input-style col m-1">
+                <input type="text" formControlName="name" placeholder="Nombre"
+                    class="form-control input-style col m-1 capitalize">
                 <input type="text" formControlName="address" placeholder="Dirección"
                     class="form-control input-style col m-1">
             </div>
