@@ -45,10 +45,8 @@ export class RegistroComponent {
     event.preventDefault();
 
     if (this.form.valid) {
-      console.log(this.form.value);
-
-      // this.btnRegisterText = 'CARGANDO...';
-      // this.createUser();
+      this.btnRegisterText = 'CARGANDO...';
+      this.createUser();
     }
   }
 
