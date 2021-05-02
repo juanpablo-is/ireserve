@@ -18,6 +18,7 @@ export class MenuOptionComponent {
   @ViewChild('addImage') addImage: ElementRef;
 
   isShowed = false;
+  validateButton = false;
   file: any;
 
   constructor(private serviceStorage: FirebaseStorageService) { }
@@ -52,10 +53,17 @@ export class MenuOptionComponent {
               this.addPrice.nativeElement.value = '';
               this.addDescription.nativeElement.value = '';
               this.addImage.nativeElement.value = '';
+              this.validateButton = false;
             });
           })
         ).subscribe();
       }
+    }
+  }
+
+  changeFile(event: any): void {
+    if (event.target.files.length > 0) {
+      this.validateButton = true;
     }
   }
 }

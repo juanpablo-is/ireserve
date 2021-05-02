@@ -32,11 +32,14 @@ export class SetMenuComponent {
     this.items = this.getItemsMenu(this.type);
 
     // Consultar menu de acuerdo a restaurante para los items.
-    // this.menuService.getMenu(this.idRestaurant)
-    //   .subscribe((menu: any) => {
-    //     const count = Object.keys(menu).length;
-    //     if (count > 1) { }
-    //   });
+    this.menuService.getMenu(this.idRestaurant)
+      .subscribe((menu: any) => {
+        const count = Object.keys(menu).length;
+
+        if (count > 1) {
+          this.items = this.parseItems(menu.dishes);
+        }
+      });
   }
 
   save(): void {
@@ -57,29 +60,13 @@ export class SetMenuComponent {
 
     this.menuService.addMenuItem(body)
       .then(() => {
+        this.btnSaveMenu = 'INGRESAR MENU';
         this.router.navigate(['/']);
       })
       .catch((e: any) => {
         this.alertError = e.error.response || 'Se ha presentado un error, intente nuevamente.';
         this.btnSaveMenu = 'INGRESAR MENU';
       });
-    console.log(this.categories);
-  }
-
-  add(): void {
-    this.categories.push({
-      categoryName: this.addCategory.nativeElement.value,
-      categoryValues: []
-    });
-    this.addCategory.nativeElement.value = '';
-  }
-
-  del(): void {
-    for (let i = 0; i < this.categories.length; i++) {
-      if (this.categories[i].name === this.name) {
-        this.categories.splice(i, 1);
-      }
-    }
   }
 
   // Convierte la variable 'items' en object para Firebase.
@@ -127,5 +114,18 @@ export class SetMenuComponent {
     }
 
     return items;
+  }
+
+  // Parsea los items de DB de acuerdo a la estructura de categorias.
+  parseItems(menu): any[] {
+    const newItems = [];
+
+    for (const item in menu) {
+      if (Object.prototype.hasOwnProperty.call(menu, item)) {
+        const da = this.items.filter(it => it.key === item)[0];
+        newItems.push({ text: da.text, items: menu[item] });
+      }
+    }
+    return newItems;
   }
 }
