@@ -13,20 +13,9 @@
         <div class="cont-text centro">
             <h6>Necesitamos que ingrese el menu de su {{type}}</h6>
         </div>
-        <div *ngFor="let item of categories">
-            <app-menu-option [items] = "item" [categories]="categories"></app-menu-option>
-        </div>
-        
-        <div class="row py-3 centro">
-            <div class="col-12 centro">
-                <input class="form-control input-style" placeholder="Categoria" #addCategory>
-            </div>
-        </div>
-        <div class="row py-3 centro">
-            <div class="col-12 centro">
-                <button class="btn button" (click)="add()">Agregar Categoria <i class="fas fa-plus-circle"></i></button>
-            </div>
-        </div>
+
+        <app-menu-option *ngFor="let item of items" [items]="item.items" [optionName]="item.text"></app-menu-option>
+
         <div class="cont-btn centro">
             <input type="submit" class="btn add-btn-menu" [value]="btnSaveMenu" (click)="save()">
         </div>

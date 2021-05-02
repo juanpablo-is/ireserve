@@ -8,7 +8,8 @@
         </div>
     </div>
     <div class="cont-items hidden" #show>
-        <app-menu-item *ngFor="let pf of items.categoryValues" [name]=pf.name [price]=pf.price [description]=pf.description [urlPhoto]=pf.urlPhoto cItems [items]=items.categoryValues></app-menu-item>
+        <app-menu-item *ngFor="let pf of items; index as i" [index]=i [data]=pf [items]=items></app-menu-item>
+
         <div class="row pt-3">
             <div class="col-6">
                 <input type="text" placeholder="Nombre" class="form-control input-style capitalize" #addName>
@@ -27,13 +28,14 @@
                 <i class="fas fa-image fa-2x"></i>
             </div>
             <div class="col-10">
-                <input type="file" class="form-control input-file-style" accept="image/png, image/jpeg" (change)="changeFile($event)">
+                <input type="file" class="form-control input-file-style" accept="image/png, image/jpeg" #addImage>
             </div>
         </div>
         <div class="row pt-3 pb-3 centro">
-           <div class="col-12">
-                <button class="btn button" (click)="add()">Agregar <i class="fas fa-plus-circle icon-color"></i></button>
-           </div>
+            <div class="col-12">
+                <button class="btn button" (click)="add()">Agregar <i
+                        class="fas fa-plus-circle icon-color"></i></button>
+            </div>
         </div>
     </div>
 </div>
