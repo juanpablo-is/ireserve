@@ -1,7 +1,19 @@
-<div class="row" #mItem>
-    <div class="col-4 centro">{{name}}</div>
-    <div class="col-4 centro">{{price}}</div>
-    <div class="col-4 centro">
-        <button class="btn" (click)="delete()"><i class="fas fa-minus-circle"></i></button>
+<div class="row item my-3" #mItem>
+    <div class="col-12">    
+        <div class="row py-3 c-row h-item">    
+            <div class="col-12"><b>Nombre: {{name}}</b></div>
+        </div>
+        <div class="row py-3 c-row">
+            <div class="col-12">Precio: COL {{price}}</div>
+        </div>
+        <div class="row py-3 c-row">
+            <div class="col-12">Descripcion: {{description}}</div>
+        </div>
+        <div class="row py-3 c-row">
+            <img src={{urlPhoto}} alt="">
+        </div>
+        <div class="row button">
+            <button class="btn t-button" (click)="delete()">Eliminar <i class="fas fa-minus-circle icon"></i></button>
+        </div>
     </div>
 </div>

@@ -12,16 +12,20 @@ export class MenuItemComponent implements OnInit {
   @Input() userId: string;
   @Input() name: string;
   @Input() price: number;
-
+  @Input() description: string;
+  @Input() urlPhoto: string;
   constructor() { }
 
   ngOnInit(): void {
+    console.log("entra");
+    console.log(this.items)
   }
 
   delete(): void {
     for (let i = 0; i < this.items.length; i++) {
       if (this.items[i].name === this.name) {
         this.items.splice(i, 1);
+        break;
       }
     }
   }

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Categoria } from '../interfaces/menu';
 import { MenuService } from '../services/backend/menu/menu.service';
 
 @Component({
@@ -10,24 +11,14 @@ import { MenuService } from '../services/backend/menu/menu.service';
 })
 
 export class SetMenuComponent implements OnInit {
-
-  platoFuerte = 'Plato fuerte';
-  platoCorriente = 'Plato Corriente';
-  bebidas = 'Bebidas';
-  entradas = 'Entradas';
-  adicionales = 'Adicionales';
-
+  @ViewChild('addCategory') addCategory: ElementRef
   idRestaurant: string;
   name: string;
   form: FormGroup;
   alertError: string;
   btnSaveMenu = 'INGRESAR MENU';
 
-  platosFuertes: any[] = [];
-  platosCorrientes: any[] = [];
-  drinks: any[] = [];
-  entrances: any[] = [];
-  additionals: any[] = [];
+  categories: any[] = [];
 
   constructor(
     private menuService: MenuService,
@@ -41,18 +32,15 @@ export class SetMenuComponent implements OnInit {
       this.idRestaurant = params.idRestaurant;
       this.name = user.firstname;
     });
-
-
     this.menuService.getMenu(this.idRestaurant)
       .subscribe((menu: any) => {
         const count = Object.keys(menu).length;
-
-        if (count > 1) {
-          this.platosFuertes = menu.dishes.platosFuertes;
-          this.platosCorrientes = menu.dishes.platosCorrientes;
-          this.drinks = menu.dishes.drinks;
-          this.entrances = menu.dishes.entrances;
-          this.additionals = menu.dishes.additionals;
+        
+        if(count > 1){
+          this.categories = menu.categories;
+        }
+        else{
+          this.categories = []
         }
       });
   }
@@ -60,25 +48,37 @@ export class SetMenuComponent implements OnInit {
   save(): void {
     this.btnSaveMenu = 'CARGANDO...';
     const body = {
-      dishes: {
-        platosFuertes: this.platosFuertes,
-        platosCorrientes: this.platosCorrientes,
-        drinks: this.drinks,
-        entrances: this.entrances,
-        additionals: this.additionals
-      },
+      categories: this.categories,
       idRestaurant: this.idRestaurant
     };
 
     this.menuService.addMenuItem(body)
       .then(() => {
         this.btnSaveMenu = 'INGRESAR MENU';
-        this.router.navigate(['/']);
+        //this.router.navigate(['/']);
+        alert('Datos actualizados')
       })
       .catch((e: any) => {
         this.alertError = e.error.response || 'Se ha presentado un error, intente nuevamente.';
         this.btnSaveMenu = 'INGRESAR MENU';
       });
+      console.log(this.categories)
+  }
+
+  add(): void{
+    this.categories.push({
+      categoryName: this.addCategory.nativeElement.value,
+      categoryValues: []
+    })
+    this.addCategory.nativeElement.value='';
+  }
+
+  del():void{
+    for (let i = 0; i < this.categories.length; i++) {
+      if (this.categories[i].name === this.name) {
+        this.categories.splice(i, 1);
+      }
+    }
   }
 
   ngOnInit(): void {
