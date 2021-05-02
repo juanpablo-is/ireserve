@@ -42,7 +42,6 @@ export class SetMenuComponent implements OnInit {
       this.name = user.firstname;
     });
 
-
     this.menuService.getMenu(this.idRestaurant)
       .subscribe((menu: any) => {
         const count = Object.keys(menu).length;
