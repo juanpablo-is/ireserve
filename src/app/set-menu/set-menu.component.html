@@ -11,9 +11,9 @@
             <h5>¡Hola <b class="acento">{{name}}</b>!</h5>
         </div>
         <div class="cont-text centro">
-            <h6>Necesitamos que ingrese el menu de su restaurante</h6>
+            <h6>Necesitamos que ingrese el menu de su {{type}}</h6>
         </div>
-        <app-menu-option *ngFor="let item of items|keyvalue" [nameOption]=item.value.text [items]=item.value.items>
+        <app-menu-option *ngFor="let item of items" [nameOption]=item.text [items]=item.items>
         </app-menu-option>
         <div class="cont-btn centro">
             <input type="submit" class="btn add-btn-menu" [value]="btnSaveMenu" (click)="save()">

@@ -17,6 +17,7 @@ export class SetMenuComponent {
   form: FormGroup;
   items: any;
   alertError: string;
+  type = 'establecimiento';
 
   constructor(
     private menuService: MenuService,
@@ -27,7 +28,8 @@ export class SetMenuComponent {
 
     this.name = user.firstname;
     this.idRestaurant = user.idRestaurant;
-    this.items = this.getItemsMenu(user.typeRestaurant);
+    this.type = user.typeRestaurant;
+    this.items = this.getItemsMenu(this.type);
 
     // Consultar menu de acuerdo a restaurante para los items.
     // this.menuService.getMenu(this.idRestaurant)
@@ -72,7 +74,8 @@ export class SetMenuComponent {
         if (this.items[item].items.length > 0) {
           count++;
         }
-        map[item] = this.items[item].items;
+
+        map[this.items[item].key] = this.items[item].items;
       }
     }
     return count > 0 ? map : false;
@@ -80,30 +83,30 @@ export class SetMenuComponent {
 
   // Retorna items de acuerdo a tipo de restaurante.
   getItemsMenu(typeRestaurant: string): any {
-    const items: any = {};
+    const items: any = [];
 
     if (typeRestaurant === 'restaurante') {
-      items.breakfast = { text: 'Desayunos', items: [] };
-      items.platosFuertes = { text: 'Platos fuertes', items: [] };
-      items.platosCorrientes = { text: 'Platos corrientes', items: [] };
-      items.drinks = { text: 'Bebidas', items: [] };
-      items.entraces = { text: 'Entradas', items: [] };
-      items.additionals = { text: 'Adicionales', items: [] };
-      items.desserts = { text: 'Postres', items: [] };
+      items.push({ key: 'breakfast', text: 'Desayunos', items: [] });
+      items.push({ key: 'platosFuertes', text: 'Platos fuertes', items: [] });
+      items.push({ key: 'platosCorrientes', text: 'Platos corrientes', items: [] });
+      items.push({ key: 'drinks', text: 'Bebidas', items: [] });
+      items.push({ key: 'entraces', text: 'Entradas', items: [] });
+      items.push({ key: 'additionals', text: 'Adicionales', items: [] });
+      items.push({ key: 'desserts', text: 'Postres', items: [] });
     } else if (typeRestaurant === 'cafeteria') {
-      items.breakfast = { text: 'Desayunos', items: [] };
-      items.drinks = { text: 'Bebidas', items: [] };
+      items.push({ key: 'breakfast', text: 'Desayunos', items: [] });
+      items.push({ key: 'drinks', text: 'Bebidas', items: [] });
     } else if (typeRestaurant === 'heladeria') {
-      items.iceCream = { text: 'Helados', items: [] };
-      items.drinks = { text: 'Bebidas', items: [] };
-      items.desserts = { text: 'Postres', items: [] };
-      items.shakes = { text: 'Batidos', items: [] };
-      items.waffles = { text: 'Waffles', items: [] };
+      items.push({ key: 'iceCream', text: 'Helados', items: [] });
+      items.push({ key: 'drinks', text: 'Bebidas', items: [] });
+      items.push({ key: 'desserts', text: 'Postres', items: [] });
+      items.push({ key: 'shakes', text: 'Batidos', items: [] });
+      items.push({ key: 'waffles', text: 'Waffles', items: [] });
     } else if (typeRestaurant === 'bar') {
-      items.beers = { text: 'Cervezas', items: [] };
-      items.cocktails = { text: 'Cocteles', items: [] };
-      items.wines = { text: 'Vinos', items: [] };
-      items.coffee = { text: 'Café', items: [] };
+      items.push({ key: 'beers', text: 'Cervezas', items: [] });
+      items.push({ key: 'cocktails', text: 'Cocteles', items: [] });
+      items.push({ key: 'wines', text: 'Vinos', items: [] });
+      items.push({ key: 'coffee', text: 'Café', items: [] });
     }
 
     return items;
