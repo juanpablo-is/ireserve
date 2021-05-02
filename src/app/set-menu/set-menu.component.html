@@ -5,7 +5,7 @@
 <div class="menu-cont">
     <div class="container">
         <div class="cont-img centro">
-            <img src="../../assets/icons/icon-128x128.png" alt="">
+            <img src="../../assets/icons/set-menu.svg" alt="">
         </div>
         <div class="cont-text centro">
             <h5>¡Hola <b class="acento">{{name}}</b>!</h5>
@@ -13,8 +13,20 @@
         <div class="cont-text centro">
             <h6>Necesitamos que ingrese el menu de su {{type}}</h6>
         </div>
-        <app-menu-option *ngFor="let item of items" [nameOption]=item.text [items]=item.items>
-        </app-menu-option>
+        <div *ngFor="let item of categories">
+            <app-menu-option [items] = "item" [categories]="categories"></app-menu-option>
+        </div>
+        
+        <div class="row py-3 centro">
+            <div class="col-12 centro">
+                <input class="form-control input-style" placeholder="Categoria" #addCategory>
+            </div>
+        </div>
+        <div class="row py-3 centro">
+            <div class="col-12 centro">
+                <button class="btn button" (click)="add()">Agregar Categoria <i class="fas fa-plus-circle"></i></button>
+            </div>
+        </div>
         <div class="cont-btn centro">
             <input type="submit" class="btn add-btn-menu" [value]="btnSaveMenu" (click)="save()">
         </div>

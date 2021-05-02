@@ -63,6 +63,23 @@ export class SetMenuComponent {
         this.alertError = e.error.response || 'Se ha presentado un error, intente nuevamente.';
         this.btnSaveMenu = 'INGRESAR MENU';
       });
+    console.log(this.categories);
+  }
+
+  add(): void {
+    this.categories.push({
+      categoryName: this.addCategory.nativeElement.value,
+      categoryValues: []
+    });
+    this.addCategory.nativeElement.value = '';
+  }
+
+  del(): void {
+    for (let i = 0; i < this.categories.length; i++) {
+      if (this.categories[i].name === this.name) {
+        this.categories.splice(i, 1);
+      }
+    }
   }
 
   // Convierte la variable 'items' en object para Firebase.
