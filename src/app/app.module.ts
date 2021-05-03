@@ -19,6 +19,7 @@ import { MenuOptionComponent } from './set-menu/menu-option/menu-option.componen
 import { MenuItemComponent } from './set-menu/menu-option/menu-item/menu-item.component';
 import { HomeComponent } from './home/home.component';
 import { CardRestaurantComponent } from './home/card-restaurant/card-restaurant.component';
+import { BottomNavigationComponent } from './home/bottom-navigation/bottom-navigation.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { CardRestaurantComponent } from './home/card-restaurant/card-restaurant.
     MenuOptionComponent,
     MenuItemComponent,
     HomeComponent,
-    CardRestaurantComponent
+    CardRestaurantComponent,
+    BottomNavigationComponent
   ],
   imports: [
     BrowserModule,
