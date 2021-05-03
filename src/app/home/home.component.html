@@ -1,5 +1,15 @@
 <div *ngIf="isUser">
-    <app-card-restaurant *ngFor="let item of itemsRestaurant" [item]="item"></app-card-restaurant>
+    <div class="cardsRestaurant">
+        <app-card-restaurant *ngFor="let item of itemsRestaurant" [item]="item"></app-card-restaurant>
+    </div>
 </div>
 <div *ngIf="!isUser">
+</div>
+
+<div class="fixed-bottom bottom-navigation d-flex">
+    <div class="d-flex justify-content-center align-items-center flex-column"><i class="fas fa-home"></i>
+        <p>Home</p>
+    </div>
+    <div class="d-flex justify-content-center align-items-center flex-column"><i class="fas fa-home"></i></div>
+    <div class="d-flex justify-content-center align-items-center flex-column"><i class="fas fa-home"></i></div>
 </div>

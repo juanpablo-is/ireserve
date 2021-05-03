@@ -1,0 +1,26 @@
+@import '../../colores'
+
+$breakpoint-tablet: 768px
+.cardsRestaurant
+    display: grid
+    grid-template-columns: repeat(1, 1fr)
+
+    @media screen and (min-width: $breakpoint-tablet)
+        grid-template-columns: repeat(2, 1fr)
+
+.bottom-navigation
+    width: 100%
+    background: $secundario-oscuro
+
+    div
+        flex: 1
+        padding: 5px 0
+        color: $blanco
+        cursor: pointer
+
+        &:hover
+            background: $secundario
+
+    p
+        margin: 0
+        padding: 0
