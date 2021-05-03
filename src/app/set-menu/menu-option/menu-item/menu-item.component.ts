@@ -1,28 +1,26 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-menu-item',
   templateUrl: './menu-item.component.html',
   styleUrls: ['./menu-item.component.sass']
 })
-export class MenuItemComponent implements OnInit {
+export class MenuItemComponent {
 
-  @ViewChild('mItem') mItem: ElementRef;
   @Input() items: any[];
   @Input() userId: string;
-  @Input() name: string;
-  @Input() price: number;
+  @Input() data: any;
+  @Input() index: any;
+
+  isShowed = true;
 
   constructor() { }
 
-  ngOnInit(): void {
+  showItem(): void {
+    this.isShowed = !this.isShowed;
   }
 
   delete(): void {
-    for (let i = 0; i < this.items.length; i++) {
-      if (this.items[i].name === this.name) {
-        this.items.splice(i, 1);
-      }
-    }
+    this.items.splice(this.index, 1);
   }
 }

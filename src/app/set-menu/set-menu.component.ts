@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { MenuService } from '../services/backend/menu/menu.service';
 
 @Component({
@@ -9,64 +9,52 @@ import { MenuService } from '../services/backend/menu/menu.service';
   styleUrls: ['./set-menu.component.sass']
 })
 
-export class SetMenuComponent implements OnInit {
+export class SetMenuComponent {
 
-  platoFuerte = 'Plato fuerte';
-  platoCorriente = 'Plato Corriente';
-  bebidas = 'Bebidas';
-  entradas = 'Entradas';
-  adicionales = 'Adicionales';
-
+  btnSaveMenu = 'INGRESAR MENU';
   idRestaurant: string;
   name: string;
   form: FormGroup;
+  items: any;
   alertError: string;
-  btnSaveMenu = 'INGRESAR MENU';
-
-  platosFuertes: any[] = [];
-  platosCorrientes: any[] = [];
-  drinks: any[] = [];
-  entrances: any[] = [];
-  additionals: any[] = [];
+  type = 'establecimiento';
 
   constructor(
     private menuService: MenuService,
-    private router: Router,
-    private activateRoute: ActivatedRoute
+    private router: Router
   ) {
     const user = JSON.parse(sessionStorage.getItem('user'));
+    if (!user || !user.idRestaurant) { this.router.navigate(['/register']); return; }
 
-    this.activateRoute.queryParams.subscribe(params => {
-      if (!user || !params.idRestaurant) { this.router.navigate(['/register']); return; }
-      this.idRestaurant = params.idRestaurant;
-      this.name = user.firstname;
-    });
+    this.name = user.firstname;
+    this.idRestaurant = user.idRestaurant;
+    this.type = user.typeRestaurant;
+    this.items = this.getItemsMenu(this.type);
 
-
+    // Consultar menu de acuerdo a restaurante para los items.
     this.menuService.getMenu(this.idRestaurant)
       .subscribe((menu: any) => {
         const count = Object.keys(menu).length;
 
         if (count > 1) {
-          this.platosFuertes = menu.dishes.platosFuertes;
-          this.platosCorrientes = menu.dishes.platosCorrientes;
-          this.drinks = menu.dishes.drinks;
-          this.entrances = menu.dishes.entrances;
-          this.additionals = menu.dishes.additionals;
+          this.items = this.parseItems(menu.dishes);
         }
       });
   }
 
   save(): void {
+    this.alertError = '';
     this.btnSaveMenu = 'CARGANDO...';
+
+    const dishes = this.getItemsMap();
+    if (!dishes) {
+      this.alertError = 'Debe ingresar al menos un producto.';
+      this.btnSaveMenu = 'INGRESAR MENU';
+      return;
+    }
+
     const body = {
-      dishes: {
-        platosFuertes: this.platosFuertes,
-        platosCorrientes: this.platosCorrientes,
-        drinks: this.drinks,
-        entrances: this.entrances,
-        additionals: this.additionals
-      },
+      dishes,
       idRestaurant: this.idRestaurant
     };
 
@@ -81,6 +69,63 @@ export class SetMenuComponent implements OnInit {
       });
   }
 
-  ngOnInit(): void {
+  // Convierte la variable 'items' en object para Firebase.
+  getItemsMap(): {} {
+    const map = {};
+    let count = 0;
+    for (const item in this.items) {
+      if (Object.prototype.hasOwnProperty.call(this.items, item)) {
+        if (this.items[item].items.length > 0) {
+          count++;
+        }
+
+        map[this.items[item].key] = this.items[item].items;
+      }
+    }
+    return count > 0 ? map : false;
+  }
+
+  // Retorna items de acuerdo a tipo de restaurante.
+  getItemsMenu(typeRestaurant: string): any {
+    const items: any = [];
+
+    if (typeRestaurant === 'restaurante') {
+      items.push({ key: 'breakfast', text: 'Desayunos', items: [] });
+      items.push({ key: 'platosFuertes', text: 'Platos fuertes', items: [] });
+      items.push({ key: 'platosCorrientes', text: 'Platos corrientes', items: [] });
+      items.push({ key: 'drinks', text: 'Bebidas', items: [] });
+      items.push({ key: 'entraces', text: 'Entradas', items: [] });
+      items.push({ key: 'additionals', text: 'Adicionales', items: [] });
+      items.push({ key: 'desserts', text: 'Postres', items: [] });
+    } else if (typeRestaurant === 'cafeteria') {
+      items.push({ key: 'breakfast', text: 'Desayunos', items: [] });
+      items.push({ key: 'drinks', text: 'Bebidas', items: [] });
+    } else if (typeRestaurant === 'heladeria') {
+      items.push({ key: 'iceCream', text: 'Helados', items: [] });
+      items.push({ key: 'drinks', text: 'Bebidas', items: [] });
+      items.push({ key: 'desserts', text: 'Postres', items: [] });
+      items.push({ key: 'shakes', text: 'Batidos', items: [] });
+      items.push({ key: 'waffles', text: 'Waffles', items: [] });
+    } else if (typeRestaurant === 'bar') {
+      items.push({ key: 'beers', text: 'Cervezas', items: [] });
+      items.push({ key: 'cocktails', text: 'Cocteles', items: [] });
+      items.push({ key: 'wines', text: 'Vinos', items: [] });
+      items.push({ key: 'coffee', text: 'Café', items: [] });
+    }
+
+    return items;
+  }
+
+  // Parsea los items de DB de acuerdo a la estructura de categorias.
+  parseItems(menu): any[] {
+    const newItems = [];
+
+    for (const item in menu) {
+      if (Object.prototype.hasOwnProperty.call(menu, item)) {
+        const da = this.items.filter(it => it.key === item)[0];
+        newItems.push({ text: da.text, items: menu[item] });
+      }
+    }
+    return newItems;
   }
 }

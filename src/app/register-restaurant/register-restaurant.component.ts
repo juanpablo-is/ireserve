@@ -48,6 +48,7 @@ export class RegisterRestaurantComponent {
 
       const restaurant: Restaurant = {
         idUser: this.idUser,
+        type: this.form.value.type,
         name: this.form.value.name,
         address: this.form.value.address,
         dateStart: this.form.value.dateStart,
@@ -69,7 +70,11 @@ export class RegisterRestaurantComponent {
                 (result: { ok: any; status: number; body: any }) => {
                   this.btnRegisterRestaurantText = 'REGISTRAR RESTAURANTE';
                   if (result.ok && result.status === 201) {
-                    this.router.navigate(['/set-menu'], { queryParams: { idRestaurant: result.body.idRestaurant } });
+                    const user = JSON.parse(sessionStorage.getItem('user'));
+                    user.idRestaurant = result.body.idRestaurant;
+                    user.typeRestaurant = restaurant.type;
+                    sessionStorage.setItem('user', JSON.stringify(user));
+                    this.router.navigate(['/set-menu']);
                     return true;
                   }
                   this.form.enable();

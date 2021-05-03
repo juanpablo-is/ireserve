@@ -1,7 +1,27 @@
-<div class="row" #mItem>
-    <div class="col-4 centro">{{name}}</div>
-    <div class="col-4 centro">{{price}}</div>
-    <div class="col-4 centro">
-        <button class="btn" (click)="delete()"><i class="fas fa-minus-circle"></i></button>
+<div class="row item my-1" #mItem>
+    <div class="col-12">
+        <div class="row py-1 h-item">
+            <div class="col-10 d-flex align-items-center"><b>Nombre: {{data.name}}</b></div>
+            <div class="col-2">
+                <button class="btn" (click)="showItem()" #show>
+                    <i class="fas fa-angle-down icon"></i>
+                </button>
+            </div>
+        </div>
+        <div [ngClass]="{'hidden': isShowed, 'b-content':true}">
+            <div class="row py-1 c-row">
+                <div class="col-12"><strong>Precio:</strong> COL {{data.price}}</div>
+            </div>
+            <div class="row py-1 c-row">
+                <div class="col-12"><strong>Descripcion:</strong> {{data.description}}</div>
+            </div>
+            <div class="row py-1 c-row">
+                <img src={{data.urlPhoto}} alt="">
+            </div>
+            <div class="row">
+                <button class="btn t-button" (click)="delete()">Eliminar <i
+                        class="fas fa-minus-circle icon"></i></button>
+            </div>
+        </div>
     </div>
 </div>

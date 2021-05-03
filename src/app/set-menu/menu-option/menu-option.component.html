@@ -1,6 +1,6 @@
 <div class="cont-option">
     <div class="row name-option center-h pt-3">
-        <div class="col-10"><b>{{nameOption}}</b></div>
+        <div class="col-10"><b>{{optionName}}</b></div>
         <div class="col-2 centro">
             <button class="btn" (click)="showListOfItems()">
                 <i class="fas fa-angle-down"></i>
@@ -8,7 +8,8 @@
         </div>
     </div>
     <div class="cont-items hidden" #show>
-        <app-menu-item *ngFor="let pf of items" cItems [name]=pf.name [price]=pf.price [items]=items></app-menu-item>
+        <app-menu-item *ngFor="let pf of items; index as i" [index]=i [data]=pf [items]=items></app-menu-item>
+
         <div class="row pt-3">
             <div class="col-6">
                 <input type="text" placeholder="Nombre" class="form-control input-style capitalize" #addName>
@@ -17,8 +18,25 @@
                 <input type="text" placeholder="Precio" class="form-control input-style" #addPrice>
             </div>
         </div>
-        <div class="row centro">
-            <button class="btn" (click)="add()">Agregar <i class="fas fa-plus-circle"></i></button>
+        <div class="row pt-3">
+            <div class="col-12">
+                <textarea class="form-control text-area-style" placeholder="Descripcion" #addDescription></textarea>
+            </div>
+        </div>
+        <div class="row pt-3">
+            <div class="col-2 centro">
+                <i class="fas fa-image fa-2x"></i>
+            </div>
+            <div class="col-10">
+                <input type="file" class="form-control input-file-style" accept="image/png, image/jpeg"
+                    (change)="changeFile($event)" #addImage>
+            </div>
+        </div>
+        <div class="row pt-3 pb-3 centro">
+            <div class="col-12">
+                <button class="btn button" [disabled]="!validateButton" (click)="add()">Agregar <i
+                        class="fas fa-plus-circle icon-color"></i></button>
+            </div>
         </div>
     </div>
 </div>
