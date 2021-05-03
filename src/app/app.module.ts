@@ -18,6 +18,7 @@ import { SetMenuComponent } from './set-menu/set-menu.component';
 import { MenuOptionComponent } from './set-menu/menu-option/menu-option.component';
 import { MenuItemComponent } from './set-menu/menu-option/menu-item/menu-item.component';
 import { HomeComponent } from './home/home.component';
+import { CardRestaurantComponent } from './home/card-restaurant/card-restaurant.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { HomeComponent } from './home/home.component';
     SetMenuComponent,
     MenuOptionComponent,
     MenuItemComponent,
-    HomeComponent
+    HomeComponent,
+    CardRestaurantComponent
   ],
   imports: [
     BrowserModule,

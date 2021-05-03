@@ -1,1 +1,5 @@
-<p>home works!</p>
+<div *ngIf="isUser">
+    <app-card-restaurant *ngFor="let item of itemsRestaurant" [item]="item"></app-card-restaurant>
+</div>
+<div *ngIf="!isUser">
+</div>
