@@ -3,6 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { UserService } from '../services/backend/user/user.service';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,7 @@ export class LoginComponent {
     private formBuilder: FormBuilder,
     private auth: AngularFireAuth,
     private router: Router,
-    private firestore: AngularFirestore
+    private userService: UserService
   ) {
     const user = sessionStorage.getItem('user');
     if (user) { this.router.navigate(['/']); return; }
@@ -42,25 +43,18 @@ export class LoginComponent {
     this.btnLoginText = 'CARGANDO...';
 
     this.auth.signInWithEmailAndPassword(this.form.value.email, this.form.value.password)
-      .then(() => {
-        this.firestore.collection('users', ref => ref.where('email', '==', this.form.value.email)
-          .where('password', '==', this.form.value.password))
-          .get()
-          .subscribe(snap => {
-            this.btnLoginText = 'INICIAR SESIÓN';
+      .then((data) => {
+        this.userService.getDataLogin(data.user.uid)
+          .then((response: any) => {
+            if (response.data) {
+              this.alertSuccess = `¡Bienvenido ${response.data.firstname}!`;
+              sessionStorage.setItem('user', JSON.stringify(response.data));
 
-            if (snap.docs.length !== 0) {
-              const user: any = snap.docs[0].data();
-
-              this.alertSuccess = `¡Bienvenido ${user.firstname}!`;
-
-              delete user.password;
-              sessionStorage.setItem('user', JSON.stringify(user));
-
-              return this.router.navigate(['/']);
+              this.router.navigate(['/']);
+            } else {
+              console.error(response);
+              this.alertError = 'Se ha presentado un error, intente nuevamente';
             }
-
-            return this.alertError = 'Se ha presentado un error, intente nuevamente';
           });
       }).catch(response => {
         this.btnLoginText = 'INICIAR SESIÓN';

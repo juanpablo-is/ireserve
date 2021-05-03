@@ -56,9 +56,13 @@ export class RegistroComponent {
         user.user.updateProfile({
           displayName: this.form.value.firstname,
         }).then(() => {
-          this.firestore.collection('users').add(this.form.value)
+          const data = this.form.value;
+          data.uid = user.user.uid;
+
+          this.firestore.collection('users')
+            .doc(data.uid)
+            .set(data)
             .then(() => {
-              const data = this.form.value;
               delete data.password;
 
               this.btnRegisterText = 'REGISTRARSE';
