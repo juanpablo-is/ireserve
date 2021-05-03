@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-bottom-navigation',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./bottom-navigation.component.sass']
 })
 export class BottomNavigationComponent implements OnInit {
+
+  @Input() buttons: any[];
 
   constructor() { }
 

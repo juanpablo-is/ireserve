@@ -10,6 +10,7 @@ export class HomeComponent {
 
   isUser: boolean;
   itemsRestaurant: any[] = [];
+  buttons: any[] = [];
 
   constructor(
     private router: Router
@@ -19,21 +20,32 @@ export class HomeComponent {
 
     if (user.role === 'Cliente') {
       this.isUser = false;
+      this.buttons.push({ name: 'Inicio', iconClass: 'fas fa-home' });
+      this.buttons.push({ name: 'Reservación', iconClass: 'far fa-calendar-alt' });
+      this.buttons.push({ name: 'Menú', iconClass: 'fas fa-book-open' });
+      this.buttons.push({ name: 'Profile', iconClass: 'fas fa-user-circle' });
     } else {
       this.isUser = true;
+
+      this.buttons.push({ name: 'Inicio', iconClass: 'fas fa-home' });
+      this.buttons.push({ name: 'Reservación', iconClass: 'far fa-calendar-alt' });
+      this.buttons.push({ name: 'Profile', iconClass: 'fas fa-user-circle' });
+
       this.itemsRestaurant.push({
-        photo: 'https://www.eltiempo.com/files/image_640_428/files/crop/uploads/2019/08/09/5d4d7d63aa20a.r_1565380898512.0-0-3000-1488.jpeg',
+        photo: 'https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2019/06/25/15614775255199.jpg',
         name: 'McDonalds',
-        starts: 5,
+        stars: 1,
         diff: '75m',
-        open: true
+        open: true,
+        category: 'heladeria'
       });
       this.itemsRestaurant.push({
-        photo: 'https://www.eltiempo.com/files/image_640_428/files/crop/uploads/2019/08/09/5d4d7d63aa20a.r_1565380898512.0-0-3000-1488.jpeg',
+        photo: 'https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2019/06/25/15614775255199.jpg',
         name: 'McDonalds',
-        starts: 5,
+        stars: 3,
         diff: '75m',
-        open: true
+        open: true,
+        category: 'heladeria'
       });
     }
   }

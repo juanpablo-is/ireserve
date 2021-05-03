@@ -6,10 +6,4 @@
 <div *ngIf="!isUser">
 </div>
 
-<div class="fixed-bottom bottom-navigation d-flex">
-    <div class="d-flex justify-content-center align-items-center flex-column"><i class="fas fa-home"></i>
-        <p>Home</p>
-    </div>
-    <div class="d-flex justify-content-center align-items-center flex-column"><i class="fas fa-home"></i></div>
-    <div class="d-flex justify-content-center align-items-center flex-column"><i class="fas fa-home"></i></div>
-</div>
+<app-bottom-navigation [buttons]="buttons"></app-bottom-navigation>

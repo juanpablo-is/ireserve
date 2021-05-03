@@ -1,1 +1,6 @@
-<p>bottom-navigation works!</p>
+<div class="fixed-bottom bottom-navigation d-flex">
+    <div *ngFor="let button of buttons" class="d-flex justify-content-center align-items-center flex-column">
+        <i [class]="button.iconClass"></i>
+        <p>{{button.name}}</p>
+    </div>
+</div>
