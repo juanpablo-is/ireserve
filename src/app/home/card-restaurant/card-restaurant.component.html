@@ -1,6 +1,19 @@
-<div class="card card-restaurant my-2" style="width: 18rem;">
+<div class="card card-restaurant my-2">
+    <span class="card-status" [class.card-status-open]="item.open">{{ item.open ? 'Abierto ahora' : 'Cerrado' }}</span>
     <img class="card-img-top" [src]="item.photo" alt="Card image cap">
     <div class="card-body">
-        <h3 class="card-text">{{item.name}}</h3>
+        <div class="column d-flex align-items-center">
+            <h4 class="card-heading">{{item.name}}</h4>
+            <div class="stars">
+                <span *ngFor="let s of starsEmpty; index as i" class="fa fa-star" [class.checked]="i<item.stars"></span>
+            </div>
+        </div>
+        <div class="column d-flex align-items-center justify-content-between">
+            <span class="card-category">{{item.category}}</span>
+            <strong>
+                <i class="fas fa-map-marker-alt mx-1"></i>
+                <span>{{item.diff}}</span>
+            </strong>
+        </div>
     </div>
 </div>

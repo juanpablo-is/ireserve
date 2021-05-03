@@ -1,7 +1,32 @@
+@import '../../../colores'
 .card-restaurant
-    max-width: 18rem
     margin: 0 20px
 
     img
         height: 120px
         object-fit: cover
+    .card
+        &-heading
+            flex: 1
+            font-weight: bold
+
+        &-status
+            position: absolute
+            border-top-left-radius: .25rem
+            background: $secundario-oscuro
+            color: white
+            padding: 5px 10px
+
+        &-status-open
+            background: $asento !important
+
+        &-category
+            text-transform: capitalize
+            padding: 1px 5px
+            border-radius: 5px
+            color: $secundario-oscuro
+            background: rgba($primario, .4)
+
+    .stars
+        .checked
+            color: $primario

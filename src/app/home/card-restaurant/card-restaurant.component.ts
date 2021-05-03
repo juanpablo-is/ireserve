@@ -9,8 +9,9 @@ export class CardRestaurantComponent implements OnInit {
 
   @Input() item: any;
 
+  starsEmpty = new Array(5);
+
   constructor() {
-    // console.log(this.item);
   }
 
   ngOnInit(): void {
