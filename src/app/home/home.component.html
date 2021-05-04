@@ -6,13 +6,16 @@
 
         <div id="carousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators">
-                <button *ngFor="let item of itemsBannerRestaurant, index as i" type="button" data-bs-target="#carousel"
-                    [attr.data-bs-slide-to]=i [class.active]="i==0" data-bs-interval="5000" aria-current="true"
-                    aria-label="Slide i"></button>
+                <button *ngFor="let item of itemsCarouselRestaurant, index as i" type="button"
+                    data-bs-target="#carousel" [attr.data-bs-slide-to]=i [class.active]="i==0" data-bs-interval="5000"
+                    aria-current="true" aria-label="Slide i"></button>
             </div>
             <div class="carousel-inner">
-                <div *ngFor="let item of itemsBannerRestaurant; index as i" class="carousel-item" [class.active]="i==0">
-                    <img [src]="item.url" class="d-block w-100" alt="Banner item.name">
+                <div *ngFor="let item of itemsCarouselRestaurant; index as i" class="carousel-item"
+                    [class.active]="i==0">
+                    <a [routerLink]="['/restaurant', item.idRestaurant]">
+                        <img [src]="item.url" class="d-block w-100" alt="Banner item.name">
+                    </a>
                     <div class="carousel-caption d-none d-md-block">
                         <h5>{{item.name}}</h5>
                         <p>{{item.desc}}</p>

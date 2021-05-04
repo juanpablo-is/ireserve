@@ -11,7 +11,7 @@ export class HomeComponent {
 
   isUser: boolean;
   itemsRestaurant: any[] = [];
-  itemsBannerRestaurant: any[] = [];
+  itemsCarouselRestaurant: any[] = [];
   buttons: any[] = [];
 
   constructor(
@@ -34,9 +34,10 @@ export class HomeComponent {
       this.buttons.push({ name: 'Reservación', iconClass: 'far fa-calendar-alt' });
       this.buttons.push({ name: 'Profile', iconClass: 'fas fa-user-circle' });
 
+      // Logica que consulta anuncios para modificar variable.
       this.services.getAds()
         .then(ads => {
-          this.itemsBannerRestaurant = ads;
+          this.itemsCarouselRestaurant = ads;
         })
         .catch(e => { console.log(e); });
 
