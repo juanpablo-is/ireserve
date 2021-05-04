@@ -10,6 +10,7 @@ export class HomeComponent {
 
   isUser: boolean;
   itemsRestaurant: any[] = [];
+  itemsBannerRestaurant: any[] = [];
   buttons: any[] = [];
 
   constructor(
@@ -30,6 +31,9 @@ export class HomeComponent {
       this.buttons.push({ name: 'Inicio', iconClass: 'fas fa-home' });
       this.buttons.push({ name: 'Reservación', iconClass: 'far fa-calendar-alt' });
       this.buttons.push({ name: 'Profile', iconClass: 'fas fa-user-circle' });
+
+      this.itemsBannerRestaurant.push({ url: 'https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2019/06/25/15614775255199.jpg', name: 'Mc Donalds', desc: 'Obten un 50% en tu segundo almuerzo' });
+      this.itemsBannerRestaurant.push({ url: './assets/icons/banner.jpg', name: 'Mc Donalds', desc: 'Obten un 50% en tu segundo almuerzo' });
 
       this.itemsRestaurant.push({
         photo: 'https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2019/06/25/15614775255199.jpg',
