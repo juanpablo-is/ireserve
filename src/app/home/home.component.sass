@@ -3,10 +3,21 @@
 $breakpoint-tablet: 700px
 $breakpoint-laptop: 1024px
 
-.cardsRestaurant
+.header-logo
+    img
+        width: 250px
+
+.container-home
     max-width: $breakpoint-laptop
+
+.cardsRestaurant
+    min-height: 100vh
+    padding-bottom: 80px
+    // max-width: $breakpoint-laptop
     display: grid
+    margin: 0 20px
     grid-template-columns: repeat(1, 1fr)
 
     @media screen and (min-width: $breakpoint-tablet)
+        grid-gap: 20px
         grid-template-columns: repeat(2, 1fr)

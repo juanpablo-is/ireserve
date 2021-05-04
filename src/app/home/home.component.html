@@ -1,9 +1,15 @@
-<div *ngIf="isUser">
-    <div class="cardsRestaurant">
-        <app-card-restaurant *ngFor="let item of itemsRestaurant" [item]="item"></app-card-restaurant>
-    </div>
+<div class="header-logo w-100 m-auto text-center my-2">
+    <a [routerLink]="['/']"><img src="./assets/icons/ireserve-logo-texto.svg" alt=""></a>
 </div>
-<div *ngIf="!isUser">
+<div class="container-home">
+    <div *ngIf="isUser">
+        <div class="cardsRestaurant">
+            <app-card-restaurant class="my-1" *ngFor="let item of itemsRestaurant" [item]="item">
+            </app-card-restaurant>
+        </div>
+    </div>
+    <div *ngIf="!isUser">
+    </div>
 </div>
 
 <app-bottom-navigation [buttons]="buttons"></app-bottom-navigation>

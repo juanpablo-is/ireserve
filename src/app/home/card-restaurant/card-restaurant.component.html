@@ -1,7 +1,7 @@
-<div class="card card-restaurant my-2">
+<div class="card card-restaurant my-2 h-100">
     <span class="card-status" [class.card-status-open]="item.open">{{ item.open ? 'Abierto ahora' : 'Cerrado' }}</span>
     <img class="card-img-top" [src]="item.photo" alt="Card image cap">
-    <div class="card-body">
+    <div class="card-body d-flex flex-column justify-content-center">
         <div class="column d-flex align-items-center">
             <h4 class="card-heading">{{item.name}}</h4>
             <div class="stars">
