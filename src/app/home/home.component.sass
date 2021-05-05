@@ -12,30 +12,3 @@ $breakpoint-laptop: 1024px
 
 .container-home
     max-width: $breakpoint-laptop
-
-#carousel
-    margin: 0 20px
-    border-radius: 7px
-    overflow: hidden
-
-    img
-        height: 150px
-        object-fit: cover
-
-        @media screen and (min-width: $breakpoint-tablet)
-            height: 200px
-
-    .carousel-caption
-        background: rgba(0, 0, 0, .8)
-        position: initial
-
-.cardsRestaurant
-    padding-bottom: 80px
-    // max-width: $breakpoint-laptop
-    display: grid
-    margin: 0 20px
-    grid-template-columns: repeat(1, 1fr)
-
-    @media screen and (min-width: $breakpoint-tablet)
-        grid-gap: 20px
-        grid-template-columns: repeat(2, 1fr)
