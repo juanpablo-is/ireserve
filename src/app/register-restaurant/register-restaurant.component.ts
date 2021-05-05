@@ -28,10 +28,10 @@ export class RegisterRestaurantComponent {
     private serviceStorage: FirebaseStorageService
   ) {
     const user = JSON.parse(sessionStorage.getItem('user'));
-    if (!user) { this.router.navigate(['/']); return; }
+    if (!user) { this.router.navigate(['/login']); return; }
 
     this.name = user.firstname;
-    this.idUser = user.email;
+    this.idUser = user.uid;
 
     this.buildForm();
   }

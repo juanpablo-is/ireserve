@@ -1,0 +1,30 @@
+@import '../../../colores'
+.card-restaurant
+    img
+        height: 120px
+        object-fit: cover
+    .card
+        &-heading
+            flex: 1
+            font-weight: bold
+
+        &-status
+            position: absolute
+            border-top-left-radius: .25rem
+            background: $secundario-oscuro
+            color: white
+            padding: 5px 10px
+
+        &-status-open
+            background: $primario-oscuro !important
+
+        &-category
+            text-transform: capitalize
+            padding: 1px 5px
+            border-radius: 5px
+            color: $secundario-oscuro
+            background: rgba($primario, .4)
+
+    .stars
+        .checked
+            color: $primario
