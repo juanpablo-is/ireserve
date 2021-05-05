@@ -20,6 +20,8 @@ import { MenuItemComponent } from './set-menu/menu-option/menu-item/menu-item.co
 import { HomeComponent } from './home/home.component';
 import { CardRestaurantComponent } from './home/card-restaurant/card-restaurant.component';
 import { BottomNavigationComponent } from './home/bottom-navigation/bottom-navigation.component';
+import { HomeClientComponent } from './home/home-client/home-client.component';
+import { HomeUserComponent } from './home/home-user/home-user.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { BottomNavigationComponent } from './home/bottom-navigation/bottom-navig
     MenuItemComponent,
     HomeComponent,
     CardRestaurantComponent,
-    BottomNavigationComponent
+    BottomNavigationComponent,
+    HomeClientComponent,
+    HomeUserComponent
   ],
   imports: [
     BrowserModule,
