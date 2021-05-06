@@ -112,13 +112,13 @@
                     <div class="card-body">
                         <label class="form-label"><strong>Día reservación</strong></label>
                         <mbsc-datepicker #picker_day headerText="Usted seleccionó {value}" display="inline" [weeks]="2"
-                            [controls]="['calendar']" [touchUi]="true" [min]="min" [max]="max">
+                            (click)="onChange()" [controls]="['calendar']" [touchUi]="true" [min]="min" [max]="max">
                         </mbsc-datepicker>
                         <hr>
                         <label class="form-label"><strong>Hora reservación</strong></label>
                         <mbsc-datepicker #picker_hour headerText="Usted seleccionó {value}"
                             [ngClass]="['calendar-times']" display="inline" [controls]="['time']" [touchUi]="true"
-                            [stepMinute]="30" [min]="data.dateStart" [max]="data.dateEnd">
+                            [stepMinute]="30" [min]="data.dateStart" [max]="data.dateEnd" (click)="onChange()">
                         </mbsc-datepicker>
                     </div>
                 </div>
@@ -126,7 +126,8 @@
         </div>
     </div>
     <div class="btn-send w-100 m-auto px-2">
-        <button type="button" class="btn btn-primary btn-lg btn-block w-100 my-2" (click)="sendReservation()">AGENDAR
+        <button [disabled]="disabledButton" type="button" class="btn btn-primary btn-lg btn-block w-100 my-2"
+            (click)="sendReservation()">AGENDAR
             RESERVACIÓN</button>
     </div>
 </div>

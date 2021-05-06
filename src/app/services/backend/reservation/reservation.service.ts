@@ -12,6 +12,6 @@ export class ReservationService {
 
   createReservation(reservation: Reservation): Promise<any> {
     const URL = `${environment.urlBackend}/api/reservation`;
-    return this.http.post<any>(URL, reservation).toPromise();
+    return this.http.post<any>(URL, reservation, { observe: 'response' }).toPromise();
   }
 }

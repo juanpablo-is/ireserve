@@ -1,9 +1,10 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Output, ViewChild, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { setOptions, MbscDatepicker, localeEs } from '@mobiscroll/angular';
 import { Reservation } from 'src/app/interfaces/reservation';
 import { ReservationService } from 'src/app/services/backend/reservation/reservation.service';
 import { RestaurantService } from 'src/app/services/backend/restaurant/restaurant.service';
+import { UpdateToastService } from 'src/app/update-toast.service';
 
 setOptions({
   locale: localeEs,
@@ -24,6 +25,8 @@ export class ReservationComponent {
   @ViewChild('inputName') inputName: ElementRef;
   @ViewChild('inputPhone') inputPhone: ElementRef;
 
+  @Output() newItemEvent = new EventEmitter<string>();
+
   data: any = {};
   idRestaurant: string;
 
@@ -31,12 +34,14 @@ export class ReservationComponent {
   min = new Date(this.now.getFullYear(), this.now.getMonth(), this.now.getDate());
   max = new Date(this.now.getFullYear(), this.now.getMonth(), this.now.getDate() + 6);
   countChairs = 2;
+  disabledButton = true;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private serviceRestaurant: RestaurantService,
-    private serviceReservation: ReservationService
+    private serviceReservation: ReservationService,
+    private serviceToast: UpdateToastService
   ) {
     const user = JSON.parse(sessionStorage.getItem('user'));
     if (!user) { this.router.navigate(['/login']); return; }
@@ -89,8 +94,11 @@ export class ReservationComponent {
     };
 
     this.serviceReservation.createReservation(reservation)
-      .then(data => {
-        console.log(data);
+      .then(response => {
+        if (response.ok && response.status === 201) {
+          this.router.navigate(['/']);
+          this.serviceToast.updateData({ title: 'Reservación creada', body: `La reservación en ${this.data.name} fue exitosa.` });
+        }
       })
       .catch(error => {
         console.error(error);
@@ -100,8 +108,15 @@ export class ReservationComponent {
   /**
    * Modifica la cantidad de sillas de acuerdo al radio button.
    */
-  onItemChange(item): void {
+  onItemChange(item: number): void {
     this.countChairs = item;
+  }
+
+  /**
+   * Evento handler a los datepicker.
+   */
+  onChange(): void {
+    this.disabledButton = false;
   }
 
   /**
