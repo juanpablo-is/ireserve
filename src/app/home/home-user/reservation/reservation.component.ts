@@ -1,6 +1,8 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { setOptions, MbscDatepicker, localeEs } from '@mobiscroll/angular';
+import { Reservation } from 'src/app/interfaces/reservation';
+import { ReservationService } from 'src/app/services/backend/reservation/reservation.service';
 import { RestaurantService } from 'src/app/services/backend/restaurant/restaurant.service';
 
 setOptions({
@@ -18,14 +20,19 @@ export class ReservationComponent {
 
   @ViewChild('spinner') spinner: ElementRef;
   @ViewChild('picker', { static: false }) inst!: MbscDatepicker;
+  @ViewChild('inputName') inputName: ElementRef;
+  @ViewChild('inputPhone') inputPhone: ElementRef;
 
   data: any = {};
   idRestaurant: string;
 
+  countChairs = 2;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private serviceRestaurant: RestaurantService
+    private serviceRestaurant: RestaurantService,
+    private serviceReservation: ReservationService
   ) {
     const user = JSON.parse(sessionStorage.getItem('user'));
     if (!user) { this.router.navigate(['/login']); return; }
@@ -63,10 +70,45 @@ export class ReservationComponent {
   singleLabels = [];
   singleInvalid = [];
 
+  /**
+   * Envia la información de la reserva al servicio backend.
+   */
+  sendReservation(): void {
+    const reservation: Reservation = {
+      name: this.inputName.nativeElement.value,
+      phone: this.inputPhone.nativeElement.value,
+      chairs: this.countChairs,
+      day: '',
+      hour: '',
+      idUser: this.data.user.uid,
+      idRestaurant: this.idRestaurant,
+      state: false
+    };
+
+    this.serviceReservation.createReservation(reservation)
+      .then(data => {
+        console.log(data);
+
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
+  /**
+   * Modifica la cantidad de sillas de acuerdo al radio button.
+   */
+  onItemChange(item): void {
+    this.countChairs = item;
+  }
+
   openPicker(): void {
     this.inst.open();
   }
 
+  /**
+   * Calcula si el restaurante está abierto o cerrado de acuerdo a la fecha.
+   */
   calculateOpenRestaurant(start: any, end: any): boolean {
     const hour = new Date().getHours();
     const minute = new Date().getMinutes();

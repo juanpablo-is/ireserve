@@ -22,9 +22,9 @@
             </div>
             <hr>
             <div class="reservation-restaurant--items d-flex justify-content-center">
-                <div class="d-flex flex-column align-items-center">
+                <div *ngIf="data.stars" class="d-flex flex-column align-items-center">
                     <i class="fas fa-star color-red"></i>
-                    <span>4.5 (214)</span>
+                    <span>{{data.stars}} ({{data.countStars}})</span>
                 </div>
                 <a *ngIf="data.phone" href="tel:{{data.phone}}"
                     class="d-flex flex-column align-items-center color-acento">
@@ -52,14 +52,16 @@
                     <div class="card-body">
                         <div class="mb-3">
                             <label for="reservationName" class="form-label">A nombre de:</label>
-                            <input type="text" class="form-control" id="reservationName" aria-describedby="emailHelp"
+                            <input #inputName type="text" class="form-control" id="reservationName"
+                                aria-describedby="emailHelp"
                                 [value]="data.user && data.user.firstname ? data.user.firstname : null">
                             <div id="emailHelp" class="form-text">Puede modificar el nombre para la reservación.
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="reservationPhone" class="form-label">Teléfono de contacto:</label>
-                            <input type="phone" class="form-control" id="reservationPhone" aria-describedby="emailHelp"
+                            <input #inputPhone type="phone" class="form-control" id="reservationPhone"
+                                aria-describedby="emailHelp"
                                 [value]="data.user && data.user.phone ? data.user.phone : null">
                             <div id="emailHelp" class="form-text">Puede modificar el teléfono para la reservación.
                             </div>
@@ -81,16 +83,16 @@
                         <div class="d-flex flex-column">
                             <label class="form-label">Cantidad de sillas:</label>
                             <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                <input type="radio" class="btn-check" name="countChairs" id="chair-1" autocomplete="off"
-                                    checked>
+                                <input (click)="onItemChange(2)" type="radio" class="btn-check" name="countChairs"
+                                    id="chair-1" autocomplete="off" checked>
                                 <label class="btn btn-outline-primary" for="chair-1">2 sillas</label>
 
-                                <input type="radio" class="btn-check" name="countChairs" id="chair-2"
-                                    autocomplete="off">
+                                <input (click)="onItemChange(4)" type="radio" class="btn-check" name="countChairs"
+                                    id="chair-2" autocomplete="off">
                                 <label class="btn btn-outline-primary" for="chair-2">4 sillas</label>
 
-                                <input type="radio" class="btn-check" name="countChairs" id="chair-3"
-                                    autocomplete="off">
+                                <input (click)="onItemChange(6)" type="radio" class="btn-check" name="countChairs"
+                                    id="chair-3" autocomplete="off">
                                 <label class="btn btn-outline-primary" for="chair-3">+6 sillas</label>
                             </div>
                         </div>
@@ -125,6 +127,7 @@
         </div>
     </div>
     <div class="btn-send w-100 m-auto px-2">
-        <button type="button" class="btn btn-primary btn-lg btn-block w-100 my-2">AGENDAR RESERVACIÓN</button>
+        <button type="button" class="btn btn-primary btn-lg btn-block w-100 my-2" (click)="sendReservation()">AGENDAR
+            RESERVACIÓN</button>
     </div>
 </div>
