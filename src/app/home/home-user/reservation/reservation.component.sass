@@ -5,6 +5,15 @@
     display: flex
     justify-content: center
 
+.color-red
+    color: $primario
+
+.bg-red
+    background-color: $primario !important
+
+.color-acento
+    color: $asento
+
 .reservation
     width: 100%
     min-height: 100vh
@@ -41,9 +50,9 @@
             text-align: center
 
     &-content
+        flex: 1
         max-width: $breakpoint-laptop
         margin: 0 auto
-        padding: 0 10px
         transform: translateZ(42px)
 
     &-restaurant
@@ -55,22 +64,27 @@
         -moz-box-shadow: 0px 0px 7px -2px rgba(0,0,0,0.75)
         box-shadow: 0px 0px 7px -2px rgba(0,0,0,0.75)
 
+        .badge
+            height: fit-content
+            font-size: 14px
+
         p
             padding: 0
 
         &--items
-            div
+            *
                 flex: 1
 
-    &-calendar
-        strong
-            font-size: 20px
-            padding: 5px 0
+    // &-collapse
+    //     strong
+    //         font-size: 20px
+    //         padding: 5px 0
 
     .btn-send
-        background: $primario
-        border: none
-        margin: 10px 0
+        max-width: 1024px
+        button
+            background: $primario
+            border: none
 
 ::ng-deep
     .mbsc-calendar-day-labels > div:first-of-type,

@@ -1,36 +1,41 @@
-<div class="reservation">
+<div class="reservation d-flex flex-column">
     <div class="reservation-header d-flex justify-content-center align-items-center w-100">
         <i class="fas fa-chevron-circle-left"></i>
         <h3>Reservación en <span>MC Donalds</span></h3>
     </div>
     <img class="reservation-background"
         src="https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2019/06/25/15614775255199.jpg" alt="">
-    <div class="reservation-content">
+    <div class="reservation-content w-100 px-2">
         <div class="reservation-restaurant">
-            <h3>Mc Donalds</h3>
-            <p>Heladeria</p>
+            <div class="d-flex align-items-center">
+                <div class="w-100">
+                    <h3>Mc Donalds</h3>
+                    <p>Heladeria</p>
+                </div>
+                <span class="badge bg-secondary bg-red">ABIERTO AHORA</span>
+            </div>
             <hr>
             <div class="reservation-restaurant--items d-flex justify-content-center">
                 <div class="d-flex flex-column align-items-center">
-                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star color-red"></i>
                     <span>4.5 (214)</span>
                 </div>
-                <div class="d-flex flex-column align-items-center">
-                    <i class="fas fa-star"></i>
-                    <span>4.5 (214)</span>
-                </div>
-                <div class="d-flex flex-column align-items-center">
-                    <i class="fas fa-star"></i>
-                    <span>4.5 (214)</span>
-                </div>
+                <a href="tel:+573105532395" class="d-flex flex-column align-items-center color-acento">
+                    <i class="fas fa-phone"></i>
+                    <span>Llamar</span>
+                </a>
+                <a href="mailto:juan@ireserve.com" class="d-flex flex-column align-items-center color-acento">
+                    <i class="fas fa-envelope-open-text"></i>
+                    <span>Enviar correo</span>
+                </a>
             </div>
         </div>
-        <div class="reservation-calendar my-2">
+        <div class="reservation-collapse my-2">
             <div id="accordion">
                 <div class="card my-2">
                     <div class="card-header">
                         <h5 class="mb-0">
-                            <button class="btn btn-link collapsed" data-bs-toggle="collapse"
+                            <button class="btn btn-link collapsed color-acento" data-bs-toggle="collapse"
                                 data-bs-target="#collapse-1" aria-expanded="false" aria-controls="collapse-1">
                                 INFORMACIÓN PERSONAL
                             </button>
@@ -39,12 +44,33 @@
                     <div id="collapse-1" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
                         <div class="card-body">
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">A nombre de:</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1"
+                                <label for="reservationName" class="form-label">A nombre de:</label>
+                                <input type="email" class="form-control" id="reservationName"
                                     aria-describedby="emailHelp">
                                 <div id="emailHelp" class="form-text">Puede modificar el nombre para la reservación.
                                 </div>
                             </div>
+                            <div class="mb-3">
+                                <label for="reservationPhone" class="form-label">Teléfono de contacto:</label>
+                                <input type="email" class="form-control" id="reservationPhone"
+                                    aria-describedby="emailHelp">
+                                <div id="emailHelp" class="form-text">Puede modificar el teléfono para la reservación.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card my-2">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed color-acento" data-bs-toggle="collapse"
+                                data-bs-target="#collapse-2" aria-expanded="false" aria-controls="collapse-2">
+                                INFORMACIÓN DE LA RESERVACIÓN
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapse-2" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
+                        <div class="card-body">
                             <div class="d-flex flex-column">
                                 <label class="form-label">Cantidad de sillas:</label>
                                 <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
@@ -67,21 +93,21 @@
                 <div class="card my-2">
                     <div class="card-header">
                         <h5 class="mb-0">
-                            <button class="btn btn-link collapsed" data-bs-toggle="collapse"
-                                data-bs-target="#collapse-2" aria-expanded="false" aria-controls="collapse-2">
+                            <button class="btn btn-link collapsed color-acento" data-bs-toggle="collapse"
+                                data-bs-target="#collapse-3" aria-expanded="false" aria-controls="collapse-3">
                                 FECHA Y HORA
                             </button>
                         </h5>
                     </div>
-                    <div id="collapse-2" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
+                    <div id="collapse-3" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
                         <div class="card-body">
-                            <strong>Día reservación</strong>
+                            <label class="form-label"><strong>Día reservación</strong></label>
                             <mbsc-datepicker headerText="Usted seleccionó {value}" display="inline" [weeks]="2"
                                 [controls]="['calendar']" [touchUi]="true" [min]="min" [max]="max"
                                 [labels]="singleLabels" [invalid]="singleInvalid">
                             </mbsc-datepicker>
                             <hr>
-                            <strong>Hora reservación</strong>
+                            <label class="form-label"><strong>Hora reservación</strong></label>
                             <mbsc-datepicker headerText="Usted seleccionó {value}" [ngClass]="['calendar-times']"
                                 display="inline" [controls]="['time']" [touchUi]="true" [stepMinute]="30" min="08:00"
                                 max="14:00">
@@ -91,7 +117,8 @@
                 </div>
             </div>
         </div>
-
-        <button type="button" class="btn btn-primary btn-lg w-100 btn-block btn-send">AGENDAR RESERVACIÓN</button>
+    </div>
+    <div class="btn-send w-100 m-auto px-2">
+        <button type="button" class="btn btn-primary btn-lg btn-block w-100 my-2">AGENDAR RESERVACIÓN</button>
     </div>
 </div>
