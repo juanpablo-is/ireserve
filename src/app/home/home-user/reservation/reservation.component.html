@@ -111,15 +111,14 @@
                 <div id="collapse-3" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
                     <div class="card-body">
                         <label class="form-label"><strong>Día reservación</strong></label>
-                        <mbsc-datepicker headerText="Usted seleccionó {value}" display="inline" [weeks]="2"
-                            [controls]="['calendar']" [touchUi]="true" [min]="min" [max]="max" [labels]="singleLabels"
-                            [invalid]="singleInvalid">
+                        <mbsc-datepicker #picker_day headerText="Usted seleccionó {value}" display="inline" [weeks]="2"
+                            [controls]="['calendar']" [touchUi]="true" [min]="min" [max]="max">
                         </mbsc-datepicker>
                         <hr>
                         <label class="form-label"><strong>Hora reservación</strong></label>
-                        <mbsc-datepicker headerText="Usted seleccionó {value}" [ngClass]="['calendar-times']"
-                            display="inline" [controls]="['time']" [touchUi]="true" [stepMinute]="30"
-                            [min]="data.dateStart" [max]="data.dateEnd">
+                        <mbsc-datepicker #picker_hour headerText="Usted seleccionó {value}"
+                            [ngClass]="['calendar-times']" display="inline" [controls]="['time']" [touchUi]="true"
+                            [stepMinute]="30" [min]="data.dateStart" [max]="data.dateEnd">
                         </mbsc-datepicker>
                     </div>
                 </div>

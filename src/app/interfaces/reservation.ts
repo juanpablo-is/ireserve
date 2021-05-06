@@ -4,6 +4,7 @@ export interface Reservation {
     chairs: number;
     day: string;
     hour: string;
+    timestamp: number;
     idUser: string;
     idRestaurant: string;
     state: boolean;

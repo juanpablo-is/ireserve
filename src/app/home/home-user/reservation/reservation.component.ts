@@ -19,13 +19,17 @@ setOptions({
 export class ReservationComponent {
 
   @ViewChild('spinner') spinner: ElementRef;
-  @ViewChild('picker', { static: false }) inst!: MbscDatepicker;
+  @ViewChild('picker_day', { static: false }) pickerDay!: MbscDatepicker;
+  @ViewChild('picker_hour', { static: false }) pickerHour!: MbscDatepicker;
   @ViewChild('inputName') inputName: ElementRef;
   @ViewChild('inputPhone') inputPhone: ElementRef;
 
   data: any = {};
   idRestaurant: string;
 
+  now = new Date();
+  min = new Date(this.now.getFullYear(), this.now.getMonth(), this.now.getDate());
+  max = new Date(this.now.getFullYear(), this.now.getMonth(), this.now.getDate() + 6);
   countChairs = 2;
 
   constructor(
@@ -63,23 +67,22 @@ export class ReservationComponent {
       });
   }
 
-  now = new Date();
-  min = new Date(this.now.getFullYear(), this.now.getMonth(), this.now.getDate());
-  max = new Date(this.now.getFullYear(), this.now.getMonth(), this.now.getDate() + 6);
-
-  singleLabels = [];
-  singleInvalid = [];
 
   /**
    * Envia la información de la reserva al servicio backend.
    */
   sendReservation(): void {
+    const hour = this.pickerHour.getVal();
+    const day = this.pickerDay.getVal();
+    const date = day.toDateString() + ' ' + hour.getHours() + ':' + hour.getMinutes() + ':00';
+
     const reservation: Reservation = {
       name: this.inputName.nativeElement.value,
       phone: this.inputPhone.nativeElement.value,
       chairs: this.countChairs,
-      day: '',
-      hour: '',
+      day: day.getDate(),
+      hour: hour.getHours() + ':' + hour.getMinutes(),
+      timestamp: new Date(date).getTime(),
       idUser: this.data.user.uid,
       idRestaurant: this.idRestaurant,
       state: false
@@ -88,7 +91,6 @@ export class ReservationComponent {
     this.serviceReservation.createReservation(reservation)
       .then(data => {
         console.log(data);
-
       })
       .catch(error => {
         console.error(error);
@@ -100,10 +102,6 @@ export class ReservationComponent {
    */
   onItemChange(item): void {
     this.countChairs = item;
-  }
-
-  openPicker(): void {
-    this.inst.open();
   }
 
   /**
