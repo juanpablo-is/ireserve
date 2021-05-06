@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { setOptions, MbscDatepicker, localeEs } from '@mobiscroll/angular';
 import { RestaurantService } from 'src/app/services/backend/restaurant/restaurant.service';
@@ -14,16 +14,22 @@ setOptions({
   templateUrl: './reservation.component.html',
   styleUrls: ['./reservation.component.sass']
 })
-export class ReservationComponent implements OnInit {
+export class ReservationComponent {
 
   @ViewChild('spinner') spinner: ElementRef;
   @ViewChild('picker', { static: false }) inst!: MbscDatepicker;
+
+  data: any = {};
+  idRestaurant: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private serviceRestaurant: RestaurantService
   ) {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    if (!user) { this.router.navigate(['/login']); return; }
+
     this.idRestaurant = this.activatedRoute.snapshot.paramMap.get('id');
     if (!this.idRestaurant) {
       this.router.navigate(['/']);
@@ -33,15 +39,13 @@ export class ReservationComponent implements OnInit {
     this.serviceRestaurant.getRestaurant(this.idRestaurant)
       .then(data => {
         this.data = data.body;
-
-        console.log(this.data);
+        this.data.user = user;
 
         if (!(data.ok && data.status === 200) || this.data === null) {
           return this.router.navigate(['/']);
         }
         this.spinner.nativeElement.remove();
         this.data.open = this.calculateOpenRestaurant(this.data.dateStart, this.data.dateEnd);
-
       })
       .catch(error => {
         console.log(error);
@@ -52,9 +56,6 @@ export class ReservationComponent implements OnInit {
       });
   }
 
-  data: any = {};
-
-  today = new Date();
   now = new Date();
   min = new Date(this.now.getFullYear(), this.now.getMonth(), this.now.getDate());
   max = new Date(this.now.getFullYear(), this.now.getMonth(), this.now.getDate() + 6);
@@ -62,13 +63,8 @@ export class ReservationComponent implements OnInit {
   singleLabels = [];
   singleInvalid = [];
 
-  idRestaurant: string;
-
   openPicker(): void {
     this.inst.open();
-  }
-
-  ngOnInit(): void {
   }
 
   calculateOpenRestaurant(start: any, end: any): boolean {

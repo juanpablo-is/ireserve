@@ -52,13 +52,15 @@
                     <div class="card-body">
                         <div class="mb-3">
                             <label for="reservationName" class="form-label">A nombre de:</label>
-                            <input type="email" class="form-control" id="reservationName" aria-describedby="emailHelp">
+                            <input type="text" class="form-control" id="reservationName" aria-describedby="emailHelp"
+                                [value]="data.user && data.user.firstname ? data.user.firstname : null">
                             <div id="emailHelp" class="form-text">Puede modificar el nombre para la reservación.
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="reservationPhone" class="form-label">Teléfono de contacto:</label>
-                            <input type="email" class="form-control" id="reservationPhone" aria-describedby="emailHelp">
+                            <input type="phone" class="form-control" id="reservationPhone" aria-describedby="emailHelp"
+                                [value]="data.user && data.user.phone ? data.user.phone : null">
                             <div id="emailHelp" class="form-text">Puede modificar el teléfono para la reservación.
                             </div>
                         </div>
