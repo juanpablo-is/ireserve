@@ -1,0 +1,97 @@
+<div class="reservation">
+    <div class="reservation-header d-flex justify-content-center align-items-center w-100">
+        <i class="fas fa-chevron-circle-left"></i>
+        <h3>Reservación en <span>MC Donalds</span></h3>
+    </div>
+    <img class="reservation-background"
+        src="https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2019/06/25/15614775255199.jpg" alt="">
+    <div class="reservation-content">
+        <div class="reservation-restaurant">
+            <h3>Mc Donalds</h3>
+            <p>Heladeria</p>
+            <hr>
+            <div class="reservation-restaurant--items d-flex justify-content-center">
+                <div class="d-flex flex-column align-items-center">
+                    <i class="fas fa-star"></i>
+                    <span>4.5 (214)</span>
+                </div>
+                <div class="d-flex flex-column align-items-center">
+                    <i class="fas fa-star"></i>
+                    <span>4.5 (214)</span>
+                </div>
+                <div class="d-flex flex-column align-items-center">
+                    <i class="fas fa-star"></i>
+                    <span>4.5 (214)</span>
+                </div>
+            </div>
+        </div>
+        <div class="reservation-calendar my-2">
+            <div id="accordion">
+                <div class="card my-2">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" data-bs-toggle="collapse"
+                                data-bs-target="#collapse-1" aria-expanded="false" aria-controls="collapse-1">
+                                INFORMACIÓN PERSONAL
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapse-1" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label">A nombre de:</label>
+                                <input type="email" class="form-control" id="exampleInputEmail1"
+                                    aria-describedby="emailHelp">
+                                <div id="emailHelp" class="form-text">Puede modificar el nombre para la reservación.
+                                </div>
+                            </div>
+                            <div class="d-flex flex-column">
+                                <label class="form-label">Cantidad de sillas:</label>
+                                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                    <input type="radio" class="btn-check" name="countChairs" id="chair-1"
+                                        autocomplete="off" checked>
+                                    <label class="btn btn-outline-primary" for="chair-1">2 sillas</label>
+
+                                    <input type="radio" class="btn-check" name="countChairs" id="chair-2"
+                                        autocomplete="off">
+                                    <label class="btn btn-outline-primary" for="chair-2">4 sillas</label>
+
+                                    <input type="radio" class="btn-check" name="countChairs" id="chair-3"
+                                        autocomplete="off">
+                                    <label class="btn btn-outline-primary" for="chair-3">+6 sillas</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card my-2">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" data-bs-toggle="collapse"
+                                data-bs-target="#collapse-2" aria-expanded="false" aria-controls="collapse-2">
+                                FECHA Y HORA
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapse-2" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
+                        <div class="card-body">
+                            <strong>Día reservación</strong>
+                            <mbsc-datepicker headerText="Usted seleccionó {value}" display="inline" [weeks]="2"
+                                [controls]="['calendar']" [touchUi]="true" [min]="min" [max]="max"
+                                [labels]="singleLabels" [invalid]="singleInvalid">
+                            </mbsc-datepicker>
+                            <hr>
+                            <strong>Hora reservación</strong>
+                            <mbsc-datepicker headerText="Usted seleccionó {value}" [ngClass]="['calendar-times']"
+                                display="inline" [controls]="['time']" [touchUi]="true" [stepMinute]="30" min="08:00"
+                                max="14:00">
+                            </mbsc-datepicker>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-lg w-100 btn-block btn-send">AGENDAR RESERVACIÓN</button>
+    </div>
+</div>

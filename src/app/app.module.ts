@@ -10,6 +10,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { HttpClientModule } from '@angular/common/http';
+import { MbscModule } from '@mobiscroll/angular';
 
 import { LoginComponent } from './login/login.component';
 import { RegistroComponent } from './registro/registro.component';
@@ -22,6 +23,7 @@ import { CardRestaurantComponent } from './home/card-restaurant/card-restaurant.
 import { BottomNavigationComponent } from './home/bottom-navigation/bottom-navigation.component';
 import { HomeClientComponent } from './home/home-client/home-client.component';
 import { HomeUserComponent } from './home/home-user/home-user.component';
+import { ReservationComponent } from './home/home-user/reservation/reservation.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,8 @@ import { HomeUserComponent } from './home/home-user/home-user.component';
     CardRestaurantComponent,
     BottomNavigationComponent,
     HomeClientComponent,
-    HomeUserComponent
+    HomeUserComponent,
+    ReservationComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +50,8 @@ import { HomeUserComponent } from './home/home-user/home-user.component';
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFirestoreModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MbscModule
   ],
   providers: [],
   bootstrap: [AppComponent]
