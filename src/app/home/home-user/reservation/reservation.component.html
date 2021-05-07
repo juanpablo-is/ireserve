@@ -126,8 +126,11 @@
         </div>
     </div>
     <div class="btn-send w-100 m-auto px-2">
-        <button [disabled]="disabledButton" type="button" class="btn btn-primary btn-lg btn-block w-100 my-2"
-            (click)="sendReservation()">AGENDAR
-            RESERVACIÓN</button>
+        <button [disabled]="disabledButton" type="button"
+            class="btn btn-primary btn-lg btn-block w-100 my-2 d-flex justify-content-center align-items-center"
+            (click)=" sendReservation()">
+            <span *ngIf="disabledButton" class="spinner-border spinner-border-sm mx-2" role="status"
+                aria-hidden="true"></span>
+            {{disabledButton ? 'CARGANDO' : 'AGENDAR RESERVACIÓN'}}</button>
     </div>
 </div>

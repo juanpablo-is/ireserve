@@ -25,8 +25,6 @@ export class ReservationComponent {
   @ViewChild('inputName') inputName: ElementRef;
   @ViewChild('inputPhone') inputPhone: ElementRef;
 
-  @Output() newItemEvent = new EventEmitter<string>();
-
   data: any = {};
   idRestaurant: string;
 
@@ -72,11 +70,12 @@ export class ReservationComponent {
       });
   }
 
-
   /**
    * Envia la información de la reserva al servicio backend.
    */
   sendReservation(): void {
+    this.disabledButton = true;
+
     const hour = this.pickerHour.getVal();
     const day = this.pickerDay.getVal();
     const date = day.toDateString() + ' ' + hour.getHours() + ':' + hour.getMinutes() + ':00';
@@ -96,12 +95,18 @@ export class ReservationComponent {
     this.serviceReservation.createReservation(reservation)
       .then(response => {
         if (response.ok && response.status === 201) {
-          this.router.navigate(['/']);
-          this.serviceToast.updateData({ title: 'Reservación creada', body: `La reservación en ${this.data.name} fue exitosa.` });
+          this.serviceToast.updateData({
+            title: 'Reservación creada', body: `La reservación en <i>${this.data.name}</i> fue exitosa.<br/>Pero falta confirmación del restaurante.`,
+            seconds: 7, status: true
+          });
+          return this.router.navigate(['/']);
         }
+        this.serviceToast.updateData({ title: 'Falló', body: `La reservación falló, intente nuevamente.`, status: false });
+        this.disabledButton = false;
       })
-      .catch(error => {
-        console.error(error);
+      .catch(() => {
+        this.serviceToast.updateData({ title: 'Falló', body: `La reservación falló, intente nuevamente.`, status: false });
+        this.disabledButton = false;
       });
   }
 

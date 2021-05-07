@@ -2,12 +2,13 @@
   <router-outlet></router-outlet>
 
   <div *ngIf="toast" #toastElement class="position-fixed bottom-0 end-0 p-3 toast-modal" style="z-index: 5">
-    <div id="liveToast" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+    <div id="liveToast" class="toast show" [ngClass]="toast?.status ? 'toast-success' : 'toast-failed'" role="alert"
+      aria-live="assertive" aria-atomic="true">
       <div class="toast-header">
         <img src="./assets/icons/icon-72x72.png" class="rounded me-2" alt="...">
-        <strong class="me-auto">{{toast.title}}</strong>
+        <strong class="me-auto">{{toast?.title}}</strong>
       </div>
-      <div class="toast-body">{{toast.body}} </div>
+      <div class="toast-body" innerHTML={{toast?.body}}></div>
     </div>
   </div>
 

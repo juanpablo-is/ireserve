@@ -17,7 +17,7 @@ export class AppComponent {
         this.toast = data;
         setTimeout(() => {
           delete this.toast;
-        }, 5000);
+        }, (data.seconds || 4) * 1000);
       });
   }
 
