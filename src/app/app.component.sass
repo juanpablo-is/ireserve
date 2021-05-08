@@ -1,3 +1,5 @@
+@import '../variables'
+
 .gen-cont
     display: flex
     flex-direction: row
@@ -7,3 +9,35 @@
     width: 100%
     height: auto
     overflow-x: hidden
+
+.toast-modal
+    bottom: 20px
+    right: 20px
+    transform: translate(0%, -50%)
+    min-width: 240px
+
+    .toast
+        background-color: white
+        width: auto
+
+        &-header
+            font-size: 18px
+            color: white
+            text-transform: uppercase
+
+        &-body
+            font-size: 16px
+    img
+        width: 32px
+
+.toast-failed
+    border: 2px solid $primario
+
+    .toast-header
+        background: $primario
+
+.toast-success
+    border: 2px solid #67b930c7
+
+    .toast-header
+        background: #67b930c7

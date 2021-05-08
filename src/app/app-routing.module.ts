@@ -13,7 +13,8 @@ const routes: Routes = [
   { path: 'register', component: RegistroComponent },
   { path: 'register-restaurant', component: RegisterRestaurantComponent },
   { path: 'set-menu', component: SetMenuComponent },
-  { path: 'reservation', component: ReservationComponent }
+  { path: 'reservation', redirectTo: '' },
+  { path: 'reservation/:id', component: ReservationComponent }
 ];
 
 @NgModule({
