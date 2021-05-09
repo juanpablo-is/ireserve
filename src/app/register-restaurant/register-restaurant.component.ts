@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FirebaseStorageService } from '../services/firebase-storage/firebase-storage-service';
 import { Restaurant } from '../interfaces/restaurant';
-import { RestaurantService } from '../services/backend/restaurant/restaurant.service';
 import { finalize } from 'rxjs/operators';
+import { RestService } from '../services/backend/rest.service';
 
 @Component({
   selector: 'app-register-restaurant',
@@ -24,7 +24,7 @@ export class RegisterRestaurantComponent {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private service: RestaurantService,
+    private restService: RestService,
     private serviceStorage: FirebaseStorageService
   ) {
     const user = JSON.parse(sessionStorage.getItem('user'));
@@ -65,28 +65,26 @@ export class RegisterRestaurantComponent {
         finalize(() => {
           referenceFile.getDownloadURL().subscribe((url: string) => {
             restaurant.urlPhoto = url;
-            this.service.createRestaurant(restaurant)
-              .subscribe(
-                (result: { ok: any; status: number; body: any }) => {
-                  this.btnRegisterRestaurantText = 'REGISTRAR RESTAURANTE';
-                  if (result.ok && result.status === 201) {
-                    const user = JSON.parse(sessionStorage.getItem('user'));
-                    user.idRestaurant = result.body.idRestaurant;
-                    user.typeRestaurant = restaurant.type;
-                    sessionStorage.setItem('user', JSON.stringify(user));
-                    this.router.navigate(['/set-menu']);
-                    return true;
-                  }
-                  this.form.enable();
-                  return false;
-                },
-                () => {
-                  this.alertError = 'Se ha presentado un error, intente nuevamente';
-                  this.btnRegisterRestaurantText = 'REGISTRAR RESTAURANTE';
-                  this.form.enable();
-                  return false;
-                },
-              );
+            this.restService.post('/api/restaurant', restaurant)
+              .then((result: { ok: any; status: number; body: any }) => {
+                this.btnRegisterRestaurantText = 'REGISTRAR RESTAURANTE';
+                if (result.ok && result.status === 201) {
+                  const user = JSON.parse(sessionStorage.getItem('user'));
+                  user.idRestaurant = result.body.idRestaurant;
+                  user.typeRestaurant = restaurant.type;
+                  sessionStorage.setItem('user', JSON.stringify(user));
+                  this.router.navigate(['/set-menu']);
+                  return true;
+                }
+                this.form.enable();
+                return false;
+              })
+              .catch(() => {
+                this.alertError = 'Se ha presentado un error, intente nuevamente';
+                this.btnRegisterRestaurantText = 'REGISTRAR RESTAURANTE';
+                this.form.enable();
+                return false;
+              });
           });
         })
       ).subscribe();
