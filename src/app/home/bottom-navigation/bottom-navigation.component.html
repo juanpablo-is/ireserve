@@ -1,6 +1,8 @@
 <div class="fixed-bottom bottom-navigation d-flex">
-    <div *ngFor="let button of buttons" class="d-flex justify-content-center align-items-center flex-column">
+    <a *ngFor="let button of buttons" [routerLink]="[button.routing]"
+        [routerLinkActive]="[button.routing == route.url ? 'active-routing' : null]"
+        class="d-flex justify-content-center align-items-center flex-column">
         <i [class]="button.iconClass"></i>
         <p>{{button.name}}</p>
-    </div>
+    </a>
 </div>

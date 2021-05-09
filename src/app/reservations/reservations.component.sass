@@ -1,0 +1,75 @@
+@import '../../variables'
+
+:host
+    min-height: 100vh
+    width: 100%
+
+.header-logo
+    img
+        width: 250px
+
+.container-main
+    margin: 10px auto
+    max-width: $breakpoint-laptop
+    padding: 0 10px
+    margin-bottom: 50px
+
+    hr
+        margin: 5px 0
+
+    .reservations
+        overflow-x: auto
+        display: -webkit-box
+        padding-bottom: 10px
+
+        .reservation
+            width: 250px
+            margin: 5px
+            height: fit-content
+            background: white
+            -webkit-box-shadow: 0px 0px 3px -2px rgba(0,0,0,0.75)
+            -moz-box-shadow: 0px 0px 3px -2px rgba(0,0,0,0.75)
+            box-shadow: 0px 0px 3px -2px rgba(0,0,0,0.75)
+
+            .hidden
+                display: none !important
+
+            &-header
+                padding: 10px
+                background: rgba($primario, .8)
+                color: white
+
+                p
+                    margin: 0
+
+                span
+                    cursor: pointer
+
+            &-body
+                padding: 10px 0
+
+                button
+                    background: $asento
+                    border: none
+
+        .reservation-active
+            .reservation-header
+                background: rgba($secundario, .8) !important
+
+        .reservation-complete
+            .reservation-header
+                background: rgba($secundario-oscuro, .8) !important
+
+    .reservations-column
+        display: grid
+        grid-template-columns: repeat(1, 1fr)
+        grid-gap: 20px
+
+        @media screen and (min-width: $breakpoint-tablet)
+            grid-template-columns: repeat(2, 1fr)
+
+        @media screen and (min-width: $breakpoint-laptop)
+            grid-template-columns: repeat(3, 1fr)
+
+        .reservation
+            width: auto
