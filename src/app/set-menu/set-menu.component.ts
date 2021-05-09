@@ -34,7 +34,7 @@ export class SetMenuComponent {
     // Consultar menu de acuerdo a restaurante para los items.
     this.restService.get(`/api/menu?idRestaurant=${this.idRestaurant}`)
       .then((result: { ok: any; status: number; body: any }) => {
-        if (result.ok && result.status === 201) {
+        if (result.ok && result.status === 200) {
           const count = Object.keys(result.body).length;
 
           if (count > 1) {

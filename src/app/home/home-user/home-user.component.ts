@@ -17,8 +17,8 @@ export class HomeUserComponent implements OnInit {
 
     // Logica que consulta anuncios para modificar variable.
     this.restService.get('/api/ads')
-      .then((result: { ok: any; status: number; body: any }) => {
-        if (result.ok && result.status === 201) {
+      .then((result: any) => {
+        if (result.ok && result.status === 200) {
           this.itemsCarouselRestaurant = result.body;
         }
       })

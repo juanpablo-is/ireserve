@@ -44,8 +44,8 @@ export class LoginComponent {
     this.auth.signInWithEmailAndPassword(this.form.value.email, this.form.value.password)
       .then((data) => {
         this.restService.get(`/api/user?uid=${data.user.uid}`)
-          .then((result: { ok: any; status: number; body: any }) => {
-            if (result.ok && result.status === 201) {
+          .then((result: any) => {
+            if (result.ok && result.status === 200) {
               if (result.body.data) {
                 this.alertSuccess = `¡Bienvenido ${result.body.data.firstname}!`;
                 sessionStorage.setItem('user', JSON.stringify(result.body.data));

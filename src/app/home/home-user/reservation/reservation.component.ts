@@ -50,7 +50,7 @@ export class ReservationComponent {
 
     this.restService.get(`/api/restaurant/${this.idRestaurant}`)
       .then((result: { ok: any; status: number; body: any }) => {
-        if (result.ok && result.status === 201) {
+        if (result.ok && result.status === 200) {
           this.data = result.body;
           this.data.user = user;
 
