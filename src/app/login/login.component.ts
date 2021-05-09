@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { UserService } from '../services/backend/user/user.service';
+import { RestService } from '../services/backend/rest.service';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +22,7 @@ export class LoginComponent {
     private formBuilder: FormBuilder,
     private auth: AngularFireAuth,
     private router: Router,
-    private userService: UserService
+    private restService: RestService
   ) {
     const user = sessionStorage.getItem('user');
     if (user) { this.router.navigate(['/']); return; }
@@ -44,16 +43,18 @@ export class LoginComponent {
 
     this.auth.signInWithEmailAndPassword(this.form.value.email, this.form.value.password)
       .then((data) => {
-        this.userService.getDataLogin(data.user.uid)
-          .then((response: any) => {
-            if (response.data) {
-              this.alertSuccess = `¡Bienvenido ${response.data.firstname}!`;
-              sessionStorage.setItem('user', JSON.stringify(response.data));
+        this.restService.get(`/api/user?uid=${data.user.uid}`)
+          .then((result: any) => {
+            if (result.ok && result.status === 200) {
+              if (result.body.data) {
+                this.alertSuccess = `¡Bienvenido ${result.body.data.firstname}!`;
+                sessionStorage.setItem('user', JSON.stringify(result.body.data));
 
-              this.router.navigate(['/']);
-            } else {
-              console.error(response);
-              this.alertError = 'Se ha presentado un error, intente nuevamente';
+                this.router.navigate(['/']);
+              } else {
+                console.error(result.body);
+                this.alertError = 'Se ha presentado un error, intente nuevamente';
+              }
             }
           });
       }).catch(response => {

@@ -2,8 +2,7 @@ import { Component, ElementRef, Output, ViewChild, EventEmitter } from '@angular
 import { ActivatedRoute, Router } from '@angular/router';
 import { setOptions, MbscDatepicker, localeEs } from '@mobiscroll/angular';
 import { Reservation } from 'src/app/interfaces/reservation';
-import { ReservationService } from 'src/app/services/backend/reservation/reservation.service';
-import { RestaurantService } from 'src/app/services/backend/restaurant/restaurant.service';
+import { RestService } from 'src/app/services/backend/rest.service';
 import { UpdateToastService } from 'src/app/update-toast.service';
 
 setOptions({
@@ -37,8 +36,7 @@ export class ReservationComponent {
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private serviceRestaurant: RestaurantService,
-    private serviceReservation: ReservationService,
+    private restService: RestService,
     private serviceToast: UpdateToastService
   ) {
     const user = JSON.parse(sessionStorage.getItem('user'));
@@ -50,16 +48,18 @@ export class ReservationComponent {
       return;
     }
 
-    this.serviceRestaurant.getRestaurant(this.idRestaurant)
-      .then(data => {
-        this.data = data.body;
-        this.data.user = user;
+    this.restService.get(`/api/restaurant/${this.idRestaurant}`)
+      .then((result: { ok: any; status: number; body: any }) => {
+        if (result.ok && result.status === 200) {
+          this.data = result.body;
+          this.data.user = user;
 
-        if (!(data.ok && data.status === 200) || this.data === null) {
+          if (this.data === null) { return this.router.navigate(['/']); }
+          this.spinner.nativeElement.remove();
+          this.data.open = this.calculateOpenRestaurant(this.data.dateStart, this.data.dateEnd);
+        } else {
           return this.router.navigate(['/']);
         }
-        this.spinner.nativeElement.remove();
-        this.data.open = this.calculateOpenRestaurant(this.data.dateStart, this.data.dateEnd);
       })
       .catch(error => {
         console.log(error);
@@ -92,9 +92,9 @@ export class ReservationComponent {
       state: false
     };
 
-    this.serviceReservation.createReservation(reservation)
-      .then(response => {
-        if (response.ok && response.status === 201) {
+    this.restService.post('/api/reservation', reservation)
+      .then((result: { ok: any; status: number; body: any }) => {
+        if (result.ok && result.status === 201) {
           this.serviceToast.updateData({
             title: 'Reservación creada', body: `La reservación en <i>${this.data.name}</i> fue exitosa.<br/>Pero falta confirmación del restaurante.`,
             seconds: 7, status: true

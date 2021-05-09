@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UtilsService } from 'src/app/services/backend/utils/utils.service';
+import { RestService } from 'src/app/services/backend/rest.service';
 
 @Component({
   selector: 'app-home-user',
@@ -12,13 +12,15 @@ export class HomeUserComponent implements OnInit {
   itemsCarouselRestaurant: any[] = [];
 
   constructor(
-    private services: UtilsService
+    private restService: RestService
   ) {
 
     // Logica que consulta anuncios para modificar variable.
-    this.services.getAds()
-      .then(ads => {
-        this.itemsCarouselRestaurant = ads;
+    this.restService.get('/api/ads')
+      .then((result: any) => {
+        if (result.ok && result.status === 200) {
+          this.itemsCarouselRestaurant = result.body;
+        }
       })
       .catch(e => { console.log(e); });
 

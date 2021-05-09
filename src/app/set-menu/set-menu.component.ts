@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MenuService } from '../services/backend/menu/menu.service';
+import { RestService } from '../services/backend/rest.service';
 
 @Component({
   selector: 'app-set-menu',
@@ -20,7 +20,7 @@ export class SetMenuComponent {
   type = 'establecimiento';
 
   constructor(
-    private menuService: MenuService,
+    private restService: RestService,
     private router: Router
   ) {
     const user = JSON.parse(sessionStorage.getItem('user'));
@@ -32,13 +32,18 @@ export class SetMenuComponent {
     this.items = this.getItemsMenu(this.type);
 
     // Consultar menu de acuerdo a restaurante para los items.
-    this.menuService.getMenu(this.idRestaurant)
-      .subscribe((menu: any) => {
-        const count = Object.keys(menu).length;
+    this.restService.get(`/api/menu?idRestaurant=${this.idRestaurant}`)
+      .then((result: { ok: any; status: number; body: any }) => {
+        if (result.ok && result.status === 200) {
+          const count = Object.keys(result.body).length;
 
-        if (count > 1) {
-          this.items = this.parseItems(menu.dishes);
+          if (count > 1) {
+            this.items = this.parseItems(result.body.dishes);
+          }
         }
+      })
+      .catch(() => {
+        this.alertError = 'Se ha presentado un error, intente nuevamente';
       });
   }
 
@@ -58,10 +63,12 @@ export class SetMenuComponent {
       idRestaurant: this.idRestaurant
     };
 
-    this.menuService.addMenuItem(body)
-      .then(() => {
-        this.btnSaveMenu = 'INGRESAR MENU';
-        this.router.navigate(['/']);
+    this.restService.post('/api/menu', body)
+      .then((result: { ok: any; status: number; body: any }) => {
+        if (result.ok && result.status === 201) {
+          this.btnSaveMenu = 'INGRESAR MENU';
+          this.router.navigate(['/']);
+        }
       })
       .catch((e: any) => {
         this.alertError = e.error.response || 'Se ha presentado un error, intente nuevamente.';
