@@ -30,57 +30,35 @@ export class ReservationsComponent {
   collapsingCard(section: number, index: number): void {
     switch (section) {
       case 0: {
-        this.itemsPendingElement.toArray().forEach((element, i) => {
-          const div = element.nativeElement.children[0];
-          const divHidden = element.nativeElement.children[1];
-
-          if (i === index && divHidden.classList.contains('hidden')) {
-            divHidden.classList.remove('hidden');
-            div.querySelector('svg').classList.remove('fa-chevron-down');
-            div.querySelector('svg').classList.add('fa-chevron-up');
-          } else {
-            divHidden.classList.add('hidden');
-            div.querySelector('svg').classList.remove('fa-chevron-up');
-            div.querySelector('svg').classList.add('fa-chevron-down');
-          }
-        });
+        this.collapseItems(this.itemsPendingElement, index);
         break;
       }
       case 1: {
-        this.itemsActiveElement.toArray().forEach((element, i) => {
-          const div = element.nativeElement.children[0];
-          const divHidden = element.nativeElement.children[1];
-
-          if (i === index && divHidden.classList.contains('hidden')) {
-            divHidden.classList.remove('hidden');
-            div.querySelector('svg').classList.remove('fa-chevron-down');
-            div.querySelector('svg').classList.add('fa-chevron-up');
-          } else {
-            divHidden.classList.add('hidden');
-            div.querySelector('svg').classList.remove('fa-chevron-up');
-            div.querySelector('svg').classList.add('fa-chevron-down');
-          }
-        });
+        this.collapseItems(this.itemsActiveElement, index);
         break;
       }
       case 2: {
-        this.itemsCompleteElement.toArray().forEach((element, i) => {
-          const div = element.nativeElement.children[0];
-          const divHidden = element.nativeElement.children[1];
-
-          if (i === index && divHidden.classList.contains('hidden')) {
-            divHidden.classList.remove('hidden');
-            div.querySelector('svg').classList.remove('fa-chevron-down');
-            div.querySelector('svg').classList.add('fa-chevron-up');
-          } else {
-            divHidden.classList.add('hidden');
-            div.querySelector('svg').classList.remove('fa-chevron-up');
-            div.querySelector('svg').classList.add('fa-chevron-down');
-          }
-        });
+        this.collapseItems(this.itemsCompleteElement, index);
         break;
       }
     }
+  }
+
+  collapseItems(items: any, index: number): void {
+    items.toArray().forEach((element, i) => {
+      const div = element.nativeElement.children[0];
+      const divHidden = element.nativeElement.children[1];
+
+      if (i === index && divHidden.classList.contains('hidden')) {
+        divHidden.classList.remove('hidden');
+        div.querySelector('svg').classList.remove('fa-chevron-down');
+        div.querySelector('svg').classList.add('fa-chevron-up');
+      } else {
+        divHidden.classList.add('hidden');
+        div.querySelector('svg').classList.remove('fa-chevron-up');
+        div.querySelector('svg').classList.add('fa-chevron-down');
+      }
+    });
   }
 
 }
