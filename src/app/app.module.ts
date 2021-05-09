@@ -24,6 +24,7 @@ import { BottomNavigationComponent } from './home/bottom-navigation/bottom-navig
 import { HomeClientComponent } from './home/home-client/home-client.component';
 import { HomeUserComponent } from './home/home-user/home-user.component';
 import { ReservationComponent } from './home/home-user/reservation/reservation.component';
+import { ReservationsComponent } from './reservations/reservations.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { ReservationComponent } from './home/home-user/reservation/reservation.c
     BottomNavigationComponent,
     HomeClientComponent,
     HomeUserComponent,
-    ReservationComponent
+    ReservationComponent,
+    ReservationsComponent
   ],
   imports: [
     BrowserModule,
