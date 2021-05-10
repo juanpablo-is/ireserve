@@ -1,0 +1,152 @@
+@import '../../variables'
+
+:host
+    width: 100%
+    display: flex
+    justify-content: center
+
+.color-red
+    color: $primario
+
+.bg-red
+    background-color: $primario !important
+
+.color-acento
+    color: $asento
+
+.restaurant
+    width: 100%
+    min-height: 100vh
+
+    &-header
+        position: absolute
+        max-width: $breakpoint-laptop
+        background: $secundario-oscuro
+        color: white
+        border-bottom-left-radius: 10px
+        border-bottom-right-radius: 10px
+        top: 0
+        left: 0
+        right: 0
+        margin: auto
+
+        svg
+            padding-left: 20px
+            height: 50px
+            width: 50px
+
+        h3
+            flex: 1
+            margin: 0
+            padding: 0 10px
+            text-align: center
+
+    &-background
+        width: 100%
+        height: 250px
+        object-fit: cover
+        top: 0
+        left: 0
+        z-index: -1
+
+    &-content
+        flex: 1
+        max-width: $breakpoint-laptop
+        margin: 0 auto
+        transform: translateZ(42px)
+
+    &-info
+        background: $blanco
+        border-radius: 10px
+        margin-top: -40px
+        -webkit-box-shadow: 0px 0px 7px -2px rgba(0,0,0,0.75)
+        -moz-box-shadow: 0px 0px 7px -2px rgba(0,0,0,0.75)
+        box-shadow: 0px 0px 7px -2px rgba(0,0,0,0.75)
+
+        svg
+            width: 25px
+
+        .stars
+            width: max-content
+            svg.checked
+                color: $primario
+
+        .badge
+            height: fit-content
+            font-size: 14px
+
+        p
+            padding: 0
+
+        &--items
+            *
+                flex: 1
+
+            *:last-child
+                flex: 2
+
+    &-menu
+        ul
+            overflow-x: scroll
+            display: -webkit-box
+            flex-wrap: inherit
+
+            .nav-link
+                border: 1px solid #0d6efd
+
+        .restaurant-cards
+            display: grid
+            grid-template-columns: repeat(1, 1fr)
+            grid-gap: 20px
+
+            @media screen and (min-width: $breakpoint-tablet)
+                grid-template-columns: repeat(2, 1fr)
+
+            @media screen and (min-width: $breakpoint-laptop)
+                grid-template-columns: repeat(3, 1fr)
+
+            .card
+                img
+                    height: 120px
+                    object-fit: cover
+
+                &-body
+                    *
+                        font-size: 18px
+                    .df-1
+                        flex: 1
+                    .price
+                        color: $primario
+
+    .button-reservation
+        position: fixed
+        background: $primario-oscuro
+        color: white
+        width: fit-content
+        right: 20px
+        bottom: 20px
+        font-size: 20px
+        border-radius: 7px
+
+::ng-deep
+    .popover-body
+        display: flex
+        *
+            flex: 1
+            cursor: pointer
+
+        svg.checked
+            color: $primario
+
+/* Scrollbar */
+::-webkit-scrollbar
+    height: 2px
+
+::-webkit-scrollbar-track
+    background: #f1f1f1
+
+::-webkit-scrollbar-thumb
+    background: #888
+
+::-webkit-scrollbar-thumb:hover
+    background: #555
