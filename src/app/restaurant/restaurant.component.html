@@ -14,13 +14,13 @@
         <div class="restaurant-info p-4">
             <div class="d-flex align-items-center">
                 <div class="w-100">
-                    <h3>{{data.name}}</h3>
-                    <p>{{data.type}}</p>
+                    <h3>{{data.name|uppercase}}</h3>
+                    <p>{{data.type|titlecase}}</p>
                 </div>
                 <div class="text-center">
                     <div class="stars">
-                        <span *ngFor="let number of [1,2,3,4,5]">
-                            <i class="fa fa-star" [class.checked]="number < data.stars"></i>
+                        <span *ngFor="let number of [1,2,3,4,5]" [class.checked]="number < data.stars">
+                            <i class="fa fa-star"></i>
                         </span>
                     </div>
                     <span class='badge bg-secondary' [class.bg-red]=data.open>{{data.open ? 'ABIERTO AHORA' :

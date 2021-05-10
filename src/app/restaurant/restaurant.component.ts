@@ -1,27 +1,44 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RestService } from '../services/backend/rest.service';
+import { LocalStorageService } from '../services/frontend/local-storage.service';
 
 @Component({
   selector: 'app-restaurant',
   templateUrl: './restaurant.component.html',
-  styleUrls: ['./restaurant.component.sass'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./restaurant.component.sass']
 })
 export class RestaurantComponent {
 
-  constructor() { }
-
-  data = {
-    name: 'MdD',
-    urlPhoto: 'https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2019/06/25/15614775255199.jpg',
-    type: 'Heladeria',
-    open: true,
-    phone: 3212312,
-    stars: 4.2,
-    countStars: 521,
-    email: 'jua@asomc.com'
-  };
-
+  idRestaurant: any;
+  data: any = {};
   objectKeys = Object.keys;
+
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private restService: RestService,
+    private localStorageService: LocalStorageService
+  ) {
+    const user = this.localStorageService.getData('user');
+    if (!user) { this.router.navigate(['/login']); return; }
+
+    this.idRestaurant = this.activatedRoute.snapshot.paramMap.get('id');
+    if (!this.idRestaurant) {
+      this.router.navigate(['/']);
+      return;
+    }
+
+    this.restService.get(`/api/restaurant/${this.idRestaurant}`)
+      .then(response => {
+        if (response.ok && response.status === 200) {
+          console.log(response.body);
+          this.data = response.body;
+        }
+      })
+      .catch();
+  }
+
   menu = {
     breakfast: [
       {
