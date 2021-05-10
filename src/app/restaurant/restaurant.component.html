@@ -51,8 +51,8 @@
         </div>
         <div class="restaurant-menu my-2">
             <h4 class="mt-3">Menú</h4>
-            <hr class="my-4" />
-            <ul class="nav nav-pills mb-3 py-2" id="pills-tab" role="tablist">
+            <hr class="my-2" />
+            <ul class="nav nav-pills mb-3 pb-2" id="pills-tab" role="tablist">
                 <li *ngFor="let key of objectKeys(menu); index as i" class="nav-item mx-2" role="presentation">
                     <button *ngIf="transformKey[key]" class="nav-link" [class.active]="i===0"
                         [id]="'pills-' + key + '-tab'" data-bs-toggle="pill" [attr.data-bs-target]="'#pills-' + key"
@@ -64,22 +64,21 @@
                 <div *ngFor="let key of objectKeys(menu); index as i" class="tab-pane fade" [class.show]="i===0"
                     [class.active]="i===0" [id]="'pills-' + key" role="tabpanel"
                     [attr.aria-labelledby]="'pills-' + key + '-tab'">
-                    <p *ngFor="let item of menu[key]">
-                        {{item|json}}
-                    </p>
+                    <div class="restaurant-cards">
+                        <div class="card" *ngFor="let item of menu[key]">
+                            <img [src]="item.urlPhoto" class="card-img-top" alt="...">
+                            <div class="card-body d-flex">
+                                <strong class="df-1">
+                                    <p class="card-text">{{item.name}}</p>
+                                </strong>
+                                <p class="card-text price">{{item.price|currency}}</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- <div class="btn-send w-100 m-auto px-2">
-        <button [disabled]="disabledButton" type="button"
-            class="btn btn-primary btn-lg btn-block w-100 my-2 d-flex justify-content-center align-items-center"
-            (click)=" sendReservation()">
-            <span *ngIf="disabledButton" class="spinner-border spinner-border-sm mx-2" role="status"
-                aria-hidden="true"></span>
-            {{disabledButton ? 'CARGANDO' : 'AGENDAR RESERVACIÓN'}}</button>
-    </div> -->
 
     <a class="button-reservation p-3"><i class="fas fa-calendar-plus mx-2"></i>RESERVAR</a>
 </div>
