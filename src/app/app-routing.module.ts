@@ -7,6 +7,7 @@ import { ReservationsComponent } from './reservations/reservations.component';
 import { RegisterRestaurantComponent } from './register-restaurant/register-restaurant.component';
 import { RegistroComponent } from './registro/registro.component';
 import { SetMenuComponent } from './set-menu/set-menu.component';
+import { RestaurantComponent } from './restaurant/restaurant.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -16,7 +17,9 @@ const routes: Routes = [
   { path: 'set-menu', component: SetMenuComponent },
   { path: 'reservation', redirectTo: '' },
   { path: 'reservation/:id', component: ReservationComponent },
-  { path: 'reservations', component: ReservationsComponent }
+  { path: 'reservations', component: ReservationsComponent },
+  { path: 'restaurant', redirectTo: '' },
+  { path: 'restaurant/:id', component: RestaurantComponent }
 ];
 
 @NgModule({
