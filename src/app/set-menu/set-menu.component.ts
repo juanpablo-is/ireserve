@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RestService } from '../services/backend/rest.service';
+import { LocalStorageService } from '../services/frontend/local-storage.service';
 
 @Component({
   selector: 'app-set-menu',
@@ -21,9 +22,10 @@ export class SetMenuComponent {
 
   constructor(
     private restService: RestService,
-    private router: Router
+    private router: Router,
+    private localStorageService: LocalStorageService
   ) {
-    const user = JSON.parse(sessionStorage.getItem('user'));
+    const user = this.localStorageService.getData('user');
     if (!user || !user.idRestaurant) { this.router.navigate(['/register']); return; }
 
     this.name = user.firstname;

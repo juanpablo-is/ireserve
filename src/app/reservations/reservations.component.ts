@@ -1,6 +1,7 @@
 import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
 import { RestService } from '../services/backend/rest.service';
+import { LocalStorageService } from '../services/frontend/local-storage.service';
 import { UpdateToastService } from '../update-toast.service';
 
 @Component({
@@ -26,9 +27,10 @@ export class ReservationsComponent {
   constructor(
     private router: Router,
     private restService: RestService,
-    private toastService: UpdateToastService
+    private toastService: UpdateToastService,
+    private localStorageService: LocalStorageService
   ) {
-    this.user = JSON.parse(sessionStorage.getItem('user'));
+    this.user = this.localStorageService.getData('user');
     if (!this.user) { this.router.navigate(['/login']); return; }
 
     this.restService.get(`/api/reservations/${this.user.uid}`)

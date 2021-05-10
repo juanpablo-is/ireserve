@@ -3,6 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { LocalStorageService } from '../services/frontend/local-storage.service';
 
 @Component({
   selector: 'app-registro',
@@ -22,9 +23,10 @@ export class RegistroComponent {
     private formBuilder: FormBuilder,
     private auth: AngularFireAuth,
     private router: Router,
-    private firestore: AngularFirestore
+    private firestore: AngularFirestore,
+    private localStorageService: LocalStorageService
   ) {
-    const user = sessionStorage.getItem('user');
+    const user = this.localStorageService.getData('user');
     if (user) { this.router.navigate(['/']); return; }
 
     this.buildForm();
@@ -68,7 +70,7 @@ export class RegistroComponent {
               this.btnRegisterText = 'REGISTRARSE';
               this.alertSuccess = 'Registro exitoso, ingrese sesión';
 
-              sessionStorage.setItem('user', JSON.stringify(data));
+              this.localStorageService.updateData('user', data);
 
               this.router.navigate(data.role === 'Cliente' ? ['/register-restaurant'] : ['/']);
             });

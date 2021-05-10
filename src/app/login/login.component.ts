@@ -3,6 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RestService } from '../services/backend/rest.service';
+import { LocalStorageService } from '../services/frontend/local-storage.service';
 
 @Component({
   selector: 'app-login',
@@ -22,9 +23,10 @@ export class LoginComponent {
     private formBuilder: FormBuilder,
     private auth: AngularFireAuth,
     private router: Router,
-    private restService: RestService
+    private restService: RestService,
+    private localStorageService: LocalStorageService
   ) {
-    const user = sessionStorage.getItem('user');
+    const user = this.localStorageService.getData('user');
     if (user) { this.router.navigate(['/']); return; }
 
     this.buildForm();
@@ -48,7 +50,7 @@ export class LoginComponent {
             if (result.ok && result.status === 200) {
               if (result.body.data) {
                 this.alertSuccess = `¡Bienvenido ${result.body.data.firstname}!`;
-                sessionStorage.setItem('user', JSON.stringify(result.body.data));
+                this.localStorageService.updateData('user', result.body.data);
 
                 this.router.navigate(['/']);
               } else {
