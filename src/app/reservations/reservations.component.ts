@@ -19,7 +19,7 @@ export class ReservationsComponent {
   @ViewChildren('itemsPending') itemsPendingElement: QueryList<any>;
   @ViewChildren('itemsActive') itemsActiveElement: QueryList<any>;
   @ViewChildren('itemsComplete') itemsCompleteElement: QueryList<any>;
-  @ViewChild('modal') modal: ElementRef;
+  @ViewChild('closeModal') closeModal: ElementRef;
 
   constructor(
     private element: ElementRef,
@@ -70,6 +70,7 @@ export class ReservationsComponent {
               this.active.splice(item.id, 1);
               break;
           }
+          this.closeModal.nativeElement.click();
         }
       })
       .catch(err => {
