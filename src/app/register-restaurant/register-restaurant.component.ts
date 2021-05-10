@@ -5,6 +5,7 @@ import { FirebaseStorageService } from '../services/firebase-storage/firebase-st
 import { Restaurant } from '../interfaces/restaurant';
 import { finalize } from 'rxjs/operators';
 import { RestService } from '../services/backend/rest.service';
+import { LocalStorageService } from '../services/frontend/local-storage.service';
 
 @Component({
   selector: 'app-register-restaurant',
@@ -25,9 +26,10 @@ export class RegisterRestaurantComponent {
     private formBuilder: FormBuilder,
     private router: Router,
     private restService: RestService,
-    private serviceStorage: FirebaseStorageService
+    private serviceStorage: FirebaseStorageService,
+    private localStorageService: LocalStorageService
   ) {
-    const user = JSON.parse(sessionStorage.getItem('user'));
+    const user = this.localStorageService.getData('user');
     if (!user) { this.router.navigate(['/login']); return; }
 
     this.name = user.firstname;
@@ -69,10 +71,11 @@ export class RegisterRestaurantComponent {
               .then((result: { ok: any; status: number; body: any }) => {
                 this.btnRegisterRestaurantText = 'REGISTRAR RESTAURANTE';
                 if (result.ok && result.status === 201) {
-                  const user = JSON.parse(sessionStorage.getItem('user'));
+                  const user = this.localStorageService.getData('user');
                   user.idRestaurant = result.body.idRestaurant;
                   user.typeRestaurant = restaurant.type;
-                  sessionStorage.setItem('user', JSON.stringify(user));
+                  this.localStorageService.updateData('user', user);
+
                   this.router.navigate(['/set-menu']);
                   return true;
                 }

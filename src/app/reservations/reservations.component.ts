@@ -1,6 +1,8 @@
 import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
 import { RestService } from '../services/backend/rest.service';
+import { LocalStorageService } from '../services/frontend/local-storage.service';
+import { UpdateToastService } from '../update-toast.service';
 
 @Component({
   selector: 'app-reservations',
@@ -16,22 +18,26 @@ export class ReservationsComponent {
 
   cancel: any = {};
 
+  @ViewChild('spinner') spinner: ElementRef;
   @ViewChildren('itemsPending') itemsPendingElement: QueryList<any>;
   @ViewChildren('itemsActive') itemsActiveElement: QueryList<any>;
   @ViewChildren('itemsComplete') itemsCompleteElement: QueryList<any>;
   @ViewChild('closeModal') closeModal: ElementRef;
 
   constructor(
-    private element: ElementRef,
     private router: Router,
-    private restService: RestService
+    private restService: RestService,
+    private toastService: UpdateToastService,
+    private localStorageService: LocalStorageService
   ) {
-    this.user = JSON.parse(sessionStorage.getItem('user'));
+    this.user = this.localStorageService.getData('user');
     if (!this.user) { this.router.navigate(['/login']); return; }
 
     this.restService.get(`/api/reservations/${this.user.uid}`)
       .then((result: any) => {
         if (result.ok && result.status === 200) {
+          this.spinner.nativeElement.remove();
+
           this.pending = result.body.pending;
           this.active = result.body.active;
           this.complete = result.body.complete;
@@ -39,14 +45,13 @@ export class ReservationsComponent {
       })
       .catch(() => {
         this.router.navigate(['/']);
-        this.element.nativeElement.destroy();
       });
   }
 
   /**
    * Abre modal para eliminar reservación.
    */
-  openModal(item, obj, index): void {
+  openModal(item: any, obj: number, index: number): void {
     this.cancel = {
       name: item.restaurant,
       id: item.id,
@@ -71,33 +76,36 @@ export class ReservationsComponent {
               break;
           }
           this.closeModal.nativeElement.click();
+          this.toastService.updateData({
+            title: 'Cancelada', body: `La reservación en <i>${item.name}</i> se canceló exitosamente.`, seconds: 5, status: true
+          });
         }
       })
-      .catch(err => {
-
+      .catch(() => {
+        this.closeModal.nativeElement.click();
+        this.toastService.updateData({
+          title: 'Falló', body: 'No fue posible cancelar la reservación, intente nuevamente.', seconds: 5, status: false
+        });
       });
   }
 
   // Colapsa acordión de tarjetas.
   collapsingCard(section: number, index: number): void {
     switch (section) {
-      case 0: {
+      case 0:
         this.collapseItems(this.itemsPendingElement, index);
         break;
-      }
-      case 1: {
+      case 1:
         this.collapseItems(this.itemsActiveElement, index);
         break;
-      }
-      case 2: {
+      case 2:
         this.collapseItems(this.itemsCompleteElement, index);
         break;
-      }
     }
   }
 
   collapseItems(items: any, index: number): void {
-    items.toArray().forEach((element, i) => {
+    items.toArray().forEach((element: any, i: number) => {
       const div = element.nativeElement.children[0];
       const divHidden = element.nativeElement.children[1];
 

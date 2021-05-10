@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { setOptions, MbscDatepicker, localeEs } from '@mobiscroll/angular';
 import { Reservation } from 'src/app/interfaces/reservation';
 import { RestService } from 'src/app/services/backend/rest.service';
+import { LocalStorageService } from 'src/app/services/frontend/local-storage.service';
 import { UpdateToastService } from 'src/app/update-toast.service';
 
 setOptions({
@@ -34,13 +35,14 @@ export class ReservationComponent {
   disabledButton = true;
 
   constructor(
-    private element: ElementRef,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private restService: RestService,
-    private serviceToast: UpdateToastService
+    private serviceToast: UpdateToastService,
+    private localStorageService: LocalStorageService
   ) {
-    const user = JSON.parse(sessionStorage.getItem('user'));
+    const user = this.localStorageService.getData('user');
+
     if (!user) { this.router.navigate(['/login']); return; }
 
     this.idRestaurant = this.activatedRoute.snapshot.paramMap.get('id');
@@ -63,7 +65,6 @@ export class ReservationComponent {
       })
       .catch(() => {
         this.router.navigate(['/']);
-        this.element.nativeElement.destroy();
       });
   }
 

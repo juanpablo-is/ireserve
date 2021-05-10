@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { LocalStorageService } from '../services/frontend/local-storage.service';
 
 @Component({
   selector: 'app-home',
@@ -13,9 +14,10 @@ export class HomeComponent {
   user: any;
 
   constructor(
-    private router: Router
+    private router: Router,
+    private localStorageService: LocalStorageService
   ) {
-    this.user = JSON.parse(sessionStorage.getItem('user'));
+    this.user = this.localStorageService.getData('user');
     if (!this.user) { this.router.navigate(['/login']); return; }
 
     if (this.user.role === 'Cliente') {
