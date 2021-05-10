@@ -2,7 +2,7 @@
     <a [routerLink]="['/']"><img src="./assets/icons/ireserve-logo-texto.svg" alt=""></a>
 </div>
 <div class="container-main">
-    <div class="my-3">
+    <div class="py-3">
         <strong>Reservaciones pendientes</strong>
         <span class="d-inline-block mx-3" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
             data-bs-content="Transacciones que hacen falta confirmación del restaurante.">
@@ -23,13 +23,17 @@
                     <span *ngIf="item.address" class="w-100 px-3"><strong
                             class="pe-1">Dirección:</strong>{{item.address}}</span>
                     <span class="w-100 px-3"><strong class="pe-1">Cantidad sillas:</strong>{{item.chairs}}</span>
-                    <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.dateStart}}</span>
-                    <button class="btn col-10 btn-primary my-2">CANCELAR</button>
+                    <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.createdAt}}</span>
+                    <button type="button" class="btn col-10 btn-primary my-2" data-bs-toggle="modal"
+                        data-bs-target="#modalCancelReservation" (click)="openModal(item, 0, i)">
+                        CANCELAR
+                    </button>
                 </div>
             </div>
+            <span *ngIf="!pending.length" class="w-100 text-center d-block">No hay reservas pendientes.</span>
         </div>
     </div>
-    <div class="my-3">
+    <div class="py-3">
         <strong>Reservaciones activas</strong>
         <span class="d-inline-block mx-3" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
             data-bs-content="Transacciones activas por el usuario.">
@@ -50,13 +54,17 @@
                     <span *ngIf="item.address" class="w-100 px-3"><strong
                             class="pe-1">Dirección:</strong>{{item.address}}</span>
                     <span class="w-100 px-3"><strong class="pe-1">Cantidad sillas:</strong>{{item.chairs}}</span>
-                    <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.dateStart}}</span>
-                    <button class="btn col-10 btn-primary my-2">CANCELAR</button>
+                    <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.createdAt}}</span>
+                    <button type="button" class="btn col-10 btn-primary my-2" data-bs-toggle="modal"
+                        data-bs-target="#modalCancelReservation" (click)="openModal(item, 1, i)">
+                        CANCELAR
+                    </button>
                 </div>
             </div>
+            <span *ngIf="!active.length" class="w-100 text-center d-block">No hay reservas activas.</span>
         </div>
     </div>
-    <div class="my-3">
+    <div class="py-3">
         <strong>Reservaciones anteriores</strong>
         <span class="d-inline-block mx-3" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
             data-bs-content="Historial de transacciones completadas.">
@@ -77,10 +85,31 @@
                     <span *ngIf="item.address" class="w-100 px-3"><strong
                             class="pe-1">Dirección:</strong>{{item.address}}</span>
                     <span class="w-100 px-3"><strong class="pe-1">Cantidad sillas:</strong>{{item.chairs}}</span>
-                    <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.dateStart}}</span>
+                    <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.createdAt}}</span>
                 </div>
+            </div>
+        </div>
+        <span *ngIf="!complete.length" class="w-100 text-center d-block">No hay reservas creadas.</span>
+    </div>
+</div>
+<app-bottom-navigation [user]="user"></app-bottom-navigation>
+
+<div class="modal fade" id="modalCancelReservation" tabindex="-1" aria-labelledby="modalCancelReservationLabel"
+    aria-hidden="true" #modal>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCancelReservationLabel">Cancelar reservación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Está seguro en cancelar la reservación en {{cancel.name}}?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" (click)="cancelReservation(cancel)">Sí,
+                    cancelar</button>
             </div>
         </div>
     </div>
 </div>
-<app-bottom-navigation [user]="user"></app-bottom-navigation>

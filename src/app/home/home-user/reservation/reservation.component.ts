@@ -34,6 +34,7 @@ export class ReservationComponent {
   disabledButton = true;
 
   constructor(
+    private element: ElementRef,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private restService: RestService,
@@ -56,17 +57,13 @@ export class ReservationComponent {
 
           if (this.data === null) { return this.router.navigate(['/']); }
           this.spinner.nativeElement.remove();
-          this.data.open = this.calculateOpenRestaurant(this.data.dateStart, this.data.dateEnd);
         } else {
           return this.router.navigate(['/']);
         }
       })
-      .catch(error => {
-        console.log(error);
-
-        if (!(error.ok && error.status === 200)) {
-          return this.router.navigate(['/']);
-        }
+      .catch(() => {
+        this.router.navigate(['/']);
+        this.element.nativeElement.destroy();
       });
   }
 
@@ -122,21 +119,5 @@ export class ReservationComponent {
    */
   onChange(): void {
     this.disabledButton = false;
-  }
-
-  /**
-   * Calcula si el restaurante está abierto o cerrado de acuerdo a la fecha.
-   */
-  calculateOpenRestaurant(start: any, end: any): boolean {
-    const hour = new Date().getHours();
-    const minute = new Date().getMinutes();
-
-    const timeStart = start.split(':');
-    const timeEnd = end.split(':');
-
-    if ((hour >= timeStart[0] && minute >= timeStart[1]) && (hour <= timeEnd[0] && minute < timeEnd[1])) {
-      return true;
-    }
-    return false;
   }
 }

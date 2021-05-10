@@ -1,4 +1,4 @@
-import { Component, QueryList, ViewChildren } from '@angular/core';
+import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
 import { RestService } from '../services/backend/rest.service';
 
@@ -14,11 +14,15 @@ export class ReservationsComponent {
   active: any[] = [];
   complete: any[] = [];
 
+  cancel: any = {};
+
   @ViewChildren('itemsPending') itemsPendingElement: QueryList<any>;
   @ViewChildren('itemsActive') itemsActiveElement: QueryList<any>;
   @ViewChildren('itemsComplete') itemsCompleteElement: QueryList<any>;
+  @ViewChild('modal') modal: ElementRef;
 
   constructor(
+    private element: ElementRef,
     private router: Router,
     private restService: RestService
   ) {
@@ -31,6 +35,41 @@ export class ReservationsComponent {
           this.pending = result.body.pending;
           this.active = result.body.active;
           this.complete = result.body.complete;
+        }
+      })
+      .catch(() => {
+        this.router.navigate(['/']);
+        this.element.nativeElement.destroy();
+      });
+  }
+
+  /**
+   * Abre modal para eliminar reservación.
+   */
+  openModal(item, obj, index): void {
+    this.cancel = {
+      name: item.restaurant,
+      id: item.id,
+      index,
+      obj,
+    };
+  }
+
+  /**
+   * Cancela la reservación a través del servicio.
+   */
+  cancelReservation(item: any): void {
+    this.restService.delete(`/api/reservation/${item.id}`)
+      .then((result: any) => {
+        if (result.ok && result.status === 200) {
+          switch (item.obj) {
+            case 0:
+              this.pending.splice(item.id, 1);
+              break;
+            case 1:
+              this.active.splice(item.id, 1);
+              break;
+          }
         }
       })
       .catch(err => {

@@ -17,4 +17,8 @@ export class RestService {
   post(url: string, body: any): Promise<any> {
     return this.http.post(`${this.URL}${url}`, body, { observe: 'response' }).toPromise();
   }
+
+  delete(url: string): Promise<any> {
+    return this.http.delete(`${this.URL}${url}`, { observe: 'response' }).toPromise();
+  }
 }
