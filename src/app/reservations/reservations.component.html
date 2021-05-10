@@ -37,7 +37,7 @@
         </span>
         <hr>
         <div class="reservations">
-            <div *ngFor="let item of pending;index as i" class="reservation reservation-active" #itemsActive>
+            <div *ngFor="let item of active;index as i" class="reservation reservation-active" #itemsActive>
                 <div class="reservation-header d-flex justify-content-center align-items-center">
                     <div class="w-100">
                         <h4>{{item.restaurant}}</h4>
@@ -64,7 +64,7 @@
         </span>
         <hr>
         <div class="reservations reservations-column">
-            <div *ngFor="let item of pending;index as i" class="reservation reservation-complete" #itemsComplete>
+            <div *ngFor="let item of complete;index as i" class="reservation reservation-complete" #itemsComplete>
                 <div class="reservation-header d-flex justify-content-center align-items-center">
                     <div class="w-100">
                         <h4>{{item.restaurant}}</h4>

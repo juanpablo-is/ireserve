@@ -1,5 +1,6 @@
 import { Component, QueryList, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
+import { RestService } from '../services/backend/rest.service';
 
 @Component({
   selector: 'app-reservations',
@@ -10,20 +11,31 @@ export class ReservationsComponent {
 
   user: any;
   pending: any[] = [];
+  active: any[] = [];
+  complete: any[] = [];
 
   @ViewChildren('itemsPending') itemsPendingElement: QueryList<any>;
   @ViewChildren('itemsActive') itemsActiveElement: QueryList<any>;
   @ViewChildren('itemsComplete') itemsCompleteElement: QueryList<any>;
 
   constructor(
-    private router: Router
+    private router: Router,
+    private restService: RestService
   ) {
     this.user = JSON.parse(sessionStorage.getItem('user'));
     if (!this.user) { this.router.navigate(['/login']); return; }
-    this.pending.push({ restaurant: 'McDo', date: '12/05/2021 12:20pm', dateStart: '10/05/2021', chairs: 5, address: 'Calle 49 #29 L 04 - 3', name: 'Pablo' });
-    this.pending.push({ restaurant: 'McDo', date: '12/05/2021 12:20pm', dateStart: '10/05/2021', chairs: 5, name: 'Juan' });
-    this.pending.push({ restaurant: 'McDo', date: '12/05/2021 12:20pm', dateStart: '10/05/2021', chairs: 5, address: '', name: '' });
-    this.pending.push({ restaurant: 'McDo', date: '12/05/2021 12:20pm', dateStart: '10/05/2021', chairs: 5, address: '', name: '' });
+
+    this.restService.get(`/api/reservations/${this.user.uid}`)
+      .then((result: any) => {
+        if (result.ok && result.status === 200) {
+          this.pending = result.body.pending;
+          this.active = result.body.active;
+          this.complete = result.body.complete;
+        }
+      })
+      .catch(err => {
+
+      });
   }
 
   // Colapsa acordión de tarjetas.
