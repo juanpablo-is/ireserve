@@ -34,7 +34,6 @@ export class ReservationComponent {
   disabledButton = true;
 
   constructor(
-    private element: ElementRef,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private restService: RestService,
@@ -63,7 +62,6 @@ export class ReservationComponent {
       })
       .catch(() => {
         this.router.navigate(['/']);
-        this.element.nativeElement.destroy();
       });
   }
 
