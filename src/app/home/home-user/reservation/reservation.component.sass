@@ -18,13 +18,8 @@
     width: 100%
     min-height: 100vh
 
-    &-background
-        width: 100%
-        height: 300px
-        object-fit: cover
-        top: 0
-        left: 0
-        z-index: -1
+    .c-pointer
+        cursor: pointer
 
     &-header
         position: absolute
@@ -39,15 +34,22 @@
         margin: auto
 
         svg
-            padding-left: 20px
-            height: 50px
-            width: 50px
+            height: 40px
+            width: 40px
 
         h3
             flex: 1
             margin: 0
             padding: 0 10px
             text-align: center
+
+    &-background
+        width: 100%
+        height: 300px
+        object-fit: cover
+        top: 0
+        left: 0
+        z-index: -1
 
     &-content
         flex: 1

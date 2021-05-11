@@ -6,7 +6,9 @@
 
 <div class="reservation d-flex flex-column">
     <div class="reservation-header d-flex justify-content-center align-items-center w-100">
-        <i class="fas fa-chevron-circle-left"></i>
+        <span class="c-pointer m-2 ms-4" (click)="onBack()">
+            <i class="fas fa-chevron-circle-left"></i>
+        </span>
         <h3>Reservación en <span>{{data.name}}</span></h3>
     </div>
     <img class="reservation-background" [src]="data.urlPhoto" alt="">

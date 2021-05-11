@@ -42,7 +42,6 @@ export class ReservationComponent {
     private localStorageService: LocalStorageService
   ) {
     const user = this.localStorageService.getData('user');
-
     if (!user) { this.router.navigate(['/login']); return; }
 
     this.idRestaurant = this.activatedRoute.snapshot.paramMap.get('id');
@@ -120,5 +119,12 @@ export class ReservationComponent {
    */
   onChange(): void {
     this.disabledButton = false;
+  }
+
+  /**
+   * Evento para retroceder pestaña.
+   */
+  onBack(): void {
+    history.back();
   }
 }
