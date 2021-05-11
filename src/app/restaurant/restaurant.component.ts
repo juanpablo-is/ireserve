@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RestService } from '../services/backend/rest.service';
 import { LocalStorageService } from '../services/frontend/local-storage.service';
@@ -10,8 +10,10 @@ import { LocalStorageService } from '../services/frontend/local-storage.service'
 })
 export class RestaurantComponent {
 
+  @ViewChild('spinner') spinner: ElementRef;
   idRestaurant: any;
   data: any = {};
+  menu: any = {};
   objectKeys = Object.keys;
 
   constructor(
@@ -32,35 +34,44 @@ export class RestaurantComponent {
     this.restService.get(`/api/restaurant/${this.idRestaurant}`)
       .then(response => {
         if (response.ok && response.status === 200) {
-          console.log(response.body);
           this.data = response.body;
+
+          this.restService.get(`/api/menu?idRestaurant=${this.idRestaurant}`)
+            .then(responseRestaurant => {
+              if (responseRestaurant.ok && responseRestaurant.status === 200) {
+                this.menu = responseRestaurant.body.dishes;
+                this.spinner.nativeElement.remove();
+              } else {
+                this.router.navigate(['/']);
+              }
+            })
+            .catch(() => {
+              this.router.navigate(['/']);
+            });
+        } else {
+          this.router.navigate(['/']);
         }
       })
-      .catch();
+      .catch(() => {
+        this.router.navigate(['/']);
+      });
   }
-
-  menu = {
-    breakfast: [
-      {
-        description: 'Hamburguesa con integrantes saludables',
-        name: 'Hamburguesa especial',
-        price: 2000,
-        urlPhoto: 'https://firebasestorage.googleapis.com/v0/b/ireserve-e279b.appspot.com/o/hamburguesa-beyond-meat-scaled-e1577396155298.png-1619998200871?alt=media&token=64b20bcc-4acd-4c28-895f-0efa4289943e'
-      }
-    ],
-    waffles: [
-      {
-        description: 'waffles con integrantes saludables',
-        name: 'waffles especial',
-        price: 2000,
-        urlPhoto: 'https://firebasestorage.googleapis.com/v0/b/ireserve-e279b.appspot.com/o/hamburguesa-beyond-meat-scaled-e1577396155298.png-1619998200871?alt=media&token=64b20bcc-4acd-4c28-895f-0efa4289943e'
-      }
-    ],
-  };
 
   transformKey = {
     breakfast: 'Desayunos',
-    waffles: 'Waffles'
+    platosFuertes: 'Platos fuertes',
+    platosCorrientes: 'Platos corrientes',
+    drinks: 'Bebidas',
+    entraces: 'Entradas',
+    additionals: 'Adicionales',
+    desserts: 'Postres',
+    iceCream: 'Helados',
+    shakes: 'Batidos',
+    waffles: 'Waffles',
+    beers: 'Cervezas',
+    cocktails: 'Cocteles',
+    wines: 'Vinos',
+    coffee: 'Café',
   };
 
 }
