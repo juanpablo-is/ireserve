@@ -6,7 +6,9 @@
 
 <div class="restaurant d-flex flex-column">
     <div class="restaurant-header d-flex justify-content-center align-items-center w-100">
-        <i class="fas fa-chevron-circle-left"></i>
+        <span class="c-pointer m-2 ms-4" (click)="onBack()">
+            <i class="fas fa-chevron-circle-left"></i>
+        </span>
         <h3><span>{{data.name}}</span></h3>
     </div>
     <img class="restaurant-background" [src]="data.urlPhoto" alt="">
@@ -55,17 +57,17 @@
             <ul class="nav nav-pills mb-3 pb-2" id="pills-tab" role="tablist">
                 <ng-container *ngFor="let key of objectKeys(menu); index as i">
                     <li *ngIf="menu[key].length > 0 && transformKey[key]" class="nav-item mx-2" role="presentation">
-                        <button class="nav-link" [class.active]="i===0" [id]="'pills-' + key + '-tab'"
+                        <button class="nav-link" [class.active]="firstCategory(key)" [id]="'pills-' + key + '-tab'"
                             data-bs-toggle="pill" [attr.data-bs-target]="'#pills-' + key" type="button" role="tab"
                             [attr.aria-controls]="'pills-' + key"
-                            [attr.aria-selected]="i===0">{{transformKey[key]}}</button>
+                            [attr.aria-selected]="firstCategory(key)">{{transformKey[key]}}</button>
                     </li>
                 </ng-container>
             </ul>
             <div class="tab-content" id="pills-tabContent">
-                <div *ngFor="let key of objectKeys(menu); index as i" class="tab-pane fade" [class.show]="i===0"
-                    [class.active]="i===0" [id]="'pills-' + key" role="tabpanel"
-                    [attr.aria-labelledby]="'pills-' + key + '-tab'">
+                <div *ngFor="let key of objectKeys(menu); index as i" class="tab-pane fade"
+                    [class.show]="firstCategory(key)" [class.active]="firstCategory(key)" [id]="'pills-' + key"
+                    role="tabpanel" [attr.aria-labelledby]="'pills-' + key + '-tab'">
                     <div class="restaurant-cards">
                         <div class="card" *ngFor="let item of menu[key]">
                             <img [src]="item.urlPhoto" class="card-img-top" alt="...">
@@ -82,5 +84,6 @@
         </div>
     </div>
 
-    <a class="button-reservation p-3"><i class="fas fa-calendar-plus mx-2"></i>RESERVAR</a>
+    <a [routerLink]="['/reservation', idRestaurant]" class="button-reservation p-3"><i
+            class="fas fa-calendar-plus mx-2"></i>RESERVAR</a>
 </div>

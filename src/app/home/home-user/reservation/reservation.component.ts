@@ -120,4 +120,11 @@ export class ReservationComponent {
   onChange(): void {
     this.disabledButton = false;
   }
+
+  /**
+   * Evento para retroceder pestaña.
+   */
+  onBack(): void {
+    history.back();
+  }
 }

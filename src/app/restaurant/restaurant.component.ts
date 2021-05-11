@@ -15,6 +15,7 @@ export class RestaurantComponent {
   data: any = {};
   menu: any = {};
   objectKeys = Object.keys;
+  type = '';
 
   constructor(
     private router: Router,
@@ -73,5 +74,27 @@ export class RestaurantComponent {
     wines: 'Vinos',
     coffee: 'Café',
   };
+
+  /**
+   * Returna 'true' si es la primera categoria de items del menú.
+   */
+  firstCategory(type: string): boolean {
+    if (type === this.type) {
+      return true;
+    }
+
+    if (this.type === '') {
+      this.type = type;
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Evento para retroceder pestaña.
+   */
+  onBack(): void {
+    history.back();
+  }
 
 }
