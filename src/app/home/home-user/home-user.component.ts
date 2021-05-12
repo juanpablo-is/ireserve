@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RestService } from 'src/app/services/backend/rest.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { RestService } from 'src/app/services/backend/rest.service';
   templateUrl: './home-user.component.html',
   styleUrls: ['./home-user.component.sass']
 })
-export class HomeUserComponent implements OnInit {
+export class HomeUserComponent {
 
   itemsRestaurant: any[] = [];
   itemsCarouselRestaurant: any[] = [];
@@ -14,7 +14,6 @@ export class HomeUserComponent implements OnInit {
   constructor(
     private restService: RestService
   ) {
-
     // Logica que consulta anuncios para modificar variable.
     this.restService.get('/api/ads')
       .then((result: any) => {
@@ -22,27 +21,15 @@ export class HomeUserComponent implements OnInit {
           this.itemsCarouselRestaurant = result.body;
         }
       })
-      .catch(e => { console.log(e); });
+      .catch();
 
-    this.itemsRestaurant.push({
-      photo: 'https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2019/06/25/15614775255199.jpg',
-      name: 'McDonalds',
-      stars: 1,
-      diff: '75m',
-      open: true,
-      category: 'heladeria'
-    });
-    this.itemsRestaurant.push({
-      photo: 'https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2019/06/25/15614775255199.jpg',
-      name: 'McDonalds',
-      stars: 3,
-      diff: '75m',
-      open: true,
-      category: 'heladeria'
-    });
+    // Servicio para captar restaurantes.
+    this.restService.get('/api/restaurants').
+      then(response => {
+        if (response.ok && response.status === 200) {
+          this.itemsRestaurant = response.body;
+        }
+      })
+      .catch();
   }
-
-  ngOnInit(): void {
-  }
-
 }
