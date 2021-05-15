@@ -25,8 +25,10 @@
     </button>
 </div>
 <div class="breadcrumb-items">
-    <div *ngFor="let item of itemsCategories;index as i" class="c-pointer" [class.breadcrumb-active]="i===0">
-        {{item.name}}</div>
+    <div *ngFor="let item of itemsCategories;index as i" class="category" [class.breadcrumb-active]="i===0">
+        <img src="./assets/icons/{{item.key}}.svg" alt="">
+        <p>{{item.name}}</p>
+    </div>
 </div>
 
 <div class="cardsRestaurant">
