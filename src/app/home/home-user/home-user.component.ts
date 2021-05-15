@@ -10,6 +10,14 @@ export class HomeUserComponent {
 
   itemsRestaurant: any[] = [];
   itemsCarouselRestaurant: any[] = [];
+  itemsCategories: any[] = [
+    { key: 'restaurante', name: 'Populares' },
+    { key: 'cafeteria', name: 'Cafetería' },
+    { key: 'heladeria', name: 'Heladería' },
+    { key: 'bar', name: 'Bar' },
+    { key: '25m', name: 'Menos de 25m' },
+    { key: '100m', name: 'Menos de 100m' },
+  ];
 
   constructor(
     private restService: RestService

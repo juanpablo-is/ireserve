@@ -25,3 +25,23 @@
 
     @media screen and (min-width: $breakpoint-laptop)
         grid-template-columns: repeat(3, 1fr)
+
+.c-pointer
+    cursor: pointer
+
+.breadcrumb-items
+    display: -webkit-flex
+    overflow-x: scroll
+    padding: 20px 0
+
+    .breadcrumb-active
+        background: rgb(255 0 0 / 33%)
+        color: $primario
+
+    *
+        width: 120px
+        display: table
+        margin: 0 5px
+        text-align: center
+        border-radius: 5px
+        padding: 5px 0

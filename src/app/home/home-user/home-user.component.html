@@ -24,6 +24,10 @@
         <span class="visually-hidden">Next</span>
     </button>
 </div>
+<div class="breadcrumb-items">
+    <div *ngFor="let item of itemsCategories;index as i" class="c-pointer" [class.breadcrumb-active]="i===0">
+        {{item.name}}</div>
+</div>
 
 <div class="cardsRestaurant">
     <app-card-restaurant class="my-1" *ngFor="let item of itemsRestaurant" [item]="item">
