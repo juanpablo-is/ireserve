@@ -6,7 +6,7 @@
     <div class="card-body d-flex flex-column justify-content-center">
         <div class="column d-flex align-items-center justify-content-between">
             <h4 [routerLink]=" ['/restaurant', item.id]" class="card-heading c-pointer">{{item.name|titlecase}}</h4>
-            <div *ngIf="item.stars" class="stars">
+            <div *ngIf="item.countStars > 0" class="stars">
                 <span *ngFor="let i of [1,2,3,4,5];" class="fa fa-star" [class.checked]="i<item.stars"></span>
             </div>
         </div>

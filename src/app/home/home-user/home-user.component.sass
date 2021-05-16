@@ -25,3 +25,43 @@
 
     @media screen and (min-width: $breakpoint-laptop)
         grid-template-columns: repeat(3, 1fr)
+
+.breadcrumb-items
+    display: -webkit-flex
+    overflow-x: auto
+    padding: 10px 0
+
+    .breadcrumb-active,
+    .category:hover
+        background: rgb($primario, 33%)
+        color: $primario
+
+    .category
+        cursor: pointer
+        min-width: 120px
+        width: auto
+        padding: 0 10px
+        display: table
+        margin: 0 5px
+        text-align: center
+        border: 1px solid rgb($primario, 33%)
+        border-radius: 5px
+
+        p
+            margin: 0
+
+        img
+            width: 30px
+
+/* Scrollbar */
+::-webkit-scrollbar
+    height: 2px
+
+    &-track
+        background: #f1f1f1
+
+    &-thumb
+        background: #888
+
+        &:hover
+            background: #555

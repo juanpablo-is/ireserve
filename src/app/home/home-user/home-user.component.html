@@ -17,13 +17,23 @@
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
+        <span class="visually-hidden">Anterior</span>
     </button>
     <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
+        <span class="visually-hidden">Siguiente</span>
     </button>
 </div>
+<div class="breadcrumb-items">
+    <div (click)="filterCategory(item.key)" *ngFor="let item of itemsCategories;index as i" class="category"
+        [class.breadcrumb-active]="filter===item.key">
+        <img src="./assets/icons/{{item.key}}.svg" alt="">
+        <p>{{item.name}}</p>
+    </div>
+</div>
+
+<p *ngIf="itemsRestaurant.length === 0" class="text-center my-4">No hay {{filter === 'todos' ? 'establecimiento' :
+    filter}} alrededor.</p>
 
 <div class="cardsRestaurant">
     <app-card-restaurant class="my-1" *ngFor="let item of itemsRestaurant" [item]="item">
