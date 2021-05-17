@@ -26,6 +26,10 @@ import { HomeUserComponent } from './home/home-user/home-user.component';
 import { ReservationComponent } from './home/home-user/reservation/reservation.component';
 import { ReservationsComponent } from './reservations/reservations.component';
 import { RestaurantComponent } from './restaurant/restaurant.component';
+import { ProfileComponent } from './home/profile/profile.component';
+import { UserInfoComponent } from './home/profile/user-info/user-info.component';
+//import { InfoMenuComponent } from './home/home-client/info-menu/info-menu.component';
+import { RestaurantInfoComponent } from './home/profile/restaurant-info/restaurant-info.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +47,11 @@ import { RestaurantComponent } from './restaurant/restaurant.component';
     HomeUserComponent,
     ReservationComponent,
     ReservationsComponent,
-    RestaurantComponent
+    RestaurantComponent,
+    ProfileComponent,
+    UserInfoComponent,
+  //  InfoMenuComponent,
+    RestaurantInfoComponent
   ],
   imports: [
     BrowserModule,
