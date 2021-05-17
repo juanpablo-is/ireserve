@@ -17,6 +17,11 @@
     &--inputs
         width: 90%
 
+        #address
+            width: -webkit-fill-available
+            background: $primario
+            border: none
+
     label
         margin: 0px
 
@@ -43,3 +48,16 @@
 
     .TRC
         color: $asento
+
+::ng-deep
+    #map-modal
+        #geocoder
+            div
+                max-width: 100%
+                width: auto
+                margin: 10px
+
+        .mapboxgl-canvas-container
+            display: flex
+            justify-content: center
+            align-items: center

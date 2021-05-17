@@ -14,7 +14,7 @@ export class MapCustomService {
   style = 'mapbox://styles/mapbox/streets-v11';
   lat = 4.632235671307743;
   long = -74.06666639070954;
-  zoom = 13;
+  zoom = 14;
   coords: any = {};
 
   constructor() {
