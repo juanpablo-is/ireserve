@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FirebaseStorageService } from '../services/firebase-storage/firebase-storage-service';
@@ -6,19 +6,24 @@ import { Restaurant } from '../interfaces/restaurant';
 import { finalize } from 'rxjs/operators';
 import { RestService } from '../services/backend/rest.service';
 import { LocalStorageService } from '../services/frontend/local-storage.service';
+import { MapCustomService } from '../services/frontend/map-custom.service';
 
 @Component({
   selector: 'app-register-restaurant',
   templateUrl: './register-restaurant.component.html',
   styleUrls: ['./register-restaurant.component.sass']
 })
-export class RegisterRestaurantComponent {
+export class RegisterRestaurantComponent implements OnInit {
+
+  @ViewChild('asGeocoder') asGeocoder: ElementRef;
+  @ViewChild('closeModal') closeModal: ElementRef;
 
   form: FormGroup;
   name: string;
   idUser: string;
   alertError: string;
   file: any;
+  coords: any;
 
   btnRegisterRestaurantText = 'REGISTRAR RESTAURANTE';
 
@@ -27,7 +32,9 @@ export class RegisterRestaurantComponent {
     private router: Router,
     private restService: RestService,
     private serviceStorage: FirebaseStorageService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private mapService: MapCustomService,
+    private renderer2: Renderer2
   ) {
     const user = this.localStorageService.getData('user');
     if (!user) { this.router.navigate(['/login']); return; }
@@ -36,6 +43,16 @@ export class RegisterRestaurantComponent {
     this.idUser = user.uid;
 
     this.buildForm();
+  }
+
+  ngOnInit(): void {
+    this.mapService.buildMap()
+      .then(({ map, geocoder }) => {
+        this.renderer2.appendChild(this.asGeocoder.nativeElement, geocoder.onAdd(map));
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   /**
@@ -52,7 +69,8 @@ export class RegisterRestaurantComponent {
         idUser: this.idUser,
         type: this.form.value.type,
         name: this.form.value.name,
-        address: this.form.value.address,
+        geoPoint: this.coords.geoPoint,
+        address: this.coords.place,
         dateStart: this.form.value.dateStart,
         dateEnd: this.form.value.dateEnd,
         phone: this.form.value.phone,
@@ -94,10 +112,17 @@ export class RegisterRestaurantComponent {
     }
   }
 
+  /**
+   * Guarda geoPoint y cierra modal.
+   */
+  getCoords(): void {
+    this.coords = this.mapService.points();
+    this.closeModal.nativeElement.click();
+  }
+
   private buildForm(): void {
     this.form = this.formBuilder.group({
       name: ['', [Validators.required]],
-      address: ['', [Validators.required]],
       dateStart: ['', [Validators.required]],
       dateEnd: ['', [Validators.required]],
       phone: ['', [Validators.required]],
