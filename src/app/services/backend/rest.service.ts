@@ -22,7 +22,7 @@ export class RestService {
     return this.http.delete(`${this.URL}${url}`, { observe: 'response' }).toPromise();
   }
 
-  put(url: string, body: any): Promise<any>{
-    return this.http.put(`${this.URL}${url}`, body ,{ observe: 'response' }).toPromise();
+  put(url: string, body: any): Promise<any> {
+    return this.http.put(`${this.URL}${url}`, body, { observe: 'response' }).toPromise();
   }
 }

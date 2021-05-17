@@ -7,57 +7,46 @@
         </a>
         <div class="row my-4">
             <div class="col-6 info center">
-                <h5>
-                    Nombre:
-                </h5>
+                <h5>Nombre:</h5>
             </div>
             <div class="col-6 info v-center my-2">
-                <input type="text"  class="form-control input-style" value={{user.firstname}} #firstname>
+                <input type="text" class="form-control input-style" value={{user.firstname}} #firstname>
             </div>
             <div class="col-6 info center">
-                <h5>
-                    Apellido:
-                </h5>
+                <h5>Apellido:</h5>
             </div>
             <div class="col-6 info center my-2">
-                <input type="text"  class="form-control input-style" value={{user.lastname}} #lastname>
+                <input type="text" class="form-control input-style" value={{user.lastname}} #lastname>
             </div>
-            
+
             <div class="col-6 info center">
-                <h5>
-                    Telefono:
-                </h5>
-            </div> 
-            <div class="col-6 info center my-2">    
-                <input type="number"  class="form-control input-style" value={{user.phone}} #phone>
+                <h5>Teléfono:</h5>
+            </div>
+            <div class="col-6 info center my-2">
+                <input type="number" class="form-control input-style" value={{user.phone}} #phone>
             </div>
             <div class="col-6 info center">
-                <h5>
-                    Old pass:
-                </h5>
+                <h5>Contraseña actual:</h5>
             </div>
             <div class="col-6 info center my-2">
-                <input type="password" class="form-control input-style"  #oldpass>    
-            </div>  
+                <input type="password" class="form-control input-style" #oldpass>
+            </div>
             <div class="col-6 info center">
-                <h5>
-                    New pass:
-                </h5>
+                <h5>Contraseña nueva:</h5>
             </div>
             <div class="col-6 info center my-2">
-                <input type="password"  class="form-control input-style" #newpass>
-            </div>  
-            <div class="col-6 info center my-2">
-                <h5>
-                    Confirm new pass:
-                </h5>
+                <input type="password" class="form-control input-style" #newpass>
             </div>
             <div class="col-6 info center my-2">
-                <input type="password"  class="form-control input-style" #confirmnewpass>
+                <h5>Confirmar contraseña nueva:</h5>
+            </div>
+            <div class="col-6 info center my-2">
+                <input type="password" class="form-control input-style" #confirmnewpass>
             </div>
             <div class="info cont-button">
-                <button class="btn e-button" (click)="updateUser()"><i class="far fa-edit"></i> Editar Información</button>
-            </div>         
+                <button class="btn e-button" (click)="updateUser()"><i class="far fa-edit"></i> Editar
+                    Información</button>
+            </div>
         </div>
     </div>
 </div>
