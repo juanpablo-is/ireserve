@@ -4,43 +4,47 @@
             <i class="fas fa-arrow-left"></i>
         </a>
 
-        <div class="my-3 layout-grid">
+        <div [formGroup]="form" class="my-3 layout-grid">
             <div class="form-floating">
-                <input type="text" class="form-control" id="firstname" placeholder="Nombre" value="{{user.firstname}}">
+                <input formControlName="firstname" type="text" class="form-control" id="firstname" placeholder="Nombre"
+                    #firstname>
                 <label for="firstname">Nombre:</label>
             </div>
 
             <div class="form-floating">
-                <input type="text" class="form-control" id="lastname" placeholder="Apellido" value="{{user.lastname}}"
-                    #firstname>
+                <input formControlName="lastname" type="text" class="form-control" id="lastname" placeholder="Apellido"
+                    #lastname>
                 <label for="lastname">Apellido:</label>
             </div>
 
             <div class="form-floating">
-                <input type="tel" class="form-control" id="phone" placeholder="Teléfono" value="{{user.phone}}"
-                    #lastname>
+                <input formControlName="phone" type="tel" class="form-control" id="phone" placeholder="Teléfono" #phone>
                 <label for="phone">Teléfono:</label>
             </div>
 
             <div class="form-floating">
-                <input type="password" class="form-control" id="actualPass" placeholder="Contraseña actual" #oldpass>
+                <input formControlName="password" type="password" class="form-control" id="actualPass"
+                    placeholder="Contraseña actual" #oldpass>
                 <label for="actualPass">Contraseña actual:</label>
             </div>
 
             <div class="form-floating">
-                <input type="password" class="form-control" id="newPassword" placeholder="Contraseña nueva" #newpass>
+                <input formControlName="newPassword" type="password" class="form-control" id="newPassword"
+                    placeholder="Contraseña nueva" #newpass>
                 <label for="newPassword">Contraseña nueva:</label>
             </div>
 
             <div class="form-floating">
-                <input type="password" class="form-control" id="confirmNewPassword"
+                <input formControlName="confirmNewPassword" type="password" class="form-control" id="confirmNewPassword"
                     placeholder="Confirmar contraseña nueva" #confirmnewpass>
                 <label for="confirmNewPassword">Confirmar contraseña nueva:</label>
             </div>
 
         </div>
+
         <div class="info cont-button">
-            <button class="btn e-button" (click)="updateUser()"><i class="far fa-edit"></i> Editar
+            <button [disabled]="this.form.invalid" class="btn e-button" (click)="updateUser()"><i
+                    class="far fa-edit"></i> Editar
                 Información</button>
         </div>
     </div>

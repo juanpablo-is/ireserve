@@ -24,7 +24,7 @@ const routes: Routes = [
   { path: 'restaurant', redirectTo: '' },
   { path: 'restaurant/:id', component: RestaurantComponent },
   { path: 'profile', component: ProfileComponent },
-  { path: 'user-info/:id', component: UserInfoComponent },
+  { path: 'user-info', component: UserInfoComponent },
   { path: 'restaurant-info', component: RestaurantInfoComponent }
 ];
 

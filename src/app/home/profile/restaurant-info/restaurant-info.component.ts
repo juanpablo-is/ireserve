@@ -1,4 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RestService } from 'src/app/services/backend/rest.service';
 import { LocalStorageService } from 'src/app/services/frontend/local-storage.service';
@@ -11,8 +12,8 @@ import { UpdateToastService } from 'src/app/update-toast.service';
 })
 export class RestaurantInfoComponent {
 
+  form: FormGroup;
   user: any;
-  restaurant: any = {};
 
   @ViewChild('address') address: ElementRef;
   @ViewChild('countTables') countTables: ElementRef;
@@ -22,6 +23,7 @@ export class RestaurantInfoComponent {
   @ViewChild('phone') phone: ElementRef;
 
   constructor(
+    private formBuilder: FormBuilder,
     private router: Router,
     private restService: RestService,
     private serviceToast: UpdateToastService,
@@ -33,7 +35,7 @@ export class RestaurantInfoComponent {
     this.restService.get(`/api/restaurant/${this.user.idRestaurant}`)
       .then(response => {
         if (response.ok && response.status === 200) {
-          this.restaurant = response.body;
+          this.buildForm(response.body);
         }
       })
       .catch(() => {
@@ -50,21 +52,13 @@ export class RestaurantInfoComponent {
       countTables: this.countTables.nativeElement.value,
       dateStart: this.dateStart.nativeElement.value,
       dateEnd: this.dateEnd.nativeElement.value,
-      idUser: this.user.uid,
       name: this.name.nativeElement.value,
-      open: this.restaurant.open,
-      phone: this.phone.nativeElement.value,
-      stars: this.restaurant.stars,
-      type: this.restaurant.type,
-      urlPhoto: this.restaurant.urlPhoto,
-      idRestaurant: this.user.idRestaurant
+      phone: this.phone.nativeElement.value
     };
 
-    this.restService.put('/api/restaurant', restaurant)
+    this.restService.put(`/api/restaurant/${this.user.idRestaurant}`, restaurant)
       .then(response => {
         if (response.ok && response.status === 200) {
-          this.restaurant = restaurant;
-
           this.serviceToast.updateData({
             title: 'Información actualizada',
             body: 'Su información de restaurante ha sido actualizada.',
@@ -89,4 +83,16 @@ export class RestaurantInfoComponent {
       });
   }
 
+  /**
+   * Crea formulario reactivo.
+   */
+  private buildForm(restaurant): void {
+    this.form = this.formBuilder.group({
+      countTables: [restaurant.countTables, [Validators.required]],
+      dateStart: [restaurant.dateStart, [Validators.required]],
+      dateEnd: [restaurant.dateEnd, [Validators.required]],
+      name: [restaurant.name, [Validators.required]],
+      phone: [restaurant.phone, [Validators.required]]
+    });
+  }
 }

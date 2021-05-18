@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { RestService } from 'src/app/services/backend/rest.service';
 import { LocalStorageService } from 'src/app/services/frontend/local-storage.service';
 import { UpdateToastService } from 'src/app/update-toast.service';
@@ -11,7 +12,7 @@ import { UpdateToastService } from 'src/app/update-toast.service';
 })
 export class UserInfoComponent {
 
-  idUser: string;
+  form: FormGroup;
   user: any = {};
 
   @ViewChild('firstname') firstname: ElementRef;
@@ -22,30 +23,16 @@ export class UserInfoComponent {
   @ViewChild('confirmnewpass') confirmnewpass: ElementRef;
 
   constructor(
+    private formBuilder: FormBuilder,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
     private restService: RestService,
     private serviceToast: UpdateToastService,
     private localStorageService: LocalStorageService
   ) {
-    const user = this.localStorageService.getData('user');
-    if (!user) { this.router.navigate(['/login']); return; }
+    this.user = this.localStorageService.getData('user');
+    if (!this.user) { this.router.navigate(['/login']); return; }
 
-    this.idUser = this.activatedRoute.snapshot.paramMap.get('id');
-    if (!this.idUser) {
-      this.router.navigate(['/profile']);
-      return;
-    }
-
-    this.restService.get(`/api/user?uid=${this.idUser}`)
-      .then(response => {
-        if (response.ok && response.status === 200) {
-          this.user = response.body.data;
-        }
-      })
-      .catch(() => {
-        this.router.navigate(['/profile']);
-      });
+    this.buildForm(this.user);
   }
 
   /**
@@ -54,25 +41,21 @@ export class UserInfoComponent {
   updateUser(): void {
     if (this.newpass.nativeElement.value === this.confirmnewpass.nativeElement.value) {
       const user = {
-        email: this.user.email,
         firstname: this.firstname.nativeElement.value,
         lastname: this.lastname.nativeElement.value,
         password: this.oldpass.nativeElement.value,
         newPass: this.newpass.nativeElement.value,
-        phone: this.phone.nativeElement.value,
-        role: this.user.role,
-        uid: this.idUser
+        phone: this.phone.nativeElement.value
       };
 
-      this.restService.put('/api/user', user)
+      this.restService.put(`/api/user/${this.user.uid}`, user)
         .then(response => {
           if (response.ok && response.status === 200) {
-            this.user = user;
-            delete user.password;
-            delete user.newPass;
+            this.user = { ...this.user, ...user };
+            delete this.user.password;
+            delete this.user.newPass;
 
-            this.localStorageService.clearStorage();
-            this.localStorageService.updateData('user', user);
+            this.localStorageService.updateData('user', this.user);
 
             this.serviceToast.updateData({
               title: 'Información actualizada',
@@ -103,6 +86,20 @@ export class UserInfoComponent {
         seconds: 4, status: false
       });
     }
+  }
+
+  /**
+   * Crea formulario reactivo.
+   */
+  private buildForm(user: any): void {
+    this.form = this.formBuilder.group({
+      firstname: [user.firstname, [Validators.required]],
+      lastname: [user.lastname, [Validators.required]],
+      phone: [user.phone, [Validators.required]],
+      password: [null, [Validators.minLength(6), Validators.required]],
+      newPassword: [null, [Validators.minLength(6), Validators.required]],
+      confirmNewPassword: [null, [Validators.minLength(6), Validators.required]]
+    });
   }
 
 }

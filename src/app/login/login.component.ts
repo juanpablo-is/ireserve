@@ -45,7 +45,7 @@ export class LoginComponent {
 
     this.auth.signInWithEmailAndPassword(this.form.value.email, this.form.value.password)
       .then((data) => {
-        this.restService.get(`/api/user?uid=${data.user.uid}`)
+        this.restService.get(`/api/user/${data.user.uid}`)
           .then((result: any) => {
             if (result.ok && result.status === 200) {
               if (result.body.data) {
