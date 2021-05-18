@@ -28,6 +28,10 @@ export class ReservationComponent {
   data: any = {};
   idRestaurant: string;
 
+  type = 'mesa';
+  menu: any;
+  objectKeys = Object.keys;
+
   now = new Date();
   min = new Date(this.now.getFullYear(), this.now.getMonth(), this.now.getDate());
   max = new Date(this.now.getFullYear(), this.now.getMonth(), this.now.getDate() + 6);
@@ -58,6 +62,17 @@ export class ReservationComponent {
 
           if (this.data === null) { return this.router.navigate(['/']); }
           this.spinner.nativeElement.remove();
+
+          this.restService.get(`/api/menu?idRestaurant=${this.idRestaurant}`)
+            .then(responseRestaurant => {
+              if (responseRestaurant.ok && responseRestaurant.status === 200) {
+                this.menu = responseRestaurant.body.dishes;
+              }
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+
         } else {
           return this.router.navigate(['/']);
         }
@@ -65,6 +80,38 @@ export class ReservationComponent {
       .catch(() => {
         this.router.navigate(['/']);
       });
+  }
+
+  transformKey = {
+    breakfast: 'Desayunos',
+    platosFuertes: 'Platos fuertes',
+    platosCorrientes: 'Platos corrientes',
+    drinks: 'Bebidas',
+    entraces: 'Entradas',
+    additionals: 'Adicionales',
+    desserts: 'Postres',
+    iceCream: 'Helados',
+    shakes: 'Batidos',
+    waffles: 'Waffles',
+    beers: 'Cervezas',
+    cocktails: 'Cocteles',
+    wines: 'Vinos',
+    coffee: 'Café',
+  };
+
+  /**
+   * Returna 'true' si es la primera categoria de items del menú.
+   */
+  firstCategory(type: string): boolean {
+    if (type === this.type) {
+      return true;
+    }
+
+    if (this.type === '') {
+      this.type = type;
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -126,5 +173,12 @@ export class ReservationComponent {
    */
   onBack(): void {
     history.back();
+  }
+
+  /**
+   * Modifica el tipo de reservación en los radiobuttons.
+   */
+  onChangeRadio(type: string): void {
+    this.type = type;
   }
 }

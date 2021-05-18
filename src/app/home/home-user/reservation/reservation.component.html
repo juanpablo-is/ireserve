@@ -82,7 +82,29 @@
                 </div>
                 <div id="collapse-2" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
                     <div class="card-body">
-                        <div class="d-flex flex-column">
+                        <div class="form-check">
+                            <input (change)="onChangeRadio('mesa')" class="form-check-input" type="radio"
+                                name="typeReservation" id="mesa" checked>
+                            <label class="form-check-label" for="mesa">
+                                Reservar mesa
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input (change)="onChangeRadio('sinDomicilio')" class="form-check-input" type="radio"
+                                name="typeReservation" id="sinDomicilio">
+                            <label class="form-check-label" for="sinDomicilio">
+                                Reservar plato sin domicio
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input (change)="onChangeRadio('conDomicilio')" class="form-check-input" type="radio"
+                                name="typeReservation" id="conDomicilio">
+                            <label class="form-check-label" for="conDomicilio">
+                                Reservar plato con domicio
+                            </label>
+                        </div>
+                        <hr>
+                        <div *ngIf="type==='mesa'" class="d-flex flex-column">
                             <label class="form-label">Cantidad de sillas:</label>
                             <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                                 <input (click)="onItemChange(2)" type="radio" class="btn-check" name="countChairs"
@@ -97,6 +119,44 @@
                                     id="chair-3" autocomplete="off">
                                 <label class="btn btn-outline-primary" for="chair-3">+6 sillas</label>
                             </div>
+                        </div>
+                        <div *ngIf="type!=='mesa'" class="restaurant-menu my-2">
+                            <h4 class="mt-3">Menú</h4>
+                            <hr class="my-2" />
+                            <p class="text-center" *ngIf="!menu; else templateMenu ">Este restaurante no presenta menú
+                                registrado.</p>
+                            <ng-template #templateMenu>
+                                <ul class="nav nav-pills mb-3 pb-2" id="pills-tab" role="tablist">
+                                    <ng-container *ngFor="let key of objectKeys(menu); index as i">
+                                        <li *ngIf="menu[key].length > 0 && transformKey[key]" class="nav-item mx-2"
+                                            role="presentation">
+                                            <button class="nav-link" [class.active]="firstCategory(key)"
+                                                [id]="'pills-' + key + '-tab'" data-bs-toggle="pill"
+                                                [attr.data-bs-target]="'#pills-' + key" type="button" role="tab"
+                                                [attr.aria-controls]="'pills-' + key"
+                                                [attr.aria-selected]="firstCategory(key)">{{transformKey[key]}}</button>
+                                        </li>
+                                    </ng-container>
+                                </ul>
+                                <div class="tab-content" id="pills-tabContent">
+                                    <div *ngFor="let key of objectKeys(menu); index as i" class="tab-pane fade"
+                                        [class.show]="firstCategory(key)" [class.active]="firstCategory(key)"
+                                        [id]="'pills-' + key" role="tabpanel"
+                                        [attr.aria-labelledby]="'pills-' + key + '-tab'">
+                                        <div class="restaurant-cards">
+                                            <div class="card" *ngFor="let item of menu[key]">
+                                                <img [src]="item.urlPhoto" class="card-img-top" alt="...">
+                                                <div class="card-body d-flex">
+                                                    <strong class="df-1">
+                                                        <p class="card-text">{{item.name}}</p>
+                                                    </strong>
+                                                    <p class="card-text price">{{item.price|currency}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
                         </div>
                     </div>
                 </div>
