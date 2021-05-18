@@ -33,7 +33,7 @@ export class UserInfoComponent {
 
     this.idUser = this.activatedRoute.snapshot.paramMap.get('id');
     if (!this.idUser) {
-      this.router.navigate(['/']);
+      this.router.navigate(['/profile']);
       return;
     }
 
@@ -44,7 +44,7 @@ export class UserInfoComponent {
         }
       })
       .catch(() => {
-        this.router.navigate(['/']);
+        this.router.navigate(['/profile']);
       });
   }
 

@@ -7,28 +7,21 @@
         </a>
         <div class="row my-3">
             <div class="col-6 info center">
-                <h5>
-                    Dirección:
-                </h5>
+                <h5>Dirección:</h5>
             </div>
             <div class="col-6 info v-center my-2">
-                <input type="text"  class="form-control input-style" value={{restaurant.address}} #address>
+                <input type="text" class="form-control input-style" value={{restaurant.address}} #address>
             </div>
             <div class="col-6 info center">
-                <h5>
-                    Numero de mesas:
-                </h5>
+                <h5>Número de mesas:</h5>
             </div>
             <div class="col-6 info v-center my-2">
-                <input type="text"  class="form-control input-style" value={{restaurant.countTables}} #countTables>
+                <input type="number" class="form-control input-style" value={{restaurant.countTables}} #countTables>
             </div>
-            
             <div class="col-6 info center">
-                <h5>
-                    Horario de inicio
-                </h5>
-            </div> 
-            <div class="col-6 info v-center my-2">    
+                <h5>Horario de inicio</h5>
+            </div>
+            <div class="col-6 info v-center my-2">
                 <div class="col p-0 m-1">
                     <div class="input-group">
                         <input type="time" class="form-control input-style" value={{restaurant.dateStart}} #dateStart>
@@ -36,37 +29,32 @@
                 </div>
             </div>
             <div class="col-6 info center">
-                <h5>
-                    Horario de cierre
-                </h5>
+                <h5>Horario de cierre</h5>
             </div>
             <div class="col-6 info v-center my-2">
                 <div class="col p-0 m-1">
                     <div class="input-group">
-                        <input type="time"  class="form-control input-style" value={{restaurant.dateEnd}}  #dateEnd>
+                        <input type="time" class="form-control input-style" value={{restaurant.dateEnd}} #dateEnd>
                     </div>
-                </div>    
-            </div>  
+                </div>
+            </div>
             <div class="col-6 info center">
-                <h5>
-                    Nombre Restaurante:
-                </h5>
+                <h5>Nombre restaurante:</h5>
             </div>
             <div class="col-6 info v-center my-2">
-                <input type="text"  class="form-control input-style" value={{restaurant.name}} #name>
-            </div>  
+                <input type="text" class="form-control input-style" value={{restaurant.name}} #name>
+            </div>
             <div class="col-6 info center my-2">
-                <h5>
-                    Telefono resturante:
-                </h5>
+                <h5>Teléfono resturante:</h5>
             </div>
             <div class="col-6 info v-center my-2">
-                <input type="number"  class="form-control input-style" value={{restaurant.phone}} #phone>
+                <input type="tel" class="form-control input-style" value={{restaurant.phone}} #phone>
             </div>
         </div>
         <div class="row center">
             <div class="col-12 center">
-                <button class="btn e-button" (click)="updateRestaurant()"><i class="far fa-edit"></i> Editar Información</button>
+                <button class="btn e-button" (click)="updateRestaurant()"><i class="far fa-edit"></i> Editar
+                    Información</button>
             </div>
         </div>
     </div>
