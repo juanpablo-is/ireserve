@@ -1,7 +1,14 @@
 @import ../../../../variables
 
+:host
+    width: 100%
+
 .cont-user-info
     max-width: 850px
+    margin: 0 auto
+
+    .col-md
+        margin: 10px 0
 
     .info
         height: 50px
@@ -40,3 +47,12 @@
     a
         text-decoration: none
         color: black
+
+    .layout-grid
+        display: grid
+        >*
+            margin: 5px 0
+
+        @media screen and (min-width: $breakpoint-tablet)
+            grid-template-columns: repeat(2, 1fr)
+            gap: 10px

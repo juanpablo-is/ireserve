@@ -13,6 +13,7 @@ export class ProfileComponent {
   isClient = false;
   user: any;
   restaurant: any = {};
+  urlPhoto = 'https://image.flaticon.com/icons/png/512/16/16363.png';
 
   constructor(
     private router: Router,
@@ -28,6 +29,7 @@ export class ProfileComponent {
         .then(response => {
           if (response.ok && response.status === 200) {
             this.restaurant = response.body;
+            this.urlPhoto = this.restaurant.urlPhoto;
           } else {
             this.router.navigate(['/']);
           }
