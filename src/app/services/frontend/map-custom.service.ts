@@ -84,10 +84,10 @@ export class MapCustomService {
           return this.dataObs$.next(this.currentLocation);
         }
       }, err => {
-        this.dataObs$.error({});
+        this.dataObs$.error(err);
       }, { timeout: 30000 });
     } else {
-      this.dataObs$.error({});
+      this.dataObs$.error({ code: 4, message: 'El navegador no soporta geolocalización.' });
     }
 
     return this.dataObs$;

@@ -46,7 +46,9 @@ export class HomeUserComponent {
           .catch(error => {
             console.log(error);
           });
-      }, error => { });
+      }, error => {
+        console.log(error);
+      });
   }
 
   /**
