@@ -20,7 +20,7 @@
                     <p>{{data.type|titlecase}}</p>
                 </div>
                 <div class="text-center">
-                    <div class="stars">
+                    <div *ngIf="data.stars > 0" class="stars">
                         <span *ngFor="let number of [1,2,3,4,5]" [class.checked]="number <= data.stars">
                             <i class="fa fa-star"></i>
                         </span>
