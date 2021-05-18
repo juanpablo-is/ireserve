@@ -47,7 +47,7 @@
                             <h5>{{user.phone}}</h5>
                         </div>
                         <div class="col-12 info text-center">
-                            <a [routerLink]="['/user-info', user.uid]">
+                            <a [routerLink]="['/user-info']">
                                 <button class="btn e-button"><i class="far fa-edit"></i> Editar Información</button>
                             </a>
                         </div>
@@ -55,7 +55,7 @@
                 </div>
             </div>
         </div>
-        <div *ngIf="isClient" class="accordion-item">
+        <div *ngIf="restaurant" class="accordion-item">
             <h2 class="accordion-header" id="panel-restaurant">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse"
                     data-bs-target="#panelRestaurant" aria-expanded="true" aria-controls="panelRestaurant">

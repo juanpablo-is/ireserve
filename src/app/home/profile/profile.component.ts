@@ -10,9 +10,8 @@ import { LocalStorageService } from 'src/app/services/frontend/local-storage.ser
 })
 export class ProfileComponent {
 
-  isClient = false;
   user: any;
-  restaurant: any = {};
+  restaurant: any;
   urlPhoto = 'https://image.flaticon.com/icons/png/512/16/16363.png';
 
   constructor(
@@ -24,7 +23,6 @@ export class ProfileComponent {
     if (!this.user) { this.router.navigate(['/login']); return; }
 
     if (this.user.role === 'Cliente') {
-      this.isClient = true;
       this.restService.get(`/api/restaurant/${this.user.idRestaurant}`)
         .then(response => {
           if (response.ok && response.status === 200) {

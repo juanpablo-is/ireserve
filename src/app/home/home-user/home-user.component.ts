@@ -40,7 +40,6 @@ export class HomeUserComponent {
           then(response => {
             if (response.ok && response.status === 200) {
               this.restaurants = response.body;
-              this.itemsRestaurant = this.restaurants.slice().splice(0, 12);
               this.filterCategory(this.filter, true);
             }
           })
