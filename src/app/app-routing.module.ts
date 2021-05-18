@@ -10,7 +10,6 @@ import { SetMenuComponent } from './set-menu/set-menu.component';
 import { RestaurantComponent } from './restaurant/restaurant.component';
 import { ProfileComponent } from './home/profile/profile.component';
 import { UserInfoComponent } from './home/profile/user-info/user-info.component';
-//import { InfoMenuComponent } from './home/home-client/info-menu/info-menu.component';
 import { RestaurantInfoComponent } from './home/profile/restaurant-info/restaurant-info.component';
 
 const routes: Routes = [
@@ -24,10 +23,8 @@ const routes: Routes = [
   { path: 'reservations', component: ReservationsComponent },
   { path: 'restaurant', redirectTo: '' },
   { path: 'restaurant/:id', component: RestaurantComponent },
-  { path: 'restaurant/:id', component: RestaurantComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'user-info/:id', component: UserInfoComponent },
-  //{ path: 'menu', component: InfoMenuComponent },
   { path: 'restaurant-info', component: RestaurantInfoComponent }
 ];
 
