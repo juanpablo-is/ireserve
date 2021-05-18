@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import { environment } from 'src/environments/environment';
-
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +16,10 @@ export class MapCustomService {
   long = -74.06666639070954;
   zoom = 14;
   coords: any = {};
+
+  private dataObs$ = new Subject();
+  idWatching: any;
+  currentLocation: any;
 
   constructor() {
     this.mapbox.accessToken = environment.mapboxKey;
@@ -66,5 +70,26 @@ export class MapCustomService {
    */
   points(): void {
     return this.coords;
+  }
+
+  /**
+   * Retorna ubicación del dispositivo.
+   * @returns Subject
+   */
+  getPosition(): Subject<any> {
+    if (navigator.geolocation) {
+      this.idWatching = navigator.geolocation.watchPosition(resp => {
+        if (this.currentLocation?.lat !== resp.coords.latitude && this.currentLocation?.lng !== resp.coords.longitude) {
+          this.currentLocation = { lat: resp.coords.latitude, lng: resp.coords.longitude };
+          return this.dataObs$.next(this.currentLocation);
+        }
+      }, err => {
+        this.dataObs$.error(err);
+      }, { timeout: 30000 });
+    } else {
+      this.dataObs$.error({ code: 4, message: 'El navegador no soporta geolocalización.' });
+    }
+
+    return this.dataObs$;
   }
 }

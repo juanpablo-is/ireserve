@@ -69,7 +69,7 @@ export class RegisterRestaurantComponent implements OnInit {
         idUser: this.idUser,
         type: this.form.value.type,
         name: this.form.value.name,
-        geoPoint: this.coords.geoPoint,
+        coordinates: this.coords.geoPoint,
         address: this.coords.place,
         dateStart: this.form.value.dateStart,
         dateEnd: this.form.value.dateEnd,
