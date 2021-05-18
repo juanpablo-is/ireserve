@@ -1,0 +1,51 @@
+<div class="cont-user-info center">
+    <div class="container">
+        <a [routerLink]="['/profile']" class="return center">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+
+        <div [formGroup]="form" class="my-3 layout-grid">
+            <div class="form-floating">
+                <input formControlName="firstname" type="text" class="form-control" id="firstname" placeholder="Nombre"
+                    #firstname>
+                <label for="firstname">Nombre:</label>
+            </div>
+
+            <div class="form-floating">
+                <input formControlName="lastname" type="text" class="form-control" id="lastname" placeholder="Apellido"
+                    #lastname>
+                <label for="lastname">Apellido:</label>
+            </div>
+
+            <div class="form-floating">
+                <input formControlName="phone" type="tel" class="form-control" id="phone" placeholder="Teléfono" #phone>
+                <label for="phone">Teléfono:</label>
+            </div>
+
+            <div class="form-floating">
+                <input formControlName="password" type="password" class="form-control" id="actualPass"
+                    placeholder="Contraseña actual" #oldpass>
+                <label for="actualPass">Contraseña actual:</label>
+            </div>
+
+            <div class="form-floating">
+                <input formControlName="newPassword" type="password" class="form-control" id="newPassword"
+                    placeholder="Contraseña nueva" #newpass>
+                <label for="newPassword">Contraseña nueva:</label>
+            </div>
+
+            <div class="form-floating">
+                <input formControlName="confirmNewPassword" type="password" class="form-control" id="confirmNewPassword"
+                    placeholder="Confirmar contraseña nueva" #confirmnewpass>
+                <label for="confirmNewPassword">Confirmar contraseña nueva:</label>
+            </div>
+
+        </div>
+
+        <div class="info cont-button">
+            <button [disabled]="this.form.invalid" class="btn e-button" (click)="updateUser()"><i
+                    class="far fa-edit"></i> Editar
+                Información</button>
+        </div>
+    </div>
+</div>

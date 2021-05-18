@@ -1,0 +1,46 @@
+<div class="cont-restaurant-info center">
+    <div class="container">
+        <a [routerLink]="['/profile']">
+            <div class="return center">
+                <i class="fas fa-arrow-left"></i>
+            </div>
+        </a>
+
+        <div *ngIf="form" [formGroup]="form" class="my-3 layout-grid">
+            <div class="form-floating">
+                <input type="text" class="form-control" id="address" placeholder="Nombre" #address>
+                <label for="address">Dirección:</label>
+            </div>
+            <div class="form-floating">
+                <input formControlName="countTables" type="number" class="form-control" id="countTables"
+                    placeholder="Número de mesas" #countTables>
+                <label for="countTables">Número de mesas:</label>
+            </div>
+            <div class="form-floating">
+                <input formControlName="dateStart" type="time" class="form-control" id="dateStart"
+                    placeholder="Hora inicio" #dateStart>
+                <label for="dateStart">Hora inicio:</label>
+            </div>
+            <div class="form-floating">
+                <input formControlName="dateEnd" type="time" class="form-control" id="dateEnd" placeholder="Hora cierre"
+                    #dateEnd>
+                <label for="dateEnd">Hora cierre:</label>
+            </div>
+            <div class="form-floating">
+                <input formControlName="name" type="text" class="form-control" id="nameRestaurant"
+                    placeholder="Nombre restaurante" #name>
+                <label for="nameRestaurant">Nombre restaurante:</label>
+            </div>
+            <div class="form-floating">
+                <input formControlName="phone" type="tel" class="form-control" id="phone" placeholder="Teléfono" #phone>
+                <label for="phone">Teléfono:</label>
+            </div>
+        </div>
+
+        <div *ngIf="form" class="col-12 center">
+            <button [disabled]="form.invalid" class="btn e-button" (click)="updateRestaurant()"><i
+                    class="far fa-edit"></i> Editar
+                Información</button>
+        </div>
+    </div>
+</div>
