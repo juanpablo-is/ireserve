@@ -133,7 +133,7 @@ export class ReservationComponent {
       timestamp: new Date(date).getTime(),
       idUser: this.data.user.uid,
       idRestaurant: this.idRestaurant,
-      state: false
+      type: 'pended'
     };
 
     this.restService.post('/api/reservation', reservation)

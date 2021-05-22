@@ -1,4 +1,4 @@
-import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
 import { RestService } from '../services/backend/rest.service';
 import { LocalStorageService } from '../services/frontend/local-storage.service';
@@ -9,12 +9,10 @@ import { UpdateToastService } from '../update-toast.service';
   templateUrl: './reservations.component.html',
   styleUrls: ['./reservations.component.sass']
 })
-export class ReservationsComponent {
+export class ReservationsComponent implements OnInit {
 
   user: any;
-  pending: any[] = [];
-  active: any[] = [];
-  complete: any[] = [];
+  reservations: any[] = [];
 
   cancel: any = {};
 
@@ -38,14 +36,19 @@ export class ReservationsComponent {
         if (result.ok && result.status === 200) {
           this.spinner.nativeElement.remove();
 
-          this.pending = result.body.pending;
-          this.active = result.body.active;
-          this.complete = result.body.complete;
+          this.reservations = result.body;
         }
       })
       .catch(() => {
         this.router.navigate(['/']);
       });
+  }
+
+  ngOnInit(): void {
+    const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+    popoverTriggerList.forEach((popoverTriggerEl) => {
+      return new bootstrap.Popover(popoverTriggerEl);
+    });
   }
 
   /**
@@ -69,10 +72,10 @@ export class ReservationsComponent {
         if (result.ok && result.status === 200) {
           switch (item.obj) {
             case 0:
-              this.pending.splice(item.id, 1);
+              // this.pending.splice(item.id, 1);
               break;
             case 1:
-              this.active.splice(item.id, 1);
+              // this.active.splice(item.id, 1);
               break;
           }
           this.closeModal.nativeElement.click();
