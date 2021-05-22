@@ -12,14 +12,16 @@ import { UpdateToastService } from '../update-toast.service';
 export class ReservationsComponent implements OnInit {
 
   user: any;
-  reservations: any[] = [];
-
+  reservations = {
+    pended: [],
+    actived: [],
+    completed: [],
+    canceled: [],
+    declined: [],
+  };
   cancel: any = {};
 
   @ViewChild('spinner') spinner: ElementRef;
-  @ViewChildren('itemsPending') itemsPendingElement: QueryList<any>;
-  @ViewChildren('itemsActive') itemsActiveElement: QueryList<any>;
-  @ViewChildren('itemsComplete') itemsCompleteElement: QueryList<any>;
   @ViewChild('closeModal') closeModal: ElementRef;
 
   constructor(
@@ -72,10 +74,10 @@ export class ReservationsComponent implements OnInit {
         if (result.ok && result.status === 200) {
           switch (item.obj) {
             case 0:
-              // this.pending.splice(item.id, 1);
+              this.reservations.pended.splice(item.id, 1);
               break;
             case 1:
-              // this.active.splice(item.id, 1);
+              this.reservations.actived.splice(item.id, 1);
               break;
           }
           this.closeModal.nativeElement.click();
@@ -93,35 +95,19 @@ export class ReservationsComponent implements OnInit {
   }
 
   // Colapsa acordión de tarjetas.
-  collapsingCard(section: number, index: number): void {
-    switch (section) {
-      case 0:
-        this.collapseItems(this.itemsPendingElement, index);
-        break;
-      case 1:
-        this.collapseItems(this.itemsActiveElement, index);
-        break;
-      case 2:
-        this.collapseItems(this.itemsCompleteElement, index);
-        break;
+  collapsingCard(e): void {
+    const div = e.currentTarget.parentElement.parentElement.children[0];
+    const divHidden = e.currentTarget.parentElement.parentElement.children[1];
+
+    if (divHidden.classList.contains('hidden')) {
+      divHidden.classList.remove('hidden');
+      div.querySelector('svg').classList.remove('fa-chevron-down');
+      div.querySelector('svg').classList.add('fa-chevron-up');
+    } else {
+      divHidden.classList.add('hidden');
+      div.querySelector('svg').classList.remove('fa-chevron-up');
+      div.querySelector('svg').classList.add('fa-chevron-down');
     }
-  }
-
-  collapseItems(items: any, index: number): void {
-    items.toArray().forEach((element: any, i: number) => {
-      const div = element.nativeElement.children[0];
-      const divHidden = element.nativeElement.children[1];
-
-      if (i === index && divHidden.classList.contains('hidden')) {
-        divHidden.classList.remove('hidden');
-        div.querySelector('svg').classList.remove('fa-chevron-down');
-        div.querySelector('svg').classList.add('fa-chevron-up');
-      } else {
-        divHidden.classList.add('hidden');
-        div.querySelector('svg').classList.remove('fa-chevron-up');
-        div.querySelector('svg').classList.add('fa-chevron-down');
-      }
-    });
   }
 
 }
