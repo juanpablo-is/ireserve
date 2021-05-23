@@ -1,8 +1,8 @@
-import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { RestService } from '../services/backend/rest.service';
 import { LocalStorageService } from '../services/frontend/local-storage.service';
-import { UpdateToastService } from '../update-toast.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-reservations',
@@ -27,7 +27,6 @@ export class ReservationsComponent implements OnInit {
   constructor(
     private router: Router,
     private restService: RestService,
-    private toastService: UpdateToastService,
     private localStorageService: LocalStorageService
   ) {
     this.user = this.localStorageService.getData('user');
@@ -81,15 +80,23 @@ export class ReservationsComponent implements OnInit {
               break;
           }
           this.closeModal.nativeElement.click();
-          this.toastService.updateData({
-            title: 'Cancelada', body: `La reservación en <i>${item.name}</i> se canceló exitosamente.`, seconds: 5, status: true
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Reservación cancelada',
+            html: `La reservación en <i>${item.name}</i> se canceló exitosamente.`,
+            confirmButtonText: 'Cerrar',
+            timer: 5000
           });
         }
       })
       .catch(() => {
         this.closeModal.nativeElement.click();
-        this.toastService.updateData({
-          title: 'Falló', body: 'No fue posible cancelar la reservación, intente nuevamente.', seconds: 5, status: false
+        Swal.fire({
+          icon: 'error',
+          title: 'Falló',
+          html: 'No fue posible cancelar la reservación, intente nuevamente.',
+          confirmButtonText: 'Cerrar'
         });
       });
   }
