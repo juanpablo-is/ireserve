@@ -31,7 +31,7 @@
                     <span class="w-100 px-3"><strong class="pe-1">Cantidad sillas:</strong>{{item.chairs}}</span>
                     <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.createdAt}}</span>
                     <button type="button" class="btn col-10 btn-primary my-2" data-bs-toggle="modal"
-                        data-bs-target="#modalCancelReservation" (click)="openModal(item, 0, i)">
+                        data-bs-target="#modalCancelReservation" (click)="openModal(item, 0)">
                         CANCELAR
                     </button>
                 </div>
@@ -63,7 +63,7 @@
                     <span class="w-100 px-3"><strong class="pe-1">Cantidad sillas:</strong>{{item.chairs}}</span>
                     <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.createdAt}}</span>
                     <button type="button" class="btn col-10 btn-primary my-2" data-bs-toggle="modal"
-                        data-bs-target="#modalCancelReservation" (click)="openModal(item, 1, i)">
+                        data-bs-target="#modalCancelReservation" (click)="openModal(item, 1)">
                         CANCELAR
                     </button>
                 </div>
@@ -80,7 +80,7 @@
         </span>
         <hr>
         <div class="reservations">
-            <div *ngFor="let item of reservations.canceled; index as i" class="reservation">
+            <div *ngFor="let item of reservations.canceled; index as i" class="reservation reservation-canceled">
                 <div class="reservation-header d-flex justify-content-center align-items-center">
                     <div class="w-100">
                         <h4>{{item.restaurant}}</h4>
@@ -108,7 +108,7 @@
         </span>
         <hr>
         <div class="reservations">
-            <div *ngFor="let item of reservations.declined; index as i" class="reservation">
+            <div *ngFor="let item of reservations.declined; index as i" class="reservation reservation-canceled">
                 <div class="reservation-header d-flex justify-content-center align-items-center">
                     <div class="w-100">
                         <h4>{{item.restaurant}}</h4>
@@ -167,7 +167,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                ¿Está seguro en cancelar la reservación en {{cancel.name}}?
+                ¿Está seguro en cancelar la reservación en {{cancel.item?.name}}?
             </div>
             <div class="modal-footer">
                 <button #closeModal type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>

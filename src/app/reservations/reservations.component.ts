@@ -55,36 +55,35 @@ export class ReservationsComponent implements OnInit {
   /**
    * Abre modal para eliminar reservación.
    */
-  openModal(item: any, obj: number, index: number): void {
+  openModal(item: any, obj: number): void {
     this.cancel = {
-      name: item.restaurant,
-      id: item.id,
-      index,
-      obj,
+      item,
+      obj
     };
   }
 
   /**
    * Cancela la reservación a través del servicio.
    */
-  cancelReservation(item: any): void {
-    this.restService.delete(`/api/reservation/${item.id}`)
+  cancelReservation(cancel: any): void {
+    this.restService.put(`/api/reservation/${cancel.item.id}`, { ...cancel.item, type: 'canceled' })
       .then((result: any) => {
         if (result.ok && result.status === 200) {
-          switch (item.obj) {
+          switch (cancel.obj) {
             case 0:
-              this.reservations.pended.splice(item.id, 1);
+              this.reservations.pended.splice(cancel.item.id, 1);
               break;
             case 1:
-              this.reservations.actived.splice(item.id, 1);
+              this.reservations.actived.splice(cancel.item.id, 1);
               break;
           }
+          this.reservations.canceled.push(cancel.item);
           this.closeModal.nativeElement.click();
 
           Swal.fire({
             icon: 'success',
             title: 'Reservación cancelada',
-            html: `La reservación en <i>${item.name}</i> se canceló exitosamente.`,
+            html: `La reservación en <i>${cancel.item?.name}</i> se canceló exitosamente.`,
             confirmButtonText: 'Cerrar',
             timer: 5000
           });
