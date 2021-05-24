@@ -48,7 +48,7 @@ export class ReservationsComponent implements OnInit {
   ngOnInit(): void {
     const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
     popoverTriggerList.forEach((popoverTriggerEl) => {
-      return new bootstrap.Popover(popoverTriggerEl);
+      // return new bootstrap.Popover(popoverTriggerEl);
     });
   }
 
