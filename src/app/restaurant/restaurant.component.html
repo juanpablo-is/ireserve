@@ -13,14 +13,14 @@
     </div>
     <img class="restaurant-background" [src]="data.urlPhoto" alt="">
     <div class="restaurant-content w-100 px-2">
-        <div class="restaurant-info p-4">
+        <div class="restaurant-info px-4 py-3">
             <div class="d-flex align-items-center">
                 <div class="w-100">
                     <h3>{{data.name|uppercase}}</h3>
                     <p>{{data.type|titlecase}}</p>
                 </div>
                 <div class="text-center">
-                    <div *ngIf="data.stars > 0" class="stars">
+                    <div class="stars py-1" (click)="rate()">
                         <span *ngFor="let number of [1,2,3,4,5]" [class.checked]="number <= data.stars">
                             <i class="fa fa-star"></i>
                         </span>
