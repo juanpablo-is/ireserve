@@ -19,16 +19,17 @@
             <div *ngFor="let item of reservations.pended; index as i" class="reservation">
                 <div class="reservation-header d-flex justify-content-center align-items-center">
                     <div class="w-100">
-                        <h4>{{item.restaurant}}</h4>
+                        <h4>{{isClient ? item.name : item.restaurant}}</h4>
                         <p>{{item.date}}</p>
                     </div>
                     <span (click)="collapsingCard($event)"><i class="fas fa-chevron-down"></i></span>
                 </div>
                 <div class="hidden reservation-body d-flex flex-column justify-content-center align-items-center">
-                    <span class="w-100 px-3"><strong class="pe-1">Nombre:</strong>{{item.name}}</span>
+                    <span class="w-100 px-3"><strong class="pe-1">A nombre:</strong>{{item.name}}</span>
                     <span *ngIf="item.address" class="w-100 px-3"><strong
                             class="pe-1">Dirección:</strong>{{item.address}}</span>
-                    <span class="w-100 px-3"><strong class="pe-1">Cantidad sillas:</strong>{{item.chairs}}</span>
+                    <span *ngIf="item.chairs > 0" class="w-100 px-3"><strong class="pe-1">Cantidad
+                            sillas:</strong>{{item.chairs}}</span>
                     <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.createdAt}}</span>
                     <button type="button" class="btn col-10 btn-primary my-2" data-bs-toggle="modal"
                         data-bs-target="#modalCancelReservation" (click)="openModal(item, 0)">

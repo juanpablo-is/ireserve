@@ -12,13 +12,8 @@ import Swal from 'sweetalert2';
 export class ReservationsComponent implements OnInit {
 
   user: any;
-  reservations = {
-    pended: [],
-    actived: [],
-    completed: [],
-    canceled: [],
-    declined: [],
-  };
+  reservations = { pended: [], actived: [], completed: [], canceled: [], declined: [] };
+  isClient = false;
   cancel: any = {};
 
   @ViewChild('spinner') spinner: ElementRef;
@@ -31,8 +26,10 @@ export class ReservationsComponent implements OnInit {
   ) {
     this.user = this.localStorageService.getData('user');
     if (!this.user) { this.router.navigate(['/login']); return; }
+    this.isClient = this.user?.role === 'Cliente';
 
-    this.restService.get(`/api/reservations/${this.user.uid}`)
+    const URL = this.isClient ? `/api/reservations/${this.user.idRestaurant}?restaurant=true` : `/api/reservations/${this.user.uid}`;
+    this.restService.get(URL)
       .then((result: any) => {
         if (result.ok && result.status === 200) {
           this.spinner.nativeElement.remove();
@@ -47,9 +44,9 @@ export class ReservationsComponent implements OnInit {
 
   ngOnInit(): void {
     const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
-    popoverTriggerList.forEach((popoverTriggerEl) => {
-      // return new bootstrap.Popover(popoverTriggerEl);
-    });
+    // popoverTriggerList.forEach((popoverTriggerEl) => {
+    // return new bootstrap.Popover(popoverTriggerEl);
+    // });
   }
 
   /**
