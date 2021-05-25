@@ -11,6 +11,7 @@ import { RestaurantComponent } from './restaurant/restaurant.component';
 import { ProfileComponent } from './home/profile/profile.component';
 import { UserInfoComponent } from './home/profile/user-info/user-info.component';
 import { RestaurantInfoComponent } from './home/profile/restaurant-info/restaurant-info.component';
+import { MenuComponent } from './menu/menu.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -25,7 +26,8 @@ const routes: Routes = [
   { path: 'restaurant/:id', component: RestaurantComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'user-info', component: UserInfoComponent },
-  { path: 'restaurant-info', component: RestaurantInfoComponent }
+  { path: 'restaurant-info', component: RestaurantInfoComponent },
+  { path: 'menu', component: MenuComponent }
 ];
 
 @NgModule({

@@ -29,6 +29,7 @@ import { RestaurantComponent } from './restaurant/restaurant.component';
 import { ProfileComponent } from './home/profile/profile.component';
 import { UserInfoComponent } from './home/profile/user-info/user-info.component';
 import { RestaurantInfoComponent } from './home/profile/restaurant-info/restaurant-info.component';
+import { MenuComponent } from './menu/menu.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { RestaurantInfoComponent } from './home/profile/restaurant-info/restaura
     RestaurantComponent,
     ProfileComponent,
     UserInfoComponent,
-    RestaurantInfoComponent
+    RestaurantInfoComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,
