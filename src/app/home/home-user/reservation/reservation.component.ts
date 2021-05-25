@@ -1,10 +1,10 @@
-import { Component, ElementRef, Output, ViewChild, EventEmitter } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { setOptions, MbscDatepicker, localeEs } from '@mobiscroll/angular';
 import { Reservation } from 'src/app/interfaces/reservation';
 import { RestService } from 'src/app/services/backend/rest.service';
 import { LocalStorageService } from 'src/app/services/frontend/local-storage.service';
-import { UpdateToastService } from 'src/app/update-toast.service';
+import Swal from 'sweetalert2';
 
 setOptions({
   locale: localeEs,
@@ -42,7 +42,6 @@ export class ReservationComponent {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private restService: RestService,
-    private serviceToast: UpdateToastService,
     private localStorageService: LocalStorageService
   ) {
     const user = this.localStorageService.getData('user');
@@ -133,23 +132,36 @@ export class ReservationComponent {
       timestamp: new Date(date).getTime(),
       idUser: this.data.user.uid,
       idRestaurant: this.idRestaurant,
-      state: false
+      type: 'pended'
     };
 
     this.restService.post('/api/reservation', reservation)
       .then((result: { ok: any; status: number; body: any }) => {
         if (result.ok && result.status === 201) {
-          this.serviceToast.updateData({
-            title: 'Reservación creada', body: `La reservación en <i>${this.data.name}</i> fue exitosa.<br/>Pero falta confirmación del restaurante.`,
-            seconds: 7, status: true
+          Swal.fire({
+            icon: 'success',
+            title: 'Reservación creada',
+            html: `La reservación en <i>${this.data.name}</i> fue exitosa.<br/><b>Pero falta confirmación del restaurante.</b>`,
+            confirmButtonText: 'Cerrar',
+            timer: 7000
           });
           return this.router.navigate(['/']);
         }
-        this.serviceToast.updateData({ title: 'Falló', body: `La reservación falló, intente nuevamente.`, status: false });
+        Swal.fire({
+          icon: 'error',
+          title: 'Falló',
+          html: 'La reservación falló, intente nuevamente.',
+          confirmButtonText: 'Cerrar'
+        });
         this.disabledButton = false;
       })
       .catch(() => {
-        this.serviceToast.updateData({ title: 'Falló', body: `La reservación falló, intente nuevamente.`, status: false });
+        Swal.fire({
+          icon: 'error',
+          title: 'Falló',
+          html: 'La reservación falló, intente nuevamente.',
+          confirmButtonText: 'Cerrar'
+        });
         this.disabledButton = false;
       });
   }

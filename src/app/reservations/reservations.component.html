@@ -16,13 +16,13 @@
         </span>
         <hr>
         <div class="reservations">
-            <div *ngFor="let item of pending; index as i" class="reservation" #itemsPending>
+            <div *ngFor="let item of reservations.pended; index as i" class="reservation">
                 <div class="reservation-header d-flex justify-content-center align-items-center">
                     <div class="w-100">
                         <h4>{{item.restaurant}}</h4>
                         <p>{{item.date}}</p>
                     </div>
-                    <span (click)="collapsingCard(0, i)"><i class="fas fa-chevron-down"></i></span>
+                    <span (click)="collapsingCard($event)"><i class="fas fa-chevron-down"></i></span>
                 </div>
                 <div class="hidden reservation-body d-flex flex-column justify-content-center align-items-center">
                     <span class="w-100 px-3"><strong class="pe-1">Nombre:</strong>{{item.name}}</span>
@@ -31,12 +31,13 @@
                     <span class="w-100 px-3"><strong class="pe-1">Cantidad sillas:</strong>{{item.chairs}}</span>
                     <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.createdAt}}</span>
                     <button type="button" class="btn col-10 btn-primary my-2" data-bs-toggle="modal"
-                        data-bs-target="#modalCancelReservation" (click)="openModal(item, 0, i)">
+                        data-bs-target="#modalCancelReservation" (click)="openModal(item, 0)">
                         CANCELAR
                     </button>
                 </div>
             </div>
-            <span *ngIf="!pending.length" class="w-100 text-center d-block">No hay reservas pendientes.</span>
+            <span *ngIf="!reservations.pended?.length" class="w-100 text-center d-block">No hay reservas
+                pendientes.</span>
         </div>
     </div>
     <div class="py-3">
@@ -47,13 +48,13 @@
         </span>
         <hr>
         <div class="reservations">
-            <div *ngFor="let item of active;index as i" class="reservation reservation-active" #itemsActive>
+            <div *ngFor="let item of reservations.actived; index as i" class="reservation reservation-active">
                 <div class="reservation-header d-flex justify-content-center align-items-center">
                     <div class="w-100">
                         <h4>{{item.restaurant}}</h4>
                         <p>{{item.date}}</p>
                     </div>
-                    <span (click)="collapsingCard(1, i)"><i class="fas fa-chevron-down"></i></span>
+                    <span (click)="collapsingCard($event)"><i class="fas fa-chevron-down"></i></span>
                 </div>
                 <div class="hidden reservation-body d-flex flex-column justify-content-center align-items-center">
                     <span class="w-100 px-3"><strong class="pe-1">Nombre:</strong>{{item.name}}</span>
@@ -62,12 +63,69 @@
                     <span class="w-100 px-3"><strong class="pe-1">Cantidad sillas:</strong>{{item.chairs}}</span>
                     <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.createdAt}}</span>
                     <button type="button" class="btn col-10 btn-primary my-2" data-bs-toggle="modal"
-                        data-bs-target="#modalCancelReservation" (click)="openModal(item, 1, i)">
+                        data-bs-target="#modalCancelReservation" (click)="openModal(item, 1)">
                         CANCELAR
                     </button>
                 </div>
             </div>
-            <span *ngIf="!active.length" class="w-100 text-center d-block">No hay reservas activas.</span>
+            <span *ngIf="!reservations.actived?.length" class="w-100 text-center d-block">No hay reservas
+                activas.</span>
+        </div>
+    </div>
+    <div class="py-3">
+        <strong>Reservaciones canceladas</strong>
+        <span class="d-inline-block mx-3" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
+            data-bs-content="Transacciones canceladas por el usuario.">
+            <i class="far fa-question-circle"></i>
+        </span>
+        <hr>
+        <div class="reservations">
+            <div *ngFor="let item of reservations.canceled; index as i" class="reservation reservation-canceled">
+                <div class="reservation-header d-flex justify-content-center align-items-center">
+                    <div class="w-100">
+                        <h4>{{item.restaurant}}</h4>
+                        <p>{{item.date}}</p>
+                    </div>
+                    <span (click)="collapsingCard($event)"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="hidden reservation-body d-flex flex-column justify-content-center align-items-center">
+                    <span class="w-100 px-3"><strong class="pe-1">Nombre:</strong>{{item.name}}</span>
+                    <span *ngIf="item.address" class="w-100 px-3"><strong
+                            class="pe-1">Dirección:</strong>{{item.address}}</span>
+                    <span class="w-100 px-3"><strong class="pe-1">Cantidad sillas:</strong>{{item.chairs}}</span>
+                    <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.createdAt}}</span>
+                </div>
+            </div>
+            <span *ngIf="!reservations.canceled?.length" class="w-100 text-center d-block">No hay reservas
+                canceladas.</span>
+        </div>
+    </div>
+    <div class="py-3">
+        <strong>Reservaciones rechazadas</strong>
+        <span class="d-inline-block mx-3" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
+            data-bs-content="Transacciones rechazas por el restaurante.">
+            <i class="far fa-question-circle"></i>
+        </span>
+        <hr>
+        <div class="reservations">
+            <div *ngFor="let item of reservations.declined; index as i" class="reservation reservation-canceled">
+                <div class="reservation-header d-flex justify-content-center align-items-center">
+                    <div class="w-100">
+                        <h4>{{item.restaurant}}</h4>
+                        <p>{{item.date}}</p>
+                    </div>
+                    <span (click)="collapsingCard($event)"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="hidden reservation-body d-flex flex-column justify-content-center align-items-center">
+                    <span class="w-100 px-3"><strong class="pe-1">Nombre:</strong>{{item.name}}</span>
+                    <span *ngIf="item.address" class="w-100 px-3"><strong
+                            class="pe-1">Dirección:</strong>{{item.address}}</span>
+                    <span class="w-100 px-3"><strong class="pe-1">Cantidad sillas:</strong>{{item.chairs}}</span>
+                    <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.createdAt}}</span>
+                </div>
+            </div>
+            <span *ngIf="!reservations.declined?.length" class="w-100 text-center d-block">No hay reservas
+                rechazadas.</span>
         </div>
     </div>
     <div class="py-3">
@@ -78,13 +136,13 @@
         </span>
         <hr>
         <div class="reservations reservations-column">
-            <div *ngFor="let item of complete;index as i" class="reservation reservation-complete" #itemsComplete>
+            <div *ngFor="let item of reservations.completed; index as i" class="reservation reservation-complete">
                 <div class="reservation-header d-flex justify-content-center align-items-center">
                     <div class="w-100">
                         <h4>{{item.restaurant}}</h4>
                         <p>{{item.date}}</p>
                     </div>
-                    <span (click)="collapsingCard(2, i)"><i class="fas fa-chevron-down"></i></span>
+                    <span (click)="collapsingCard($event)"><i class="fas fa-chevron-down"></i></span>
                 </div>
                 <div class="hidden reservation-body d-flex flex-column justify-content-center align-items-center">
                     <span class="w-100 px-3"><strong class="pe-1">Nombre:</strong>{{item.name}}</span>
@@ -95,7 +153,7 @@
                 </div>
             </div>
         </div>
-        <span *ngIf="!complete.length" class="w-100 text-center d-block">No hay reservas creadas.</span>
+        <span *ngIf="!reservations.completed?.length" class="w-100 text-center d-block">No hay reservas previas.</span>
     </div>
 </div>
 <app-bottom-navigation [user]="user"></app-bottom-navigation>
@@ -109,7 +167,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                ¿Está seguro en cancelar la reservación en {{cancel.name}}?
+                ¿Está seguro en cancelar la reservación en {{cancel.item?.name}}?
             </div>
             <div class="modal-footer">
                 <button #closeModal type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>

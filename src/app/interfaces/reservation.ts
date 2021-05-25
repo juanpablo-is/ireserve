@@ -7,5 +7,5 @@ export interface Reservation {
     timestamp: number;
     idUser: string;
     idRestaurant: string;
-    state: boolean;
+    type: string;
 }

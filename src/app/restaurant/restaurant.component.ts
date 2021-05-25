@@ -36,6 +36,9 @@ export class RestaurantComponent {
       .then(response => {
         if (response.ok && response.status === 200) {
           this.data = response.body;
+          this.data.maps = `https://maps.google.com/?q=${this.data.coordinates._latitude},${this.data.coordinates._longitude}`;
+          this.data.dateStart = this.data.dateStart.split(':');
+          this.data.dateEnd = this.data.dateEnd.split(':');
 
           this.restService.get(`/api/menu?idRestaurant=${this.idRestaurant}`)
             .then(responseRestaurant => {

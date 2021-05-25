@@ -35,18 +35,24 @@
                     class="d-flex flex-column align-items-center color-acento">
                     <i class="fas fa-phone"></i>
                 </a>
-                <a *ngIf="data.email" href="mailto:juan@ireserve.com"
+                <a *ngIf="data.email" href="mailto:{{data.email}}"
                     class="d-flex flex-column align-items-center color-acento">
                     <i class="fas fa-envelope-open-text"></i>
+                </a>
+                <a *ngIf="data.maps" target="_blank" href="{{data.maps}}"
+                    class="d-flex flex-column align-items-center color-acento">
+                    <i class="fas fa-map-marker-alt"></i>
                 </a>
                 <div class="d-flex flex-column align-items-center">
                     <div>
                         <i class="fas fa-door-open me-2"></i>
-                        <span>12:00 am</span>
+                        <span *ngIf="data.dateStart">{{data.dateStart[0] + ':' + data.dateStart[1]}} {{data.dateStart[0]
+                            >= 12 ? 'pm' : 'am'}}</span>
                     </div>
                     <div>
                         <i class="fas fa-store-slash me-2"></i>
-                        <span>16:00 pm</span>
+                        <span *ngIf="data.dateEnd">{{data.dateEnd[0] + ':' + data.dateEnd[1]}} {{data.dateEnd[0] < 12
+                                ? 'am' : 'pm' }}</span>
                     </div>
                 </div>
             </div>

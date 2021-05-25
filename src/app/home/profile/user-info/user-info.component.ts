@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RestService } from 'src/app/services/backend/rest.service';
 import { LocalStorageService } from 'src/app/services/frontend/local-storage.service';
-import { UpdateToastService } from 'src/app/update-toast.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-user-info',
@@ -26,7 +26,6 @@ export class UserInfoComponent {
     private formBuilder: FormBuilder,
     private router: Router,
     private restService: RestService,
-    private serviceToast: UpdateToastService,
     private localStorageService: LocalStorageService
   ) {
     this.user = this.localStorageService.getData('user');
@@ -57,33 +56,38 @@ export class UserInfoComponent {
 
             this.localStorageService.updateData('user', this.user);
 
-            this.serviceToast.updateData({
+            Swal.fire({
+              icon: 'success',
               title: 'Información actualizada',
-              body: 'Su información de perfil ha sido actualizada.',
-              seconds: 7, status: true
+              html: 'Su información de perfil ha sido actualizada.',
+              confirmButtonText: 'Cerrar',
+              timer: 5000
             });
 
             this.router.navigate(['/profile']);
           } else {
-            this.serviceToast.updateData({
+            Swal.fire({
+              icon: 'error',
               title: 'Error al actualizar',
-              body: 'No fue posible actualizar su información, intente nuevamente.',
-              seconds: 4, status: false
+              html: 'No fue posible actualizar su información, intente nuevamente.',
+              confirmButtonText: 'Cerrar',
             });
           }
         })
         .catch(() => {
-          this.serviceToast.updateData({
+          Swal.fire({
+            icon: 'error',
             title: 'Error al actualizar',
-            body: 'No fue posible actualizar su información, intente nuevamente.',
-            seconds: 4, status: false
+            html: 'No fue posible actualizar su información, intente nuevamente.',
+            confirmButtonText: 'Cerrar',
           });
         });
     } else {
-      this.serviceToast.updateData({
-        title: 'Las contraseñas no coinciden',
-        body: 'Los valores de contraseña y confirmar contraseña no coinciden.',
-        seconds: 4, status: false
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al actualizar',
+        html: 'No fue posible actualizar su información, intente nuevamente.',
+        confirmButtonText: 'Cerrar',
       });
     }
   }

@@ -1,33 +1,32 @@
-import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { RestService } from '../services/backend/rest.service';
 import { LocalStorageService } from '../services/frontend/local-storage.service';
-import { UpdateToastService } from '../update-toast.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-reservations',
   templateUrl: './reservations.component.html',
   styleUrls: ['./reservations.component.sass']
 })
-export class ReservationsComponent {
+export class ReservationsComponent implements OnInit {
 
   user: any;
-  pending: any[] = [];
-  active: any[] = [];
-  complete: any[] = [];
-
+  reservations = {
+    pended: [],
+    actived: [],
+    completed: [],
+    canceled: [],
+    declined: [],
+  };
   cancel: any = {};
 
   @ViewChild('spinner') spinner: ElementRef;
-  @ViewChildren('itemsPending') itemsPendingElement: QueryList<any>;
-  @ViewChildren('itemsActive') itemsActiveElement: QueryList<any>;
-  @ViewChildren('itemsComplete') itemsCompleteElement: QueryList<any>;
   @ViewChild('closeModal') closeModal: ElementRef;
 
   constructor(
     private router: Router,
     private restService: RestService,
-    private toastService: UpdateToastService,
     private localStorageService: LocalStorageService
   ) {
     this.user = this.localStorageService.getData('user');
@@ -38,9 +37,7 @@ export class ReservationsComponent {
         if (result.ok && result.status === 200) {
           this.spinner.nativeElement.remove();
 
-          this.pending = result.body.pending;
-          this.active = result.body.active;
-          this.complete = result.body.complete;
+          this.reservations = result.body;
         }
       })
       .catch(() => {
@@ -48,77 +45,75 @@ export class ReservationsComponent {
       });
   }
 
+  ngOnInit(): void {
+    const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+    popoverTriggerList.forEach((popoverTriggerEl) => {
+      // return new bootstrap.Popover(popoverTriggerEl);
+    });
+  }
+
   /**
    * Abre modal para eliminar reservación.
    */
-  openModal(item: any, obj: number, index: number): void {
+  openModal(item: any, obj: number): void {
     this.cancel = {
-      name: item.restaurant,
-      id: item.id,
-      index,
-      obj,
+      item,
+      obj
     };
   }
 
   /**
    * Cancela la reservación a través del servicio.
    */
-  cancelReservation(item: any): void {
-    this.restService.delete(`/api/reservation/${item.id}`)
+  cancelReservation(cancel: any): void {
+    this.restService.put(`/api/reservation/${cancel.item.id}`, { ...cancel.item, type: 'canceled' })
       .then((result: any) => {
         if (result.ok && result.status === 200) {
-          switch (item.obj) {
+          switch (cancel.obj) {
             case 0:
-              this.pending.splice(item.id, 1);
+              this.reservations.pended.splice(cancel.item.id, 1);
               break;
             case 1:
-              this.active.splice(item.id, 1);
+              this.reservations.actived.splice(cancel.item.id, 1);
               break;
           }
+          this.reservations.canceled.push(cancel.item);
           this.closeModal.nativeElement.click();
-          this.toastService.updateData({
-            title: 'Cancelada', body: `La reservación en <i>${item.name}</i> se canceló exitosamente.`, seconds: 5, status: true
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Reservación cancelada',
+            html: `La reservación en <i>${cancel.item?.name}</i> se canceló exitosamente.`,
+            confirmButtonText: 'Cerrar',
+            timer: 5000
           });
         }
       })
       .catch(() => {
         this.closeModal.nativeElement.click();
-        this.toastService.updateData({
-          title: 'Falló', body: 'No fue posible cancelar la reservación, intente nuevamente.', seconds: 5, status: false
+        Swal.fire({
+          icon: 'error',
+          title: 'Falló',
+          html: 'No fue posible cancelar la reservación, intente nuevamente.',
+          confirmButtonText: 'Cerrar'
         });
       });
   }
 
   // Colapsa acordión de tarjetas.
-  collapsingCard(section: number, index: number): void {
-    switch (section) {
-      case 0:
-        this.collapseItems(this.itemsPendingElement, index);
-        break;
-      case 1:
-        this.collapseItems(this.itemsActiveElement, index);
-        break;
-      case 2:
-        this.collapseItems(this.itemsCompleteElement, index);
-        break;
+  collapsingCard(e): void {
+    const div = e.currentTarget.parentElement.parentElement.children[0];
+    const divHidden = e.currentTarget.parentElement.parentElement.children[1];
+
+    if (divHidden.classList.contains('hidden')) {
+      divHidden.classList.remove('hidden');
+      div.querySelector('svg').classList.remove('fa-chevron-down');
+      div.querySelector('svg').classList.add('fa-chevron-up');
+    } else {
+      divHidden.classList.add('hidden');
+      div.querySelector('svg').classList.remove('fa-chevron-up');
+      div.querySelector('svg').classList.add('fa-chevron-down');
     }
-  }
-
-  collapseItems(items: any, index: number): void {
-    items.toArray().forEach((element: any, i: number) => {
-      const div = element.nativeElement.children[0];
-      const divHidden = element.nativeElement.children[1];
-
-      if (i === index && divHidden.classList.contains('hidden')) {
-        divHidden.classList.remove('hidden');
-        div.querySelector('svg').classList.remove('fa-chevron-down');
-        div.querySelector('svg').classList.add('fa-chevron-up');
-      } else {
-        divHidden.classList.add('hidden');
-        div.querySelector('svg').classList.remove('fa-chevron-up');
-        div.querySelector('svg').classList.add('fa-chevron-down');
-      }
-    });
   }
 
 }
