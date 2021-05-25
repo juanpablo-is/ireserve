@@ -14,10 +14,8 @@ export class ReservationsComponent implements OnInit {
   user: any;
   reservations = { pended: [], actived: [], completed: [], canceled: [], declined: [] };
   isClient = false;
-  cancel: any = {};
 
   @ViewChild('spinner') spinner: ElementRef;
-  @ViewChild('closeModal') closeModal: ElementRef;
 
   constructor(
     private router: Router,
@@ -50,48 +48,71 @@ export class ReservationsComponent implements OnInit {
   }
 
   /**
-   * Abre modal para eliminar reservación.
+   *
    */
-  openModal(item: any, obj: number): void {
-    this.cancel = {
-      item,
-      obj
-    };
+  openSwal(item, i, index): void {
+    console.log(item, i);
+
+    Swal.fire({
+      title: this.isClient ? `Reservación a '${item.name}'` : `Reservación en ${item.restaurant}`,
+      html: `
+        <pre>
+        ${JSON.stringify(item)}
+        <pre>
+      `,
+      icon: 'info',
+      showCancelButton: true,
+      showConfirmButton: item.type === 'pended' || item.type === 'actived',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Cerrar',
+      confirmButtonText: (this.isClient ? 'Rechazar' : 'Cancelar') + ' reservación'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        item.type = this.isClient ? 'declined' : 'canceled';
+        this.updateReservation(item, i, index);
+      }
+    });
   }
 
   /**
-   * Cancela la reservación a través del servicio.
+   * Cancela o rechaza la reservación.
    */
-  cancelReservation(cancel: any): void {
-    this.restService.put(`/api/reservation/${cancel.item.id}`, { ...cancel.item, type: 'canceled' })
+  updateReservation(item: any, type: number, index: number): void {
+    this.restService.put(`/api/reservation/${item.id}`, item)
       .then((result: any) => {
         if (result.ok && result.status === 200) {
-          switch (cancel.obj) {
-            case 0:
-              this.reservations.pended.splice(cancel.item.id, 1);
-              break;
-            case 1:
-              this.reservations.actived.splice(cancel.item.id, 1);
-              break;
+          if (type === 0) {
+            this.reservations.pended.splice(index, 1);
+          } else if (type === 1) {
+            this.reservations.actived.splice(index, 1);
           }
-          this.reservations.canceled.push(cancel.item);
-          this.closeModal.nativeElement.click();
+
+          if (item.type === 'declined') {
+            this.reservations.declined.push(item);
+          } else if (item.type === 'canceled') {
+            this.reservations.canceled.push(item);
+          }
 
           Swal.fire({
             icon: 'success',
-            title: 'Reservación cancelada',
-            html: `La reservación en <i>${cancel.item?.name}</i> se canceló exitosamente.`,
+            title: `Reservación ${item.type === 'canceled' ? 'cancelada' : 'rechazada'}`,
+            html: `La reservación ${item.type === 'canceled' ? `en <i> ${item?.restaurant} </i> se canceló` : `de <i> ${item?.name} </i> se rechazó`} exitosamente.`,
             confirmButtonText: 'Cerrar',
-            timer: 5000
+            timer: 6000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer);
+              toast.addEventListener('mouseleave', Swal.resumeTimer);
+            }
           });
         }
       })
       .catch(() => {
-        this.closeModal.nativeElement.click();
         Swal.fire({
           icon: 'error',
           title: 'Falló',
-          html: 'No fue posible cancelar la reservación, intente nuevamente.',
+          html: 'No fue posible actualizar la reservación, intente nuevamente.',
           confirmButtonText: 'Cerrar'
         });
       });
