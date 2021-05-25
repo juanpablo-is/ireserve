@@ -8,4 +8,6 @@ export interface Reservation {
     idUser: string;
     idRestaurant: string;
     type: string;
+    menu: Array<any>;
+    price: number;
 }
