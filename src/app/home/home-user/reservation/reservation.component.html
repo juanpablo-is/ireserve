@@ -171,8 +171,43 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p>Total reservación: {{price|currency}}</p>
+                                <p class="text-center my-3">Total reservación: <b>{{price|currency}}</b></p>
                             </ng-template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card my-2">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed color-acento" data-bs-toggle="collapse"
+                            data-bs-target="#collapse-2" aria-expanded="false" aria-controls="collapse-2">
+                            MEDIO DE PAGO
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapse-2" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="pago" id="efectivo" value="efectivo"
+                                checked required [(ngModel)]="medioPago">
+                            <label class="form-check-label" for="efectivo">
+                                Pago en efectivo
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="pago" id="cc" value="cc"
+                                [(ngModel)]="medioPago">
+                            <label class="form-check-label" for="cc">
+                                Tarjeta credito
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="pago" id="nequi" value="nequi"
+                                [(ngModel)]="medioPago">
+                            <label class="form-check-label" for="nequi">
+                                Nequi
+                            </label>
                         </div>
                     </div>
                 </div>

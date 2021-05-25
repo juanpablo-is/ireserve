@@ -35,6 +35,7 @@ export class ReservationComponent {
   menu: any;
   price = 0;
   objectKeys = Object.keys;
+  medioPago = '';
 
   now = new Date();
   min = new Date(this.now.getFullYear(), this.now.getMonth(), this.now.getDate());
@@ -138,7 +139,8 @@ export class ReservationComponent {
       idRestaurant: this.idRestaurant,
       type: 'pended',
       menu: this.cart,
-      price: this.price
+      price: this.price,
+      medioPago: this.medioPago
     };
 
     this.restService.post('/api/reservation', reservation)
