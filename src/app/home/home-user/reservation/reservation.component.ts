@@ -28,9 +28,14 @@ export class ReservationComponent {
   data: any = {};
   idRestaurant: string;
 
-  type = 'mesa';
+  typeReservation = 'mesa';
+  type = '';
+  cart: any = {};
+  count: any = {};
   menu: any;
+  price = 0;
   objectKeys = Object.keys;
+  medioPago = '';
 
   now = new Date();
   min = new Date(this.now.getFullYear(), this.now.getMonth(), this.now.getDate());
@@ -132,7 +137,10 @@ export class ReservationComponent {
       timestamp: new Date(date).getTime(),
       idUser: this.data.user.uid,
       idRestaurant: this.idRestaurant,
-      type: 'pended'
+      type: 'pended',
+      menu: this.cart,
+      price: this.price,
+      medioPago: this.medioPago
     };
 
     this.restService.post('/api/reservation', reservation)
@@ -167,6 +175,74 @@ export class ReservationComponent {
   }
 
   /**
+   *
+   */
+  addToCart(e, item, key, index): void {
+    const target = e.currentTarget;
+    const addCart = target.classList.toggle('cart-add');
+
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+      }
+    });
+
+    if (addCart) {
+      target.innerHTML = 'ELIMINAR';
+
+      if (!this.cart[key]) {
+        this.cart[key] = {};
+      }
+
+      this.cart[key][index] = { ...item, count: this.count[key][index] };
+      this.price += Number(this.menu[key][index].price) * this.count[key][index];
+      Toast.fire({
+        icon: 'success',
+        title: 'Producto agregado a la reservación.'
+      });
+    } else {
+      target.innerHTML = 'AGREGAR';
+      this.price -= Number(this.menu[key][index].price) * this.count[key][index];
+      delete this.cart[key][index];
+
+      Toast.fire({
+        icon: 'error',
+        title: 'Producto eliminado de la reservación.'
+      });
+
+      if (!Object.keys(this.cart[key]).length) {
+        delete this.cart[key];
+      }
+    }
+  }
+
+  /**
+   * Modifica el contador de productos en el carrito.
+   */
+  counterProduct(add, key, i): void {
+    if (add) {
+      if (!this.count[key]) {
+        this.count[key] = [];
+      }
+      if (!this.count[key][i]) {
+        this.count[key][i] = 0;
+      }
+      this.count[key][i]++;
+    } else {
+      if (this.count[key][i] === 0) {
+        return;
+      }
+      this.count[key][i]--;
+    }
+  }
+
+  /**
    * Modifica la cantidad de sillas de acuerdo al radio button.
    */
   onItemChange(item: number): void {
@@ -191,6 +267,6 @@ export class ReservationComponent {
    * Modifica el tipo de reservación en los radiobuttons.
    */
   onChangeRadio(type: string): void {
-    this.type = type;
+    this.typeReservation = type;
   }
 }

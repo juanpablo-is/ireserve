@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RestService } from '../services/backend/rest.service';
 import { LocalStorageService } from '../services/frontend/local-storage.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-restaurant',
@@ -91,6 +92,58 @@ export class RestaurantComponent {
       return true;
     }
     return false;
+  }
+
+  /**
+   * Alerta para calificar el restaurante.
+   */
+  rate(): void {
+    const wrap = document.createElement('div');
+
+    for (let i = 0; i < 5; i++) {
+      const content = document.createElement('span');
+      content.addEventListener('click', () => {
+        this.rateStart(i + 1);
+      });
+
+      const start = document.createElement('i');
+      start.setAttribute('class', 'fa fa-star mx-2');
+      content.appendChild(start);
+      wrap.appendChild(content);
+    }
+
+    Swal.fire({
+      title: 'Calificar restaurante',
+      icon: 'question',
+      html: wrap,
+      showCancelButton: false,
+      showConfirmButton: false,
+    });
+
+  }
+
+  /**
+   * Evento que almacena la calificación del usuario.
+   */
+  rateStart(point: any): void {
+    this.restService.post(`/api/restaurant-rate/${this.idRestaurant}`, { rate: point })
+      .then(response => {
+        if (response.ok && response.status === 200) {
+          Swal.fire({
+            title: '¡Gracias!',
+            html: `Gracias por su calificacion de <b>${point}</b> en <i>${this.data.name}</i>.`,
+            icon: 'success'
+          });
+        }
+      })
+      .catch(() => {
+        Swal.fire({
+          title: 'Error en la calificación',
+          text: 'No se ha podido guardar su calificación, intente nuevamente.',
+          icon: 'error',
+          confirmButtonText: 'Intentar'
+        });
+      });
   }
 
   /**

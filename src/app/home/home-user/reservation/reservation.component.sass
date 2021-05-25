@@ -83,6 +83,69 @@
             background: $primario
             border: none
 
+.restaurant-menu
+    ul
+        overflow-x: auto
+        display: -webkit-box
+        flex-wrap: inherit
+
+        .nav-link
+            border: 1px solid #0d6efd
+
+    .restaurant-cards
+        display: grid
+        grid-template-columns: repeat(1, 1fr)
+        grid-gap: 20px
+
+        @media screen and (min-width: $breakpoint-tablet)
+            grid-template-columns: repeat(2, 1fr)
+
+        @media screen and (min-width: $breakpoint-laptop)
+            grid-template-columns: repeat(3, 1fr)
+
+        .card
+            img
+                height: 120px
+                object-fit: cover
+
+            &-body
+                *
+                    font-size: 18px
+                .df-1
+                    flex: 1
+                .price
+                    color: $primario
+
+            .cart-add
+                background: $primario-oscuro
+                color: $blanco
+                border: none
+
+            .add-product
+                width: 100%
+                margin: auto
+                text-align: center
+
+                &-counter
+                    width: 100%
+                    max-width: 40%
+                    display: inline-flex
+                    flex-direction: row
+                    align-items: center
+                    justify-content: space-between
+                    padding: 2px
+                    border: 1px solid #e5edef
+                    border-radius: 8px
+
+                    button
+                        color: #ff441f
+                        background-color: #fff
+                        border-radius: 8px
+                        width: 34px
+                        height: 34px
+                        font-family: Poppins-SemiBold,Helvetica,Arial,sans-serif
+                        transition: all .3s linear
+
 ::ng-deep
     .mbsc-calendar-day > div:first-of-type,
     .mbsc-calendar-year > div:first-of-type,
@@ -114,3 +177,16 @@
             justify-content: center
             align-items: center
             overflow: hidden
+
+/* Scrollbar */
+::-webkit-scrollbar
+    height: 5px
+
+    &-track
+        background: #f1f1f1
+
+    &-thumb
+        background: #888
+
+        &:hover
+            background: #555
