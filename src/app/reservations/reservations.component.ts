@@ -51,8 +51,6 @@ export class ReservationsComponent implements OnInit {
    *
    */
   openSwal(item, i, index): void {
-    console.log(item, i);
-
     Swal.fire({
       title: this.isClient ? `Reservación a '${item.name}'` : `Reservación en ${item.restaurant}`,
       html: `
@@ -62,14 +60,23 @@ export class ReservationsComponent implements OnInit {
       `,
       icon: 'info',
       showCancelButton: true,
-      showConfirmButton: item.type === 'pended' || item.type === 'actived',
-      confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       cancelButtonText: 'Cerrar',
-      confirmButtonText: (this.isClient ? 'Rechazar' : 'Cancelar') + ' reservación'
+      showConfirmButton: item.type === 'pended' || item.type === 'actived',
+      confirmButtonColor: '#3085d6',
+      confirmButtonText: (this.isClient ? 'Rechazar' : 'Cancelar') + ' reservación',
+      input: item.type === 'pended' || item.type === 'actived' ? 'textarea' : null,
+      inputLabel: `Mensaje de ${this.isClient ? 'rechazo' : 'cancelación'}`,
+      inputPlaceholder: `Ingrese un mensaje por la cual se ${this.isClient ? 'rechazará' : 'cancelará'} la reservación...`,
+      inputAttributes: {
+        'aria-label': `Ingrese un mensaje por la cual se ${this.isClient ? 'rechazará' : 'cancelará'} la reservación`
+      },
+      inputValidator: (value) => new Promise((resolve) => resolve(value ? null : 'Debe ingresar un mensaje.'))
     }).then((result) => {
       if (result.isConfirmed) {
         item.type = this.isClient ? 'declined' : 'canceled';
+        item.message = result.value ?? null;
+
         this.updateReservation(item, i, index);
       }
     });
@@ -116,22 +123,6 @@ export class ReservationsComponent implements OnInit {
           confirmButtonText: 'Cerrar'
         });
       });
-  }
-
-  // Colapsa acordión de tarjetas.
-  collapsingCard(e): void {
-    const div = e.currentTarget.parentElement.parentElement.children[0];
-    const divHidden = e.currentTarget.parentElement.parentElement.children[1];
-
-    if (divHidden.classList.contains('hidden')) {
-      divHidden.classList.remove('hidden');
-      div.querySelector('svg').classList.remove('fa-chevron-down');
-      div.querySelector('svg').classList.add('fa-chevron-up');
-    } else {
-      divHidden.classList.add('hidden');
-      div.querySelector('svg').classList.remove('fa-chevron-up');
-      div.querySelector('svg').classList.add('fa-chevron-down');
-    }
   }
 
 }

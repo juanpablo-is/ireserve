@@ -17,20 +17,11 @@
         <hr>
         <div class="reservations">
             <div *ngFor="let item of reservations.pended; index as i" class="reservation">
-                <div class="reservation-header d-flex justify-content-center align-items-center">
-                    <div class="w-100">
+                <div class="reservation-header d-flex flex-column justify-content-center align-items-center">
+                    <div class="w-100 text-center">
                         <h4>{{isClient ? item.name : item.restaurant}}</h4>
                         <p>{{item.date}}</p>
                     </div>
-                    <span (click)="collapsingCard($event)"><i class="fas fa-chevron-down"></i></span>
-                </div>
-                <div class="hidden reservation-body d-flex flex-column justify-content-center align-items-center">
-                    <span class="w-100 px-3"><strong class="pe-1">A nombre:</strong>{{item.name}}</span>
-                    <span *ngIf="item.address" class="w-100 px-3"><strong
-                            class="pe-1">Dirección:</strong>{{item.address}}</span>
-                    <span *ngIf="item.chairs > 0" class="w-100 px-3"><strong class="pe-1">Cantidad
-                            sillas:</strong>{{item.chairs}}</span>
-                    <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.createdAt}}</span>
                     <button type="button" class="btn col-10 btn-primary my-2" (click)="openSwal(item, 0, i)">
                         VER
                     </button>
@@ -49,19 +40,11 @@
         <hr>
         <div class="reservations">
             <div *ngFor="let item of reservations.actived; index as i" class="reservation reservation-active">
-                <div class="reservation-header d-flex justify-content-center align-items-center">
-                    <div class="w-100">
+                <div class="reservation-header d-flex flex-column justify-content-center align-items-center">
+                    <div class="w-100 text-center">
                         <h4>{{item.restaurant}}</h4>
                         <p>{{item.date}}</p>
                     </div>
-                    <span (click)="collapsingCard($event)"><i class="fas fa-chevron-down"></i></span>
-                </div>
-                <div class="hidden reservation-body d-flex flex-column justify-content-center align-items-center">
-                    <span class="w-100 px-3"><strong class="pe-1">Nombre:</strong>{{item.name}}</span>
-                    <span *ngIf="item.address" class="w-100 px-3"><strong
-                            class="pe-1">Dirección:</strong>{{item.address}}</span>
-                    <span class="w-100 px-3"><strong class="pe-1">Cantidad sillas:</strong>{{item.chairs}}</span>
-                    <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.createdAt}}</span>
                     <button type="button" class="btn col-10 btn-primary my-2" (click)="openSwal(item, 1, i)">
                         VER
                     </button>
@@ -80,19 +63,11 @@
         <hr>
         <div class="reservations">
             <div *ngFor="let item of reservations.canceled; index as i" class="reservation reservation-canceled">
-                <div class="reservation-header d-flex justify-content-center align-items-center">
-                    <div class="w-100">
+                <div class="reservation-header d-flex flex-column justify-content-center align-items-center">
+                    <div class="w-100 text-center">
                         <h4>{{item.restaurant}}</h4>
                         <p>{{item.date}}</p>
                     </div>
-                    <span (click)="collapsingCard($event)"><i class="fas fa-chevron-down"></i></span>
-                </div>
-                <div class="hidden reservation-body d-flex flex-column justify-content-center align-items-center">
-                    <span class="w-100 px-3"><strong class="pe-1">Nombre:</strong>{{item.name}}</span>
-                    <span *ngIf="item.address" class="w-100 px-3"><strong
-                            class="pe-1">Dirección:</strong>{{item.address}}</span>
-                    <span class="w-100 px-3"><strong class="pe-1">Cantidad sillas:</strong>{{item.chairs}}</span>
-                    <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.createdAt}}</span>
                     <button type="button" class="btn col-10 btn-primary my-2" (click)="openSwal(item, 1, i)">
                         VER
                     </button>
@@ -111,19 +86,11 @@
         <hr>
         <div class="reservations">
             <div *ngFor="let item of reservations.declined; index as i" class="reservation reservation-canceled">
-                <div class="reservation-header d-flex justify-content-center align-items-center">
-                    <div class="w-100">
+                <div class="reservation-header d-flex flex-column justify-content-center align-items-center">
+                    <div class="w-100 text-center">
                         <h4>{{item.restaurant}}</h4>
                         <p>{{item.date}}</p>
                     </div>
-                    <span (click)="collapsingCard($event)"><i class="fas fa-chevron-down"></i></span>
-                </div>
-                <div class="hidden reservation-body d-flex flex-column justify-content-center align-items-center">
-                    <span class="w-100 px-3"><strong class="pe-1">Nombre:</strong>{{item.name}}</span>
-                    <span *ngIf="item.address" class="w-100 px-3"><strong
-                            class="pe-1">Dirección:</strong>{{item.address}}</span>
-                    <span class="w-100 px-3"><strong class="pe-1">Cantidad sillas:</strong>{{item.chairs}}</span>
-                    <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.createdAt}}</span>
                     <button type="button" class="btn col-10 btn-primary my-2" (click)="openSwal(item, 1, i)">
                         VER
                     </button>
@@ -142,19 +109,11 @@
         <hr>
         <div class="reservations reservations-column">
             <div *ngFor="let item of reservations.completed; index as i" class="reservation reservation-complete">
-                <div class="reservation-header d-flex justify-content-center align-items-center">
-                    <div class="w-100">
+                <div class="reservation-header d-flex flex-column justify-content-center align-items-center">
+                    <div class="w-100 text-center">
                         <h4>{{item.restaurant}}</h4>
                         <p>{{item.date}}</p>
                     </div>
-                    <span (click)="collapsingCard($event)"><i class="fas fa-chevron-down"></i></span>
-                </div>
-                <div class="hidden reservation-body d-flex flex-column justify-content-center align-items-center">
-                    <span class="w-100 px-3"><strong class="pe-1">Nombre:</strong>{{item.name}}</span>
-                    <span *ngIf="item.address" class="w-100 px-3"><strong
-                            class="pe-1">Dirección:</strong>{{item.address}}</span>
-                    <span class="w-100 px-3"><strong class="pe-1">Cantidad sillas:</strong>{{item.chairs}}</span>
-                    <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.createdAt}}</span>
                     <button type="button" class="btn col-10 btn-primary my-2" (click)="openSwal(item, 1, i)">
                         VER
                     </button>
