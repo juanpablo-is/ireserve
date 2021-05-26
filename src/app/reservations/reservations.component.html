@@ -15,7 +15,8 @@
             <i class="far fa-question-circle"></i>
         </span>
         <hr>
-        <app-card-reservation class="reservations" [items]="reservations" [key]="'pended'"></app-card-reservation>
+        <app-card-reservation class="reservations" [items]="reservations" [isClient]=isClient [key]="'pended'">
+        </app-card-reservation>
         <span *ngIf="!reservations.pended?.length" class="w-100 text-center d-block">No hay reservas
             pendientes.</span>
     </div>
@@ -26,7 +27,8 @@
             <i class="far fa-question-circle"></i>
         </span>
         <hr>
-        <app-card-reservation class="reservations" [items]="reservations" [key]="'actived'"></app-card-reservation>
+        <app-card-reservation class="reservations" [items]="reservations" [isClient]=isClient [key]="'actived'">
+        </app-card-reservation>
         <span *ngIf="!reservations.actived?.length" class="w-100 text-center d-block">No hay reservas
             activas.</span>
     </div>
@@ -37,7 +39,8 @@
             <i class="far fa-question-circle"></i>
         </span>
         <hr>
-        <app-card-reservation class="reservations" [items]="reservations" [key]="'canceled'"></app-card-reservation>
+        <app-card-reservation class="reservations" [items]="reservations" [isClient]=isClient [key]="'canceled'">
+        </app-card-reservation>
         <span *ngIf="!reservations.canceled?.length" class="w-100 text-center d-block">No hay reservas
             canceladas.</span>
     </div>
@@ -48,7 +51,8 @@
             <i class="far fa-question-circle"></i>
         </span>
         <hr>
-        <app-card-reservation class="reservations" [items]="reservations" [key]="'declined'"></app-card-reservation>
+        <app-card-reservation class="reservations" [items]="reservations" [isClient]=isClient [key]="'declined'">
+        </app-card-reservation>
         <span *ngIf="!reservations.declined?.length" class="w-100 text-center d-block">No hay reservas
             rechazadas.</span>
     </div>
@@ -59,7 +63,8 @@
             <i class="far fa-question-circle"></i>
         </span>
         <hr>
-        <app-card-reservation class="reservations reservations-column" [items]="reservations" [key]="'completed'">
+        <app-card-reservation class="reservations reservations-column" [items]="reservations" [isClient]=isClient
+            [key]="'completed'">
         </app-card-reservation>
         <span *ngIf="!reservations.completed?.length" class="w-100 text-center d-block">No hay reservas previas.</span>
     </div>

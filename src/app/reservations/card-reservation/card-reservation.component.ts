@@ -12,24 +12,32 @@ export class CardReservationComponent {
 
   @Input() items: any;
   @Input() key: any;
+  @Input() isClient: any;
 
-  isClient = false;
   constructor(private restService: RestService) { }
 
   /**
    * Abre alerta Sweelalert2 con info de reservación.
    */
-  openSwal(item, i): void {
+  openInfo(item, i): void {
     Swal.fire({
       title: this.isClient ? `Reservación a '${item.name}'` : `Reservación en <a href="/restaurant/${item.idRestaurant}">${item.restaurant}</a>`,
-      html: this.getHtmlSwal(item),
+      html: this.getInfoSweet(item),
       icon: 'info',
+      iconColor: '#EF233C',
+      iconHtml: '<i class="fas fa-file-alt"></i>',
+      customClass: {
+        confirmButton: 'btn btn-danger mx-2',
+        cancelButton: 'btn btn-secondary mx-2',
+        denyButton: 'btn btn-success mx-2'
+      },
+      buttonsStyling: false,
       showCancelButton: true,
-      cancelButtonColor: '#d33',
       cancelButtonText: 'Cerrar',
       showConfirmButton: item.type === 'pended' || item.type === 'actived',
-      confirmButtonColor: '#3085d6',
       confirmButtonText: (this.isClient ? 'Rechazar' : 'Cancelar') + ' reservación',
+      showDenyButton: true,
+      denyButtonText: 'Ver pedido',
       input: item.type === 'pended' || item.type === 'actived' ? 'text' : null,
       inputLabel: `Mensaje de ${this.isClient ? 'rechazo' : 'cancelación'}`,
       inputPlaceholder: `Ingrese un mensaje por la cual se ${this.isClient ? 'rechazará' : 'cancelará'} la reservación...`,
@@ -43,7 +51,29 @@ export class CardReservationComponent {
         item.message = result.value ?? null;
 
         this.updateReservation(item, i);
+      } else if (result.isDenied) {
+        this.openPedido(item);
       }
+    });
+  }
+
+  /**
+   * Abre alerta Sweelalert2 con info de reservación.
+   */
+  openPedido(item): void {
+    Swal.fire({
+      title: 'Menú pedido',
+      html: this.getPedidoSweet(item.menu),
+      icon: 'info',
+      iconColor: '#EF233C',
+      iconHtml: '<i class="fas fa-book-open"></i>',
+      customClass: {
+        content: 'items-menu'
+      },
+      showCancelButton: true,
+      cancelButtonColor: '#6c757d',
+      cancelButtonText: 'Cerrar',
+      showConfirmButton: false
     });
   }
 
@@ -54,7 +84,7 @@ export class CardReservationComponent {
     this.restService.put(`/api/reservation/${item.id}`, item)
       .then((result: any) => {
         if (result.ok && result.status === 200) {
-          if (this.key === 'pending') {
+          if (this.key === 'pended') {
             this.items.pended.splice(index, 1);
           } else if (this.key === 'actived') {
             this.items.actived.splice(index, 1);
@@ -93,7 +123,7 @@ export class CardReservationComponent {
   /**
    * HTML dentro de la alerta.
    */
-  getHtmlSwal(item: any): string {
+  getInfoSweet(item: any): string {
     return `
       <p><b>A nombre: </b>${item.name}</p>
       <p><b>Teléfono: </b><a href="tel:${item.phone}">${item.phone}</a></p>
@@ -106,10 +136,69 @@ export class CardReservationComponent {
   }
 
   /**
+   * HTML dentro de la alerta.
+   */
+  getPedidoSweet(menu: any): string {
+    let text = '';
+
+    for (const iterator of Object.keys(menu)) {
+      text += `
+      <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+        <h2 class="accordion-header" id="heading-${iterator}">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${iterator}" aria-expanded="true" aria-controls="collapse-${iterator}">
+            ${this.getTranslate(iterator)}
+          </button>
+        </h2>
+        <div id="collapse-${iterator}" class="accordion-collapse collapse" aria-labelledby="heading-${iterator}" data-bs-parent="#accordionExample">
+          <div class="accordion-body text-start">
+            ${Object.values(menu[iterator]).map((item: any) => `
+              <h5>${item.name}</h5>
+              <ul>
+                <li>
+                  <b>Precio: $</b>${item.price}
+                </li>
+                <li>
+                  <b>Cantidad: </b>${item.count}
+                </li>
+              </ul>`).join('')}
+          </div>
+        </div>
+      </div>
+      `;
+    }
+
+    return text;
+  }
+
+  /**
    * Formatea timestamp a tiempo relativo.
    */
   formatMoment(timestamp: number): string {
     return moment(timestamp).startOf('minute').fromNow();
   }
 
+  /**
+   * Retorna traducción de la categoria del menú.
+   */
+  getTranslate(key: string): any {
+    const items: any = [];
+
+    items.breakfast = 'Desayunos';
+    items.platosFuertes = 'Platos fuertes';
+    items.platosCorrientes = 'Platos corrientes';
+    items.drinks = 'Bebidas';
+    items.entraces = 'Entradas';
+    items.additionals = 'Adicionales';
+    items.desserts = 'Postres';
+    items.iceCream = 'Helados';
+    items.shakes = 'Batidos';
+    items.waffles = 'Waffles';
+    items.beers = 'Cervezas';
+    items.cocktails = 'Cocteles';
+    items.wines = 'Vinos';
+    items.coffee = 'Café';
+
+    return items[key] ?? '';
+  }
 }
