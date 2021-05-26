@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { RestService } from '../services/backend/rest.service';
 import { LocalStorageService } from '../services/frontend/local-storage.service';
 import Swal from 'sweetalert2';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-reservations',
@@ -52,12 +53,8 @@ export class ReservationsComponent implements OnInit {
    */
   openSwal(item, i, index): void {
     Swal.fire({
-      title: this.isClient ? `Reservación a '${item.name}'` : `Reservación en ${item.restaurant}`,
-      html: `
-        <pre>
-        ${JSON.stringify(item)}
-        <pre>
-      `,
+      title: this.isClient ? `Reservación a '${item.name}'` : `Reservación en <a href="/restaurant/${item.idRestaurant}">${item.restaurant}</a>`,
+      html: this.getHtmlSwal(item),
       icon: 'info',
       showCancelButton: true,
       cancelButtonColor: '#d33',
@@ -65,7 +62,7 @@ export class ReservationsComponent implements OnInit {
       showConfirmButton: item.type === 'pended' || item.type === 'actived',
       confirmButtonColor: '#3085d6',
       confirmButtonText: (this.isClient ? 'Rechazar' : 'Cancelar') + ' reservación',
-      input: item.type === 'pended' || item.type === 'actived' ? 'textarea' : null,
+      input: item.type === 'pended' || item.type === 'actived' ? 'text' : null,
       inputLabel: `Mensaje de ${this.isClient ? 'rechazo' : 'cancelación'}`,
       inputPlaceholder: `Ingrese un mensaje por la cual se ${this.isClient ? 'rechazará' : 'cancelará'} la reservación...`,
       inputAttributes: {
@@ -125,4 +122,25 @@ export class ReservationsComponent implements OnInit {
       });
   }
 
+  /**
+   *
+   */
+  getHtmlSwal(item: any): string {
+    return `
+      <p><b>A nombre: </b>${item.name}</p>
+      <p><b>Teléfono: </b><a href="tel:${item.phone}">${item.phone}</a></p>
+      <p><b>Medio de pago: </b>${item.medioPago}</p>
+      <p><b>Precio: </b>$${item.price}</p>
+      <p><b>Fecha reserva: </b>${item.date}</p>
+      <p><b>Fecha creación: </b>${item.createdAt}</p>
+      <hr />
+    `;
+  }
+
+  /**
+   * Formatea timestamp a tiempo relativo.
+   */
+  formatMoment(timestamp: number): string {
+    return moment(timestamp).startOf('minute').fromNow();
+  }
 }
