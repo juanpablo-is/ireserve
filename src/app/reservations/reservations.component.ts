@@ -17,12 +17,17 @@ export class ReservationsComponent implements OnInit {
     actived: [],
     completed: [],
     canceled: [],
-    declined: [],
+    declined: []
   };
   cancel: any = {};
+  confirm: any = {};
+  order: any = [];
+  keysMenu : any = [];
+  whatRole : boolean = true;
 
   @ViewChild('spinner') spinner: ElementRef;
   @ViewChild('closeModal') closeModal: ElementRef;
+  @ViewChild('closeConfirmModal') closeConfirmModal: ElementRef;
 
   constructor(
     private router: Router,
@@ -32,7 +37,22 @@ export class ReservationsComponent implements OnInit {
     this.user = this.localStorageService.getData('user');
     if (!this.user) { this.router.navigate(['/login']); return; }
 
-    this.restService.get(`/api/reservations/${this.user.uid}`)
+    if (!(this.user.role === "Cliente")) {
+      this.whatRole = false;
+    } 
+    if (this.whatRole) {
+      this.restService.get(`/api/clireservations/${this.user.idRestaurant}`)
+      .then((result: any) => {
+        if (result.ok && result.status === 200) {
+          this.spinner.nativeElement.remove();
+          this.reservations = result.body;
+        }
+      })
+      .catch(() => {
+        this.router.navigate(['/']);
+      });
+    }else{
+      this.restService.get(`/api/reservations/${this.user.uid}`)
       .then((result: any) => {
         if (result.ok && result.status === 200) {
           this.spinner.nativeElement.remove();
@@ -43,6 +63,7 @@ export class ReservationsComponent implements OnInit {
       .catch(() => {
         this.router.navigate(['/']);
       });
+    }
   }
 
   ngOnInit(): void {
@@ -55,11 +76,30 @@ export class ReservationsComponent implements OnInit {
   /**
    * Abre modal para eliminar reservación.
    */
-  openModal(item: any, obj: number): void {
+  openModalCancel(item: any, obj: number): void {
     this.cancel = {
       item,
       obj
     };
+  }
+
+  openModalConfirm(item: any, obj: number): void {
+    this.confirm = {
+      item,
+      obj
+    };
+  }
+
+  openModalMenu(item: any, obj: number): void {
+    this.keysMenu =  Object.keys(item.menu);
+    let aux = [];
+    for (let i = 0; i < this.keysMenu.length; i++) {
+      aux.push({
+        "nmenu":this.keysMenu[i],
+        "values":item.menu[this.keysMenu[i]]
+      });
+    }
+    this.order = aux;
   }
 
   /**
@@ -97,6 +137,31 @@ export class ReservationsComponent implements OnInit {
           html: 'No fue posible cancelar la reservación, intente nuevamente.',
           confirmButtonText: 'Cerrar'
         });
+      });
+  }
+
+  /** 
+   * Metodo para confirmar reservación
+   */
+   confirmReservation(confirm: any): void{
+    confirm.item.type = "actived";
+    this.restService.put(`/api/reservation`, confirm)
+      .then((result: any) => {
+        if (result.ok && result.status === 200) {
+          this.reservations.actived.push(confirm.item);
+          this.reservations.pended.splice(confirm.item.id,1);
+          this.closeConfirmModal.nativeElement.click();
+          Swal.fire({
+            icon: 'success',
+            title: 'Reservación Confirmada',
+            html: `La reservación en <i>${confirm.item?.name}</i> a sido confirmada.`,
+            confirmButtonText: 'Cerrar',
+            timer: 5000
+          });
+        }
+      })
+      .catch(() => {
+        this.closeModal.nativeElement.click();
       });
   }
 

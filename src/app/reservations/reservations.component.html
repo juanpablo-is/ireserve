@@ -16,26 +16,58 @@
         </span>
         <hr>
         <div class="reservations">
-            <div *ngFor="let item of reservations.pended; index as i" class="reservation">
-                <div class="reservation-header d-flex justify-content-center align-items-center">
-                    <div class="w-100">
-                        <h4>{{item.restaurant}}</h4>
-                        <p>{{item.date}}</p>
+            <ng-template [ngIf]="whatRole" [ngIfElse]="UserType1">
+                <div *ngFor="let item of reservations.pended; index as i" class="reservation">
+                    <div class="reservation-header d-flex justify-content-center align-items-center">
+                        <div class="w-100">
+                            <h4>{{item.name}}</h4>
+                            <p>{{item.date}}</p>
+                        </div>
+                        <span (click)="collapsingCard($event)"><i class="fas fa-chevron-down"></i></span>
                     </div>
-                    <span (click)="collapsingCard($event)"><i class="fas fa-chevron-down"></i></span>
+                    <div class="hidden reservation-body d-flex flex-column justify-content-center align-items-center">
+                        <span class="w-100 px-3"><strong class="pe-1">Nombre:</strong>{{item.name}}</span>
+                        <span *ngIf="item.address" class="w-100 px-3"><strong
+                                class="pe-1">Dirección:</strong>{{item.address}}</span>
+                        <span class="w-100 px-3"><strong class="pe-1">Cantidad sillas:</strong>{{item.chairs}}</span>
+                        <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.createdAt}}</span>        
+                        <button type="button" class="btn col-10 btn-success my-2" data-bs-toggle="modal"
+                            data-bs-target="#modalSeeOrder" (click)="openModalMenu(item,0)">
+                            VER ORDEN
+                        </button>
+                        <button type="button" class="btn col-10 btn-primary my-2" data-bs-toggle="modal"
+                            data-bs-target="#modalCancelReservation" (click)="openModalCancel(item, 0)">
+                            CANCELAR
+                        </button>
+                        <button type="button" class="btn col-10 btn-success my-2" data-bs-toggle="modal"
+                            data-bs-target="#modalConfirmReservation" (click)="openModalConfirm(item, 0)">
+                            CONFIRMAR
+                        </button>
+                    </div>
                 </div>
-                <div class="hidden reservation-body d-flex flex-column justify-content-center align-items-center">
-                    <span class="w-100 px-3"><strong class="pe-1">Nombre:</strong>{{item.name}}</span>
-                    <span *ngIf="item.address" class="w-100 px-3"><strong
-                            class="pe-1">Dirección:</strong>{{item.address}}</span>
-                    <span class="w-100 px-3"><strong class="pe-1">Cantidad sillas:</strong>{{item.chairs}}</span>
-                    <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.createdAt}}</span>
-                    <button type="button" class="btn col-10 btn-primary my-2" data-bs-toggle="modal"
-                        data-bs-target="#modalCancelReservation" (click)="openModal(item, 0)">
-                        CANCELAR
-                    </button>
-                </div>
-            </div>
+            </ng-template>
+            <ng-template #UserType1>
+                <div *ngFor="let item of reservations.pended; index as i" class="reservation">
+                    <div class="reservation-header d-flex justify-content-center align-items-center">
+                        <div class="w-100">
+                            <h4>{{item.restaurant}}</h4>
+                            <p>{{item.date}}</p>
+                        </div>
+                        <span (click)="collapsingCard($event)"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="hidden reservation-body d-flex flex-column justify-content-center align-items-center">
+                        <span class="w-100 px-3"><strong class="pe-1">Nombre:</strong>{{item.name}}</span>
+                        <span *ngIf="item.address" class="w-100 px-3"><strong
+                                class="pe-1">Dirección:</strong>{{item.address}}</span>
+                        <span class="w-100 px-3"><strong class="pe-1">Cantidad sillas:</strong>{{item.chairs}}</span>
+                        <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.createdAt}}</span>
+                        <button type="button" class="btn col-10 btn-primary my-2" data-bs-toggle="modal"
+                            data-bs-target="#modalCancelReservation" (click)="openModalCancel(item, 0)">
+                            CANCELAR
+                        </button>
+                    </div>
+                </div>    
+            </ng-template>
             <span *ngIf="!reservations.pended?.length" class="w-100 text-center d-block">No hay reservas
                 pendientes.</span>
         </div>
@@ -48,26 +80,50 @@
         </span>
         <hr>
         <div class="reservations">
-            <div *ngFor="let item of reservations.actived; index as i" class="reservation reservation-active">
-                <div class="reservation-header d-flex justify-content-center align-items-center">
-                    <div class="w-100">
-                        <h4>{{item.restaurant}}</h4>
-                        <p>{{item.date}}</p>
+            <ng-template [ngIf]="whatRole" [ngIfElse]="UserType2">
+                <div *ngFor="let item of reservations.actived; index as i" class="reservation reservation-active">
+                    <div class="reservation-header d-flex justify-content-center align-items-center">
+                        <div class="w-100">
+                            <h4>{{item.name}}</h4>
+                            <p>{{item.date}}</p>
+                        </div>
+                        <span (click)="collapsingCard($event)"><i class="fas fa-chevron-down"></i></span>
                     </div>
-                    <span (click)="collapsingCard($event)"><i class="fas fa-chevron-down"></i></span>
+                    <div class="hidden reservation-body d-flex flex-column justify-content-center align-items-center">
+                        <span class="w-100 px-3"><strong class="pe-1">Nombre:</strong>{{item.name}</span>
+                        <span *ngIf="item.address" class="w-100 px-3"><strong
+                                class="pe-1">Dirección:</strong>{{item.address}}</span>
+                        <span class="w-100 px-3"><strong class="pe-1">Cantidad sillas:</strong>{{item.chairs}}</span>
+                        <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.createdAt}}</span>
+                        <button type="button" class="btn col-10 btn-primary my-2" data-bs-toggle="modal"
+                            data-bs-target="#modalCancelReservation" (click)="openModalCancel(item, 1)">
+                            CANCELAR
+                        </button>
+                    </div>
                 </div>
-                <div class="hidden reservation-body d-flex flex-column justify-content-center align-items-center">
-                    <span class="w-100 px-3"><strong class="pe-1">Nombre:</strong>{{item.name}}</span>
-                    <span *ngIf="item.address" class="w-100 px-3"><strong
-                            class="pe-1">Dirección:</strong>{{item.address}}</span>
-                    <span class="w-100 px-3"><strong class="pe-1">Cantidad sillas:</strong>{{item.chairs}}</span>
-                    <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.createdAt}}</span>
-                    <button type="button" class="btn col-10 btn-primary my-2" data-bs-toggle="modal"
-                        data-bs-target="#modalCancelReservation" (click)="openModal(item, 1)">
-                        CANCELAR
-                    </button>
+            </ng-template>
+            <ng-template #UserType2>
+                <div *ngFor="let item of reservations.actived; index as i" class="reservation reservation-active">
+                    <div class="reservation-header d-flex justify-content-center align-items-center">
+                        <div class="w-100">
+                            <h4>{{item.restaurant}}</h4>
+                            <p>{{item.date}}</p>
+                        </div>
+                        <span (click)="collapsingCard($event)"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="hidden reservation-body d-flex flex-column justify-content-center align-items-center">
+                        <span class="w-100 px-3"><strong class="pe-1">Nombre:</strong>{{item.name}}</span>
+                        <span *ngIf="item.address" class="w-100 px-3"><strong
+                                class="pe-1">Dirección:</strong>{{item.address}}</span>
+                        <span class="w-100 px-3"><strong class="pe-1">Cantidad sillas:</strong>{{item.chairs}}</span>
+                        <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.createdAt}}</span>
+                        <button type="button" class="btn col-10 btn-primary my-2" data-bs-toggle="modal"
+                            data-bs-target="#modalCancelReservation" (click)="openModalCancel(item, 1)">
+                            CANCELAR
+                        </button>
+                    </div>
                 </div>
-            </div>
+            </ng-template>
             <span *ngIf="!reservations.actived?.length" class="w-100 text-center d-block">No hay reservas
                 activas.</span>
         </div>
@@ -80,22 +136,42 @@
         </span>
         <hr>
         <div class="reservations">
-            <div *ngFor="let item of reservations.canceled; index as i" class="reservation reservation-canceled">
-                <div class="reservation-header d-flex justify-content-center align-items-center">
-                    <div class="w-100">
-                        <h4>{{item.restaurant}}</h4>
-                        <p>{{item.date}}</p>
+            <ng-template [ngIf]="whatRole" [ngIfElse]="UserType3">
+                <div *ngFor="let item of reservations.canceled; index as i" class="reservation reservation-canceled">
+                    <div class="reservation-header d-flex justify-content-center align-items-center">
+                        <div class="w-100">
+                            <h4>{{item.name}}</h4>
+                            <p>{{item.date}}</p>
+                        </div>
+                        <span (click)="collapsingCard($event)"><i class="fas fa-chevron-down"></i></span>
                     </div>
-                    <span (click)="collapsingCard($event)"><i class="fas fa-chevron-down"></i></span>
+                    <div class="hidden reservation-body d-flex flex-column justify-content-center align-items-center">
+                        <span class="w-100 px-3"><strong class="pe-1">Nombre:</strong>{{item.name}}</span>
+                        <span *ngIf="item.address" class="w-100 px-3"><strong
+                                class="pe-1">Dirección:</strong>{{item.address}}</span>
+                        <span class="w-100 px-3"><strong class="pe-1">Cantidad sillas:</strong>{{item.chairs}}</span>
+                        <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.createdAt}}</span>
+                    </div>
                 </div>
-                <div class="hidden reservation-body d-flex flex-column justify-content-center align-items-center">
-                    <span class="w-100 px-3"><strong class="pe-1">Nombre:</strong>{{item.name}}</span>
-                    <span *ngIf="item.address" class="w-100 px-3"><strong
-                            class="pe-1">Dirección:</strong>{{item.address}}</span>
-                    <span class="w-100 px-3"><strong class="pe-1">Cantidad sillas:</strong>{{item.chairs}}</span>
-                    <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.createdAt}}</span>
+            </ng-template>
+            <ng-template #UserType3>
+                <div *ngFor="let item of reservations.canceled; index as i" class="reservation reservation-canceled">
+                    <div class="reservation-header d-flex justify-content-center align-items-center">
+                        <div class="w-100">
+                            <h4>{{item.restaurant}}</h4>
+                            <p>{{item.date}}</p>
+                        </div>
+                        <span (click)="collapsingCard($event)"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="hidden reservation-body d-flex flex-column justify-content-center align-items-center">
+                        <span class="w-100 px-3"><strong class="pe-1">Nombre:</strong>{{item.name}}</span>
+                        <span *ngIf="item.address" class="w-100 px-3"><strong
+                                class="pe-1">Dirección:</strong>{{item.address}}</span>
+                        <span class="w-100 px-3"><strong class="pe-1">Cantidad sillas:</strong>{{item.chairs}}</span>
+                        <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.createdAt}}</span>
+                    </div>
                 </div>
-            </div>
+            </ng-template>
             <span *ngIf="!reservations.canceled?.length" class="w-100 text-center d-block">No hay reservas
                 canceladas.</span>
         </div>
@@ -108,22 +184,42 @@
         </span>
         <hr>
         <div class="reservations">
-            <div *ngFor="let item of reservations.declined; index as i" class="reservation reservation-canceled">
-                <div class="reservation-header d-flex justify-content-center align-items-center">
-                    <div class="w-100">
-                        <h4>{{item.restaurant}}</h4>
-                        <p>{{item.date}}</p>
+            <ng-template [ngIf]="whatRole" [ngIfElse]="UserType4">
+                <div *ngFor="let item of reservations.declined; index as i" class="reservation reservation-canceled">
+                    <div class="reservation-header d-flex justify-content-center align-items-center">
+                        <div class="w-100">
+                            <h4>{{item.name}}</h4>
+                            <p>{{item.date}}</p>
+                        </div>
+                        <span (click)="collapsingCard($event)"><i class="fas fa-chevron-down"></i></span>
                     </div>
-                    <span (click)="collapsingCard($event)"><i class="fas fa-chevron-down"></i></span>
+                    <div class="hidden reservation-body d-flex flex-column justify-content-center align-items-center">
+                        <span class="w-100 px-3"><strong class="pe-1">Nombre:</strong>{{item.name}}</span>
+                        <span *ngIf="item.address" class="w-100 px-3"><strong
+                                class="pe-1">Dirección:</strong>{{item.address}}</span>
+                        <span class="w-100 px-3"><strong class="pe-1">Cantidad sillas:</strong>{{item.chairs}}</span>
+                        <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.createdAt}}</span>
+                    </div>
                 </div>
-                <div class="hidden reservation-body d-flex flex-column justify-content-center align-items-center">
-                    <span class="w-100 px-3"><strong class="pe-1">Nombre:</strong>{{item.name}}</span>
-                    <span *ngIf="item.address" class="w-100 px-3"><strong
-                            class="pe-1">Dirección:</strong>{{item.address}}</span>
-                    <span class="w-100 px-3"><strong class="pe-1">Cantidad sillas:</strong>{{item.chairs}}</span>
-                    <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.createdAt}}</span>
+            </ng-template>
+            <ng-template  #UserType4>
+                <div *ngFor="let item of reservations.declined; index as i" class="reservation reservation-canceled">
+                    <div class="reservation-header d-flex justify-content-center align-items-center">
+                        <div class="w-100">
+                            <h4>{{item.restaurant}}</h4>
+                            <p>{{item.date}}</p>
+                        </div>
+                        <span (click)="collapsingCard($event)"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="hidden reservation-body d-flex flex-column justify-content-center align-items-center">
+                        <span class="w-100 px-3"><strong class="pe-1">Nombre:</strong>{{item.name}}</span>
+                        <span *ngIf="item.address" class="w-100 px-3"><strong
+                                class="pe-1">Dirección:</strong>{{item.address}}</span>
+                        <span class="w-100 px-3"><strong class="pe-1">Cantidad sillas:</strong>{{item.chairs}}</span>
+                        <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.createdAt}}</span>
+                    </div>
                 </div>
-            </div>
+            </ng-template>
             <span *ngIf="!reservations.declined?.length" class="w-100 text-center d-block">No hay reservas
                 rechazadas.</span>
         </div>
@@ -136,28 +232,49 @@
         </span>
         <hr>
         <div class="reservations reservations-column">
-            <div *ngFor="let item of reservations.completed; index as i" class="reservation reservation-complete">
-                <div class="reservation-header d-flex justify-content-center align-items-center">
-                    <div class="w-100">
-                        <h4>{{item.restaurant}}</h4>
-                        <p>{{item.date}}</p>
+            <ng-template [ngIf]="whatRole" [ngIfElse]="UserType5">
+                <div *ngFor="let item of reservations.completed; index as i" class="reservation reservation-complete">
+                    <div class="reservation-header d-flex justify-content-center align-items-center">
+                        <div class="w-100">
+                            <h4>{{item.name}}</h4>
+                            <p>{{item.date}}</p>
+                        </div>
+                        <span (click)="collapsingCard($event)"><i class="fas fa-chevron-down"></i></span>
                     </div>
-                    <span (click)="collapsingCard($event)"><i class="fas fa-chevron-down"></i></span>
+                    <div class="hidden reservation-body d-flex flex-column justify-content-center align-items-center">
+                        <span class="w-100 px-3"><strong class="pe-1">Nombre:</strong>{{item.name}}</span>
+                        <span *ngIf="item.address" class="w-100 px-3"><strong
+                                class="pe-1">Dirección:</strong>{{item.address}}</span>
+                        <span class="w-100 px-3"><strong class="pe-1">Cantidad sillas:</strong>{{item.chairs}}</span>
+                        <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.createdAt}}</span>
+                    </div>
                 </div>
-                <div class="hidden reservation-body d-flex flex-column justify-content-center align-items-center">
-                    <span class="w-100 px-3"><strong class="pe-1">Nombre:</strong>{{item.name}}</span>
-                    <span *ngIf="item.address" class="w-100 px-3"><strong
-                            class="pe-1">Dirección:</strong>{{item.address}}</span>
-                    <span class="w-100 px-3"><strong class="pe-1">Cantidad sillas:</strong>{{item.chairs}}</span>
-                    <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.createdAt}}</span>
+            </ng-template>
+            <ng-template #UserType5>
+                <div *ngFor="let item of reservations.completed; index as i" class="reservation reservation-complete">
+                    <div class="reservation-header d-flex justify-content-center align-items-center">
+                        <div class="w-100">
+                            <h4>{{item.restaurant}}</h4>
+                            <p>{{item.date}}</p>
+                        </div>
+                        <span (click)="collapsingCard($event)"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="hidden reservation-body d-flex flex-column justify-content-center align-items-center">
+                        <span class="w-100 px-3"><strong class="pe-1">Nombre:</strong>{{item.name}}</span>
+                        <span *ngIf="item.address" class="w-100 px-3"><strong
+                                class="pe-1">Dirección:</strong>{{item.address}}</span>
+                        <span class="w-100 px-3"><strong class="pe-1">Cantidad sillas:</strong>{{item.chairs}}</span>
+                        <span class="w-100 px-3"><strong class="pe-1">Creación:</strong>{{item.createdAt}}</span>
+                    </div>
                 </div>
-            </div>
+            </ng-template>
         </div>
         <span *ngIf="!reservations.completed?.length" class="w-100 text-center d-block">No hay reservas previas.</span>
     </div>
 </div>
 <app-bottom-navigation [user]="user"></app-bottom-navigation>
 
+<!--Modal cancelación reserva-->
 <div class="modal fade" id="modalCancelReservation" tabindex="-1" aria-labelledby="modalCancelReservationLabel"
     aria-hidden="true">
     <div class="modal-dialog">
@@ -172,7 +289,49 @@
             <div class="modal-footer">
                 <button #closeModal type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-primary" (click)="cancelReservation(cancel)">Sí,
-                    cancelar</button>
+                    Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal confirmación reserva-->
+<div class="modal fade" id="modalConfirmReservation" tabindex="-1" aria-labelledby="modalConfirmReservationLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalConfirmReservationLabel">Confirmar reservación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Está seguro en confirmar la reservación en {{confirm.item?.name}}?
+            </div>
+            <div class="modal-footer">
+                <button #closeConfirmModal type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" (click)="confirmReservation(confirm)">Sí,
+                    Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal ver order reserva-->
+<div class="modal fade" id="modalSeeOrder" tabindex="-1" aria-labelledby="modalSeeOrderLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalSeeOrderLabel">Orden</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+          
+            </div>
+            <div class="modal-footer">
+                <button #closeOrderModal type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" (click)="cancelReservation(cancel)">Sí,
+                    Confirmar</button>
             </div>
         </div>
     </div>
