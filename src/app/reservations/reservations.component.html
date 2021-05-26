@@ -15,21 +15,9 @@
             <i class="far fa-question-circle"></i>
         </span>
         <hr>
-        <div class="reservations">
-            <div *ngFor="let item of reservations.pended; index as i" class="reservation">
-                <div class="reservation-header d-flex flex-column justify-content-center align-items-center">
-                    <div class="w-100 text-center">
-                        <h4>{{isClient ? item.name : item.restaurant}}</h4>
-                        <p>{{formatMoment(item.timestamp)}}</p>
-                    </div>
-                    <button type="button" class="btn col-10 btn-primary my-2" (click)="openSwal(item, 0, i)">
-                        VER
-                    </button>
-                </div>
-            </div>
-            <span *ngIf="!reservations.pended?.length" class="w-100 text-center d-block">No hay reservas
-                pendientes.</span>
-        </div>
+        <app-card-reservation class="reservations" [items]="reservations" [key]="'pended'"></app-card-reservation>
+        <span *ngIf="!reservations.pended?.length" class="w-100 text-center d-block">No hay reservas
+            pendientes.</span>
     </div>
     <div class="py-3">
         <strong>Reservaciones activas</strong>
@@ -38,21 +26,9 @@
             <i class="far fa-question-circle"></i>
         </span>
         <hr>
-        <div class="reservations">
-            <div *ngFor="let item of reservations.actived; index as i" class="reservation reservation-active">
-                <div class="reservation-header d-flex flex-column justify-content-center align-items-center">
-                    <div class="w-100 text-center">
-                        <h4>{{item.restaurant}}</h4>
-                        <p>{{formatMoment(item.timestamp)}}</p>
-                    </div>
-                    <button type="button" class="btn col-10 btn-primary my-2" (click)="openSwal(item, 1, i)">
-                        VER
-                    </button>
-                </div>
-            </div>
-            <span *ngIf="!reservations.actived?.length" class="w-100 text-center d-block">No hay reservas
-                activas.</span>
-        </div>
+        <app-card-reservation class="reservations" [items]="reservations" [key]="'actived'"></app-card-reservation>
+        <span *ngIf="!reservations.actived?.length" class="w-100 text-center d-block">No hay reservas
+            activas.</span>
     </div>
     <div class="py-3">
         <strong>Reservaciones canceladas</strong>
@@ -61,21 +37,9 @@
             <i class="far fa-question-circle"></i>
         </span>
         <hr>
-        <div class="reservations">
-            <div *ngFor="let item of reservations.canceled; index as i" class="reservation reservation-canceled">
-                <div class="reservation-header d-flex flex-column justify-content-center align-items-center">
-                    <div class="w-100 text-center">
-                        <h4>{{item.restaurant}}</h4>
-                        <p>{{formatMoment(item.timestamp)}}</p>
-                    </div>
-                    <button type="button" class="btn col-10 btn-primary my-2" (click)="openSwal(item, 1, i)">
-                        VER
-                    </button>
-                </div>
-            </div>
-            <span *ngIf="!reservations.canceled?.length" class="w-100 text-center d-block">No hay reservas
-                canceladas.</span>
-        </div>
+        <app-card-reservation class="reservations" [items]="reservations" [key]="'canceled'"></app-card-reservation>
+        <span *ngIf="!reservations.canceled?.length" class="w-100 text-center d-block">No hay reservas
+            canceladas.</span>
     </div>
     <div class="py-3">
         <strong>Reservaciones rechazadas</strong>
@@ -84,21 +48,9 @@
             <i class="far fa-question-circle"></i>
         </span>
         <hr>
-        <div class="reservations">
-            <div *ngFor="let item of reservations.declined; index as i" class="reservation reservation-canceled">
-                <div class="reservation-header d-flex flex-column justify-content-center align-items-center">
-                    <div class="w-100 text-center">
-                        <h4>{{item.restaurant}}</h4>
-                        <p>{{formatMoment(item.timestamp)}}</p>
-                    </div>
-                    <button type="button" class="btn col-10 btn-primary my-2" (click)="openSwal(item, 1, i)">
-                        VER
-                    </button>
-                </div>
-            </div>
-            <span *ngIf="!reservations.declined?.length" class="w-100 text-center d-block">No hay reservas
-                rechazadas.</span>
-        </div>
+        <app-card-reservation class="reservations" [items]="reservations" [key]="'declined'"></app-card-reservation>
+        <span *ngIf="!reservations.declined?.length" class="w-100 text-center d-block">No hay reservas
+            rechazadas.</span>
     </div>
     <div class="py-3">
         <strong>Reservaciones anteriores</strong>
@@ -107,19 +59,8 @@
             <i class="far fa-question-circle"></i>
         </span>
         <hr>
-        <div class="reservations reservations-column">
-            <div *ngFor="let item of reservations.completed; index as i" class="reservation reservation-complete">
-                <div class="reservation-header d-flex flex-column justify-content-center align-items-center">
-                    <div class="w-100 text-center">
-                        <h4>{{item.restaurant}}</h4>
-                        <p>{{formatMoment(item.timestamp)}}</p>
-                    </div>
-                    <button type="button" class="btn col-10 btn-primary my-2" (click)="openSwal(item, 1, i)">
-                        VER
-                    </button>
-                </div>
-            </div>
-        </div>
+        <app-card-reservation class="reservations reservations-column" [items]="reservations" [key]="'completed'">
+        </app-card-reservation>
         <span *ngIf="!reservations.completed?.length" class="w-100 text-center d-block">No hay reservas previas.</span>
     </div>
 </div>

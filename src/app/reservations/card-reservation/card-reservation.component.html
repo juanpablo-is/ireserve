@@ -1,0 +1,11 @@
+<div *ngFor="let item of items[key]; index as i" class="reservation reservation-{{key}}">
+    <div class="reservation-header d-flex flex-column justify-content-center align-items-center">
+        <div class="w-100 text-center">
+            <h4>{{isClient ? item.name : item.restaurant}}</h4>
+            <p>{{formatMoment(item.timestamp)}}</p>
+        </div>
+        <button type="button" class="btn col-10 btn-primary my-2" (click)="openSwal(item, 0)">
+            VER
+        </button>
+    </div>
+</div>
