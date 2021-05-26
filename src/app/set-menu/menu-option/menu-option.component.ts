@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { FirebaseStorageService } from 'src/app/services/firebase-storage/firebase-storage-service';
 

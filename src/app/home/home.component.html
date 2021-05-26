@@ -1,8 +1,8 @@
-<div class="header-logo w-100 m-auto text-center my-2">
+<div *ngIf="isUser" class=" header-logo w-100 m-auto text-center my-2">
     <a [routerLink]="['/']"><img src="./assets/icons/ireserve-logo-texto.svg" alt=""></a>
 </div>
 <div class="container-home">
     <app-home-user *ngIf="isUser"></app-home-user>
-    <app-home-client *ngIf="!isUser"></app-home-client>
+    <app-reservations *ngIf="!isUser"></app-reservations>
 </div>
 <app-bottom-navigation [user]="user"></app-bottom-navigation>
