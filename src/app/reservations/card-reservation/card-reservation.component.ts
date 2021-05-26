@@ -62,14 +62,11 @@ export class CardReservationComponent {
    */
   openPedido(item): void {
     Swal.fire({
-      title: 'Menú pedido',
+      title: 'Menu pedido',
       html: this.getPedidoSweet(item.menu),
       icon: 'info',
       iconColor: '#EF233C',
       iconHtml: '<i class="fas fa-book-open"></i>',
-      customClass: {
-        content: 'items-menu'
-      },
       showCancelButton: true,
       cancelButtonColor: '#6c757d',
       cancelButtonText: 'Cerrar',
