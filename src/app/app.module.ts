@@ -30,6 +30,7 @@ import { ProfileComponent } from './home/profile/profile.component';
 import { UserInfoComponent } from './home/profile/user-info/user-info.component';
 import { RestaurantInfoComponent } from './home/profile/restaurant-info/restaurant-info.component';
 import { MenuComponent } from './menu/menu.component';
+import { CardReservationComponent } from './reservations/card-reservation/card-reservation.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { MenuComponent } from './menu/menu.component';
     ProfileComponent,
     UserInfoComponent,
     RestaurantInfoComponent,
-    MenuComponent
+    MenuComponent,
+    CardReservationComponent
   ],
   imports: [
     BrowserModule,

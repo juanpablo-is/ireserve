@@ -40,7 +40,7 @@ export class ReservationComponent {
   now = new Date();
   min = new Date(this.now.getFullYear(), this.now.getMonth(), this.now.getDate());
   max = new Date(this.now.getFullYear(), this.now.getMonth(), this.now.getDate() + 6);
-  countChairs = 2;
+  countChairs = 0;
   disabledButton = true;
 
   constructor(
