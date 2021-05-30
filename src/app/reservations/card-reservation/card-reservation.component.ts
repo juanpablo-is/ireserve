@@ -36,8 +36,8 @@ export class CardReservationComponent {
       cancelButtonText: 'Cerrar',
       showConfirmButton: item.type === 'pended' || item.type === 'actived',
       confirmButtonText: (this.isClient ? 'Rechazar' : 'Cancelar') + ' reservación',
-      showDenyButton: true,
-      denyButtonText: 'Ver pedido',
+      showDenyButton: item.type === 'pended',
+      denyButtonText: this.isClient ? 'Activar reservación' : 'Ver pedido',
       input: item.type === 'pended' || item.type === 'actived' ? 'text' : null,
       inputLabel: `Mensaje de ${this.isClient ? 'rechazo' : 'cancelación'}`,
       inputPlaceholder: `Ingrese un mensaje por la cual se ${this.isClient ? 'rechazará' : 'cancelará'} la reservación...`,
@@ -52,7 +52,7 @@ export class CardReservationComponent {
 
         this.updateReservation(item, i);
       } else if (result.isDenied) {
-        this.openPedido(item);
+        this.isClient ? this.updateReservation({ ...item, type: 'actived', message: '' }, i) : this.openPedido(item);
       }
     });
   }
@@ -91,12 +91,19 @@ export class CardReservationComponent {
             this.items.declined.push(item);
           } else if (item.type === 'canceled') {
             this.items.canceled.push(item);
+          } else if (item.type === 'actived') {
+            this.items.actived.push(item);
           }
 
           Swal.fire({
             icon: 'success',
-            title: `Reservación ${item.type === 'canceled' ? 'cancelada' : 'rechazada'}`,
-            html: `La reservación ${item.type === 'canceled' ? `en <i> ${item?.restaurant} </i> se canceló` : `de <i> ${item?.name} </i> se rechazó`} exitosamente.`,
+            title: `Reservación ${item.type === 'canceled' ? 'cancelada' : (item.type === 'declined' ? 'rechazada' : 'activa')}`,
+            html: `La reservación ${item.type === 'canceled' ?
+              `en <i> ${item?.restaurant} </i> se canceló` :
+              item.type === 'declined' ?
+                `de <i> ${item?.name} </i> se rechazó` :
+                `de <i> ${item?.name} </i> se activó`}
+               exitosamente.`,
             confirmButtonText: 'Cerrar',
             timer: 6000,
             timerProgressBar: true,
@@ -153,7 +160,7 @@ export class CardReservationComponent {
               <h5>${item.name}</h5>
               <ul>
                 <li>
-                  <b>Precio: $</b>${item.price}
+                  <b>Precio:</b> $ ${item.price}
                 </li>
                 <li>
                   <b>Cantidad: </b>${item.count}

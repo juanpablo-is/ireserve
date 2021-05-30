@@ -10,10 +10,10 @@
 <div class="container-main">
     <div class="py-3">
         <strong>Reservaciones pendientes</strong>
-        <span class="d-inline-block mx-3" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
+        <!-- <span class="d-inline-block mx-3" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
             data-bs-content="Transacciones que hacen falta confirmación del restaurante.">
             <i class="far fa-question-circle"></i>
-        </span>
+        </span> -->
         <hr>
         <app-card-reservation class="reservations" [items]="reservations" [isClient]=isClient [key]="'pended'">
         </app-card-reservation>
@@ -22,10 +22,10 @@
     </div>
     <div class="py-3">
         <strong>Reservaciones activas</strong>
-        <span class="d-inline-block mx-3" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
+        <!-- <span class="d-inline-block mx-3" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
             data-bs-content="Transacciones activas por el usuario.">
             <i class="far fa-question-circle"></i>
-        </span>
+        </span> -->
         <hr>
         <app-card-reservation class="reservations" [items]="reservations" [isClient]=isClient [key]="'actived'">
         </app-card-reservation>
@@ -34,10 +34,10 @@
     </div>
     <div class="py-3">
         <strong>Reservaciones canceladas</strong>
-        <span class="d-inline-block mx-3" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
+        <!-- <span class="d-inline-block mx-3" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
             data-bs-content="Transacciones canceladas por el usuario.">
             <i class="far fa-question-circle"></i>
-        </span>
+        </span> -->
         <hr>
         <app-card-reservation class="reservations" [items]="reservations" [isClient]=isClient [key]="'canceled'">
         </app-card-reservation>
@@ -46,10 +46,10 @@
     </div>
     <div class="py-3">
         <strong>Reservaciones rechazadas</strong>
-        <span class="d-inline-block mx-3" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
+        <!-- <span class="d-inline-block mx-3" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
             data-bs-content="Transacciones rechazas por el restaurante.">
             <i class="far fa-question-circle"></i>
-        </span>
+        </span> -->
         <hr>
         <app-card-reservation class="reservations" [items]="reservations" [isClient]=isClient [key]="'declined'">
         </app-card-reservation>
@@ -58,10 +58,10 @@
     </div>
     <div class="py-3">
         <strong>Reservaciones anteriores</strong>
-        <span class="d-inline-block mx-3" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
+        <!-- <span class="d-inline-block mx-3" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
             data-bs-content="Historial de transacciones completadas.">
             <i class="far fa-question-circle"></i>
-        </span>
+        </span> -->
         <hr>
         <app-card-reservation class="reservations reservations-column" [items]="reservations" [isClient]=isClient
             [key]="'completed'">
