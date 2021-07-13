@@ -21,7 +21,7 @@ export class CardReservationComponent {
    */
   openInfo(item, i): void {
     Swal.fire({
-      title: this.isClient ? `Reservación a '${item.name}'` : `Reservación en <a href="/restaurant/${item.idRestaurant}">${item.restaurant}</a>`,
+      title: this.isClient ? `Reservación a <i>${item.name}</i>` : `Reservación en <a href="/restaurant/${item.idRestaurant}">${item.restaurant}</a>`,
       html: this.getInfoSweet(item),
       icon: 'info',
       iconColor: '#EF233C',
@@ -36,8 +36,8 @@ export class CardReservationComponent {
       cancelButtonText: 'Cerrar',
       showConfirmButton: item.type === 'pended' || item.type === 'actived',
       confirmButtonText: (this.isClient ? 'Rechazar' : 'Cancelar') + ' reservación',
-      showDenyButton: true,
-      denyButtonText: 'Ver pedido',
+      showDenyButton: item.type === 'pended',
+      denyButtonText: this.isClient ? 'Activar reservación' : 'Ver pedido',
       input: item.type === 'pended' || item.type === 'actived' ? 'text' : null,
       inputLabel: `Mensaje de ${this.isClient ? 'rechazo' : 'cancelación'}`,
       inputPlaceholder: `Ingrese un mensaje por la cual se ${this.isClient ? 'rechazará' : 'cancelará'} la reservación...`,
@@ -47,12 +47,18 @@ export class CardReservationComponent {
       inputValidator: (value) => new Promise((resolve) => resolve(value ? null : 'Debe ingresar un mensaje.'))
     }).then((result) => {
       if (result.isConfirmed) {
+        item.newMessage = {
+          who: this.isClient ? 'c' : 'u',
+          timestamp: new Date().getTime(),
+          text: result.value ?? null
+        };
+
+        this.items[item.type][i].message.push(item.newMessage);
         item.type = this.isClient ? 'declined' : 'canceled';
-        item.message = result.value ?? null;
 
         this.updateReservation(item, i);
       } else if (result.isDenied) {
-        this.openPedido(item);
+        this.isClient ? this.updateReservation({ ...item, type: 'actived', newMessage: null }, i) : this.openPedido(item);
       }
     });
   }
@@ -67,6 +73,23 @@ export class CardReservationComponent {
       icon: 'info',
       iconColor: '#EF233C',
       iconHtml: '<i class="fas fa-book-open"></i>',
+      showCancelButton: true,
+      cancelButtonColor: '#6c757d',
+      cancelButtonText: 'Cerrar',
+      showConfirmButton: false
+    });
+  }
+
+  /**
+   * Abre alerta Sweelalert2 con info de mensajes.
+   */
+  openMessages({ message }, restaurant): void {
+    Swal.fire({
+      title: 'Mensajes de reservación',
+      html: this.getMessagesSweet(message, restaurant),
+      icon: 'info',
+      iconColor: '#EF233C',
+      iconHtml: '<i class="far fa-comment-alt"></i>',
       showCancelButton: true,
       cancelButtonColor: '#6c757d',
       cancelButtonText: 'Cerrar',
@@ -91,12 +114,19 @@ export class CardReservationComponent {
             this.items.declined.push(item);
           } else if (item.type === 'canceled') {
             this.items.canceled.push(item);
+          } else if (item.type === 'actived') {
+            this.items.actived.push(item);
           }
 
           Swal.fire({
             icon: 'success',
-            title: `Reservación ${item.type === 'canceled' ? 'cancelada' : 'rechazada'}`,
-            html: `La reservación ${item.type === 'canceled' ? `en <i> ${item?.restaurant} </i> se canceló` : `de <i> ${item?.name} </i> se rechazó`} exitosamente.`,
+            title: `Reservación ${item.type === 'canceled' ? 'cancelada' : (item.type === 'declined' ? 'rechazada' : 'activa')}`,
+            html: `La reservación ${item.type === 'canceled' ?
+              `en <i> ${item?.restaurant} </i> se canceló` :
+              item.type === 'declined' ?
+                `de <i> ${item?.name} </i> se rechazó` :
+                `de <i> ${item?.name} </i> se activó`}
+               exitosamente.`,
             confirmButtonText: 'Cerrar',
             timer: 6000,
             timerProgressBar: true,
@@ -118,22 +148,24 @@ export class CardReservationComponent {
   }
 
   /**
-   * HTML dentro de la alerta.
+   * HTML dentro de la alerta para información de la reserva.
    */
   getInfoSweet(item: any): string {
     return `
       <p><b>A nombre: </b>${item.name}</p>
+      <p><b>Tipo reservación: </b>${item.typeReservation}</p>
+      ${item.typeReservation === 'mesa' ? `<p><b>Cantidad mesas: </b>${item.chairs}</p>` : ''}
       <p><b>Teléfono: </b><a href="tel:${item.phone}">${item.phone}</a></p>
       <p><b>Medio de pago: </b>${item.medioPago}</p>
       <p><b>Precio: </b>$${item.price}</p>
       <p><b>Fecha reserva: </b>${item.date}</p>
-      <p><b>Fecha creación: </b>${item.createdAt}</p>
+      <!-- <p><b>Fecha creación: </b>${item.createdAt}</p> -->
       <hr />
     `;
   }
 
   /**
-   * HTML dentro de la alerta.
+   * HTML dentro de la alerta para la información del pedido.
    */
   getPedidoSweet(menu: any): string {
     let text = '';
@@ -153,7 +185,7 @@ export class CardReservationComponent {
               <h5>${item.name}</h5>
               <ul>
                 <li>
-                  <b>Precio: $</b>${item.price}
+                  <b>Precio:</b> $ ${item.price}
                 </li>
                 <li>
                   <b>Cantidad: </b>${item.count}
@@ -162,6 +194,29 @@ export class CardReservationComponent {
           </div>
         </div>
       </div>
+      `;
+    }
+
+    return text;
+  }
+
+  /**
+   * HTML dentro de la alerta para la información de mensajes.
+   */
+  getMessagesSweet(messages: any, restaurant: string): string {
+    let text = '';
+    if (!messages) { return text; }
+
+    for (const iterator of messages) {
+      text += `
+        <div class="message-list">
+          <div class="message-list--text">
+            <b>${iterator.who === 'c' ? restaurant : 'Yo'}:</b>
+            <span>${iterator.text}</span>
+          </div>
+          <span class="message-list--date">${this.formatMoment(iterator.timestamp)}</span>
+        </div>
+        <hr />
       `;
     }
 

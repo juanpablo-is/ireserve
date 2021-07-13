@@ -8,8 +8,9 @@
 
         <div *ngIf="form" [formGroup]="form" class="my-3 layout-grid">
             <div class="form-floating">
-                <input type="text" class="form-control" id="address" placeholder="Nombre" #address>
-                <label for="address">Dirección:</label>
+                <input formControlName="name" type="text" class="form-control" id="nameRestaurant"
+                    placeholder="Nombre restaurante" #name>
+                <label for="nameRestaurant">Nombre restaurante:</label>
             </div>
             <div class="form-floating">
                 <input formControlName="countTables" type="number" class="form-control" id="countTables"
@@ -27,14 +28,13 @@
                 <label for="dateEnd">Hora cierre:</label>
             </div>
             <div class="form-floating">
-                <input formControlName="name" type="text" class="form-control" id="nameRestaurant"
-                    placeholder="Nombre restaurante" #name>
-                <label for="nameRestaurant">Nombre restaurante:</label>
-            </div>
-            <div class="form-floating">
                 <input formControlName="phone" type="tel" class="form-control" id="phone" placeholder="Teléfono" #phone>
                 <label for="phone">Teléfono:</label>
             </div>
+            <!-- <div class="form-floating">
+                <input type="text" class="form-control" id="address" placeholder="Nombre" #address>
+                <label for="address">Dirección:</label>
+            </div> -->
         </div>
 
         <div *ngIf="form" class="col-12 center">

@@ -71,6 +71,7 @@
 
         .stars
             width: max-content
+            cursor: pointer
             .checked
                 color: $primario
 
@@ -82,11 +83,11 @@
             padding: 0
 
         &--items
+            height: min-content
+            max-height: min-content
+
             *
                 flex: 1
-
-            *:last-child
-                flex: 2
 
     &-menu
         ul
@@ -140,6 +141,14 @@
 
         .checked
             color: $primario
+
+    .star-rating
+        direction: rtl
+
+        span:hover,
+        span:hover ~ span
+            color: #ffd700
+            cursor: pointer
 
 /* Scrollbar */
 ::-webkit-scrollbar

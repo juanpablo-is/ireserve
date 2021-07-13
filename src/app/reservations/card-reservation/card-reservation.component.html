@@ -1,5 +1,8 @@
 <div *ngFor="let item of items[key]; index as i" class="reservation reservation-{{key}}">
     <div class="reservation-header d-flex flex-column justify-content-center align-items-center">
+        <span (click)="openMessages(item, item.restaurant)">
+            <i class="far fa-comment-dots icon-message"></i>
+        </span>
         <div class="w-100 text-center">
             <h4>{{isClient ? item.name : item.restaurant}}</h4>
             <p>{{formatMoment(item.timestamp)}}</p>
