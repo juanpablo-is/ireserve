@@ -11,4 +11,5 @@ export interface Reservation {
     menu: Array<any>;
     price: number;
     medioPago: string;
+    typeReservation: string;
 }

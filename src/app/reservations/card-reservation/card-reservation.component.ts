@@ -21,7 +21,7 @@ export class CardReservationComponent {
    */
   openInfo(item, i): void {
     Swal.fire({
-      title: this.isClient ? `Reservación a '${item.name}'` : `Reservación en <a href="/restaurant/${item.idRestaurant}">${item.restaurant}</a>`,
+      title: this.isClient ? `Reservación a <i>${item.name}</i>` : `Reservación en <a href="/restaurant/${item.idRestaurant}">${item.restaurant}</a>`,
       html: this.getInfoSweet(item),
       icon: 'info',
       iconColor: '#EF233C',
@@ -128,13 +128,17 @@ export class CardReservationComponent {
    * HTML dentro de la alerta.
    */
   getInfoSweet(item: any): string {
+    console.log({ item });
+
     return `
       <p><b>A nombre: </b>${item.name}</p>
+      <p><b>Tipo reservación: </b>${item.typeReservation}</p>
+      ${item.typeReservation === 'mesa' ? `<p><b>Cantidad mesas: </b>${item.chairs}</p>` : ''}
       <p><b>Teléfono: </b><a href="tel:${item.phone}">${item.phone}</a></p>
       <p><b>Medio de pago: </b>${item.medioPago}</p>
       <p><b>Precio: </b>$${item.price}</p>
       <p><b>Fecha reserva: </b>${item.date}</p>
-      <p><b>Fecha creación: </b>${item.createdAt}</p>
+      <!-- <p><b>Fecha creación: </b>${item.createdAt}</p> -->
       <hr />
     `;
   }

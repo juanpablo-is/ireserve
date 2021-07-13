@@ -99,11 +99,12 @@ export class RestaurantComponent {
    */
   rate(): void {
     const wrap = document.createElement('div');
+    wrap.classList.add('star-rating');
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 5; i > 0; i--) {
       const content = document.createElement('span');
       content.addEventListener('click', () => {
-        this.rateStart(i + 1);
+        this.rateStart(i);
       });
 
       const start = document.createElement('i');

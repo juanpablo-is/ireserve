@@ -90,16 +90,16 @@
                             </label>
                         </div>
                         <div class="form-check">
-                            <input (change)="onChangeRadio('sinDomicilio')" class="form-check-input" type="radio"
-                                name="typeReservation" id="sinDomicilio">
-                            <label class="form-check-label" for="sinDomicilio">
+                            <input (change)="onChangeRadio('domicilio')" class="form-check-input" type="radio"
+                                name="typeReservation" id="domicilio">
+                            <label class="form-check-label" for="domicilio">
                                 A domicilio
                             </label>
                         </div>
                         <div class="form-check">
-                            <input (change)="onChangeRadio('conDomicilio')" class="form-check-input" type="radio"
-                                name="typeReservation" id="conDomicilio">
-                            <label class="form-check-label" for="conDomicilio">
+                            <input (change)="onChangeRadio('recoger')" class="form-check-input" type="radio"
+                                name="typeReservation" id="recoger">
+                            <label class="form-check-label" for="recoger">
                                 Recoger
                             </label>
                         </div>
@@ -189,22 +189,22 @@
                 <div id="collapse-2" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
                     <div class="card-body">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="pago" id="efectivo" value="efectivo"
-                                checked required [(ngModel)]="medioPago">
+                            <input (click)="onChangeTypePayment('efectivo')" class="form-check-input" type="radio"
+                                name="pago" id="efectivo" value="efectivo" checked>
                             <label class="form-check-label" for="efectivo">
                                 Pago en efectivo
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="pago" id="cc" value="cc"
-                                [(ngModel)]="medioPago">
+                            <input (click)="onChangeTypePayment('cc')" class="form-check-input" type="radio" name="pago"
+                                id="cc" value="cc">
                             <label class="form-check-label" for="cc">
                                 Tarjeta credito
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="pago" id="nequi" value="nequi"
-                                [(ngModel)]="medioPago">
+                            <input (click)="onChangeTypePayment('nequi')" class="form-check-input" type="radio"
+                                name="pago" id="nequi" value="nequi">
                             <label class="form-check-label" for="nequi">
                                 Nequi
                             </label>
@@ -225,13 +225,13 @@
                     <div class="card-body">
                         <label class="form-label"><strong>Día reservación</strong></label>
                         <mbsc-datepicker #picker_day headerText="Usted seleccionó {value}" display="inline" [weeks]="2"
-                            (click)="onChange()" [controls]="['calendar']" [touchUi]="true" [min]="min" [max]="max">
+                            [controls]="['calendar']" [touchUi]="true" [min]="min" [max]="max">
                         </mbsc-datepicker>
                         <hr>
                         <label class="form-label"><strong>Hora reservación</strong></label>
                         <mbsc-datepicker #picker_hour headerText="Usted seleccionó {value}"
                             [ngClass]="['calendar-times']" display="inline" [controls]="['time']" [touchUi]="true"
-                            [stepMinute]="30" [min]="data.dateStart" [max]="data.dateEnd" (click)="onChange()">
+                            [stepMinute]="30" [min]="data.dateStart" [max]="data.dateEnd">
                         </mbsc-datepicker>
                     </div>
                 </div>

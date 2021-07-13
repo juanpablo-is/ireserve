@@ -41,7 +41,7 @@ export class ReservationComponent {
   min = new Date(this.now.getFullYear(), this.now.getMonth(), this.now.getDate());
   max = new Date(this.now.getFullYear(), this.now.getMonth(), this.now.getDate() + 6);
   countChairs = 0;
-  disabledButton = true;
+  disabledButton = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -140,7 +140,8 @@ export class ReservationComponent {
       type: 'pended',
       menu: this.cart,
       price: this.price,
-      medioPago: this.medioPago
+      medioPago: this.medioPago,
+      typeReservation: this.typeReservation
     };
 
     this.restService.post('/api/reservation', reservation)
@@ -250,10 +251,10 @@ export class ReservationComponent {
   }
 
   /**
-   * Evento handler a los datepicker.
+   * Modifica el tipo de medio de pago en los radiobuttons.
    */
-  onChange(): void {
-    this.disabledButton = false;
+  onChangeTypePayment(type: string): void {
+    this.medioPago = type;
   }
 
   /**
