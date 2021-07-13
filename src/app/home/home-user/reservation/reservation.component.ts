@@ -35,7 +35,7 @@ export class ReservationComponent {
   menu: any;
   price = 0;
   objectKeys = Object.keys;
-  medioPago = '';
+  medioPago = 'efectivo';
 
   now = new Date();
   min = new Date(this.now.getFullYear(), this.now.getMonth(), this.now.getDate());

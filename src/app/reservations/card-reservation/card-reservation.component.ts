@@ -47,12 +47,18 @@ export class CardReservationComponent {
       inputValidator: (value) => new Promise((resolve) => resolve(value ? null : 'Debe ingresar un mensaje.'))
     }).then((result) => {
       if (result.isConfirmed) {
+        item.newMessage = {
+          who: this.isClient ? 'c' : 'u',
+          timestamp: new Date().getTime(),
+          text: result.value ?? null
+        };
+
+        this.items[item.type][i].message.push(item.newMessage);
         item.type = this.isClient ? 'declined' : 'canceled';
-        item.message = result.value ?? null;
 
         this.updateReservation(item, i);
       } else if (result.isDenied) {
-        this.isClient ? this.updateReservation({ ...item, type: 'actived', message: '' }, i) : this.openPedido(item);
+        this.isClient ? this.updateReservation({ ...item, type: 'actived', newMessage: null }, i) : this.openPedido(item);
       }
     });
   }
@@ -67,6 +73,23 @@ export class CardReservationComponent {
       icon: 'info',
       iconColor: '#EF233C',
       iconHtml: '<i class="fas fa-book-open"></i>',
+      showCancelButton: true,
+      cancelButtonColor: '#6c757d',
+      cancelButtonText: 'Cerrar',
+      showConfirmButton: false
+    });
+  }
+
+  /**
+   * Abre alerta Sweelalert2 con info de mensajes.
+   */
+  openMessages({ message }, restaurant): void {
+    Swal.fire({
+      title: 'Mensajes de reservación',
+      html: this.getMessagesSweet(message, restaurant),
+      icon: 'info',
+      iconColor: '#EF233C',
+      iconHtml: '<i class="far fa-comment-alt"></i>',
       showCancelButton: true,
       cancelButtonColor: '#6c757d',
       cancelButtonText: 'Cerrar',
@@ -125,11 +148,9 @@ export class CardReservationComponent {
   }
 
   /**
-   * HTML dentro de la alerta.
+   * HTML dentro de la alerta para información de la reserva.
    */
   getInfoSweet(item: any): string {
-    console.log({ item });
-
     return `
       <p><b>A nombre: </b>${item.name}</p>
       <p><b>Tipo reservación: </b>${item.typeReservation}</p>
@@ -144,7 +165,7 @@ export class CardReservationComponent {
   }
 
   /**
-   * HTML dentro de la alerta.
+   * HTML dentro de la alerta para la información del pedido.
    */
   getPedidoSweet(menu: any): string {
     let text = '';
@@ -173,6 +194,29 @@ export class CardReservationComponent {
           </div>
         </div>
       </div>
+      `;
+    }
+
+    return text;
+  }
+
+  /**
+   * HTML dentro de la alerta para la información de mensajes.
+   */
+  getMessagesSweet(messages: any, restaurant: string): string {
+    let text = '';
+    if (!messages) { return text; }
+
+    for (const iterator of messages) {
+      text += `
+        <div class="message-list">
+          <div class="message-list--text">
+            <b>${iterator.who === 'c' ? restaurant : 'Yo'}:</b>
+            <span>${iterator.text}</span>
+          </div>
+          <span class="message-list--date">${this.formatMoment(iterator.timestamp)}</span>
+        </div>
+        <hr />
       `;
     }
 
